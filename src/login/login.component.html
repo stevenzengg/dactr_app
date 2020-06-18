@@ -1,15 +1,15 @@
-<FlexboxLayout class =  "page">
-<StackLayout class="form">
+<GridLayout columns = "350, auto, *" rows = "400, auto, auto, 50" class =  "page">
+<StackLayout row = "1" col = "1" class="form">
     <StackLayout class="username">
-      <TextField class="input"></TextField>
+      <TextField minHeight = "50" hint = "Username" class="input"></TextField>
     </StackLayout>
-  
     <StackLayout class="password">
-      <TextField class="input"></TextField>
+      <TextField minHeight = "50" hint = "Password" secure = "true" class="input"></TextField>
     </StackLayout>
   
-    <Button text="Log In" class="btn btn-primary"></Button>
+    <Button text="Log In" class="loginButton" (tap) = "login()"></Button>
   </StackLayout>
-
-  <Label text="Don’t have an account?"></Label>
-</FlexboxLayout>
+  
+  <Label row = "2" col = "1" text="Don’t have an account?"></Label>
+  <ActivityIndicator row = "3" col = "1" [busy] = "isLoading"></ActivityIndicator>
+</GridLayout>

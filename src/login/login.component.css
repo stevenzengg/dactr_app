@@ -3,6 +3,7 @@
     align-content: center;
     justify-content: space-evenly;
     flex-direction: column;
+    padding: 1em;
     /*background-color: yellow;*/
   }
   .form {
@@ -10,13 +11,23 @@
     margin-right: 30;
     flex-grow: 2;
     vertical-align: middle;
+    padding: 1em;
     /*background-color: aqua;*/
   }
-
+.loginButton {
+  background-color: lightseagreen;
+  border-color: darkolivegreen;
+  border-radius: 20;
+  border-width: 1;
+  color: whitesmoke;
+  font-size: 18;
+  font-weight: bold;
+  width: 150px;
+}
   .username {
-    background-color: red;
+    padding: 1em;
   }
 
   .password {
-    background-color: green;
+    padding: 1em;
 }
