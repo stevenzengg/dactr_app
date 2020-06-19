@@ -1,15 +1,22 @@
-<GridLayout columns = "350, auto, *" rows = "400, auto, auto, 50" class =  "page">
-<StackLayout row = "1" col = "1" class="form">
-    <StackLayout class="username">
-      <TextField minHeight = "50" hint = "Username" class="input"></TextField>
+<FlexboxLayout justifyContent = "space-around" class =  "page">
+
+  <Label text = "Welcome to DACTR!" class = "welcome"></Label>
+
+<StackLayout row = 2 width = "200" alignSelf = "center" class="form">
+    <StackLayout width = "150" class="username">
+      <TextField width = "150" minHeight = "50" hint = "Username" class="input input-border"></TextField>
     </StackLayout>
-    <StackLayout class="password">
-      <TextField minHeight = "50" hint = "Password" secure = "true" class="input"></TextField>
+    <StackLayout width = "150" class="password">
+      <TextField width = "150" minHeight = "50" hint = "Password" secure = "true" class="input"></TextField>
     </StackLayout>
   
-    <Button text="Log In" class="loginButton" (tap) = "login()"></Button>
+    <Button width = "75" text="Log In" class="loginButton" (tap) = "login()"></Button>
   </StackLayout>
   
-  <Label row = "2" col = "1" text="Don’t have an account?"></Label>
-  <ActivityIndicator row = "3" col = "1" [busy] = "isLoading"></ActivityIndicator>
-</GridLayout>
+  <Label text="Don’t have an account?"></Label>
+  <ActivityIndicator [busy] = "isLoading"></ActivityIndicator>
+
+  <StackLayout>
+    <Image src = "res://flowers" width = "500" height = "500"></Image>
+  </StackLayout>
+</FlexboxLayout>

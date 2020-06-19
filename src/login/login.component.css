@@ -24,10 +24,23 @@
   font-weight: bold;
   width: 150px;
 }
+.input {
+  padding: 1em;
+  border-color: black;
+}
   .username {
     padding: 1em;
+    border-color: black;
   }
 
   .password {
     padding: 1em;
+    border-color: black;
+}
+
+.welcome {
+  font-family: cursive;
+  font-size: 30;
+  font-weight: bold;
+  color: rgb(0, 216, 205);
 }

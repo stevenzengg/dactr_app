@@ -10,9 +10,9 @@ of writing your own CSS rules. You can learn more about the
 NativeScript core theme at https://github.com/nativescript/theme
 The imported CSS rules must precede all other types of rules.
 */
-/*@import "~@nativescript/theme/css/core.css";
+@import "~@nativescript/theme/css/core.css";
 @import "~@nativescript/theme/css/default.css";
-*/
+
 
 
 
@@ -27,3 +27,4 @@ The following CSS rule changes the font size of all Buttons that have the
     font-size: 18;
 }
 */
+
