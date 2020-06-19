@@ -1,22 +1,29 @@
-<FlexboxLayout justifyContent = "space-around" class =  "page">
+<FlexboxLayout justifyContent="space-around" class="page">
+    <Image src="~/login/dactrlogo.png" class="logoposition">
+    </Image>
+    <StackLayout row=1 width="200" alignSelf="center" class="form">
+        <StackLayout width="200" class="username">
+            <TextField width="200" minHeight="50" hint="Username"
+                fontSize="20"></TextField>
+        </StackLayout>
+        <StackLayout width="200" class="password">
+            <TextField width="200" minHeight="50" hint="Password"
+                secure="true" fontSize="20"></TextField>
+        </StackLayout>
+        <StackLayout ng-if="!isLoggingIn" class="input-field">
+            <TextField hint="Confirm password"></TextField>
+        </StackLayout>
 
-  <Label text = "Welcome to DACTR!" class = "welcome"></Label>
-
-<StackLayout row = 2 width = "200" alignSelf = "center" class="form">
-    <StackLayout width = "150" class="username">
-      <TextField width = "150" minHeight = "50" hint = "Username" class="input input-border"></TextField>
+        <Button width="75" text="Log In" class="loginButton" (tap)="submit()">
+        </Button>
     </StackLayout>
-    <StackLayout width = "150" class="password">
-      <TextField width = "150" minHeight = "50" hint = "Password" secure = "true" class="input"></TextField>
+    <StackLayout width="240">
+        <Label text="Don’t have an account?"></Label>
+        <Button text="Sign up now" fontWeight="bold" (tap)="submit()"
+            backgroundColor="transparent">
+        </Button>
+        <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
     </StackLayout>
-  
-    <Button width = "75" text="Log In" class="loginButton" (tap) = "login()"></Button>
-  </StackLayout>
-  
-  <Label text="Don’t have an account?"></Label>
-  <ActivityIndicator [busy] = "isLoading"></ActivityIndicator>
 
-  <StackLayout>
-    <Image src = "res://flowers" width = "500" height = "500"></Image>
-  </StackLayout>
+
 </FlexboxLayout>

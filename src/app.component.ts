@@ -4,11 +4,7 @@ import { Component } from "@angular/core";
     selector: "ns-app",
     //templateUrl: "./app.component.html"
     //templateUrl: "./login/login.component.html"
-    template: `
-        <StackLayout>
-            <login></login>
-        </StackLayout>
-    `
-    
+    templateUrl: "app.component.html"
+
 })
 export class AppComponent { }
