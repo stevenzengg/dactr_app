@@ -1,28 +1,48 @@
 <FlexboxLayout justifyContent="space-around" class="page">
-  <Image src="~/login/dactrlogo.png" class="logoposition">
+  
+  <!--Logo Img-->
+    <Image src="~/login/dactrlogo.png" class="logoposition">
   </Image>
+
   <StackLayout row=1 width="200" alignSelf="center" class="form">
-      <StackLayout width="200">
+    <!--Username Input-->  
+    <StackLayout width="200">
           <TextField width="200" minHeight="50" hint="Username"
-              fontSize="20" class = "input"></TextField>
+              fontSize="20" class = "input" keyboardType = "email"
+              autocapitalize="none"></TextField>
       </StackLayout>
+
+      <!--Password Input-->
       <StackLayout width="200">
           <TextField width="200" minHeight="50" hint="Password"
               secure="true" fontSize="20" class = "input"></TextField>
       </StackLayout>
-      <StackLayout>
+
+      <!--Confirm Password-->
+      <StackLayout  *ngIf = "!isLoggingIn" >
           <TextField width="200" fontSize="20" class = "input" hint="Confirm password"></TextField>
       </StackLayout>
 
-      <Button width="75" text="Log In" class="loginButton" (tap)="submit()">
+      <!--Login Button-->
+      <Button [text]="isLoggingIn ? 'Log In' : 'Sign Up'"
+      width="150" class="loginButton" (tap)="submit()">
       </Button>
+      <Label *ngIf = "isLoggingIn" text="Forgot your password?"></Label>
   </StackLayout>
+
+  <!--Account Creation-->
   <StackLayout width="240">
       <Label text="Don’t have an account?"></Label>
-      <Button text="Sign up now" fontWeight="bold" (tap)="submit()"
+      <Button text="Sign up now" fontWeight="bold" (tap)="toggleForm()"
           backgroundColor="transparent">
       </Button>
       <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
+      <!--<Label (tap)="toggleForm()">
+        <FormattedString>
+            <Span [text] = "isLoggingIn ? 'Don't have an account? ' : 'Back to Login'"></Span>
+            <Span [text] = "isLoggingIn ? 'Sign Up' : ''" class = "bold"></Span>
+        </FormattedString>
+      </Label>-->
   </StackLayout>
 
 
