@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { LoginRoutingModule } from "./login-routing.module";
+import { NativeScriptModule} from '@nativescript/angular/nativescript.module'
+
 import { LoginComponent } from './login.component';
 
 @NgModule({
@@ -7,8 +8,5 @@ import { LoginComponent } from './login.component';
     exports: [LoginComponent],
     declarations: [LoginComponent],
     providers: [],
-    schemas: [
-        NO_ERRORS_SCHEMA
-    ]
 })
 export class LoginModule { }

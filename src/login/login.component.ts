@@ -8,21 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class LoginComponent implements OnInit {
-    public isLoading: boolean = false
-    public isLoggingIn = true;
+    public isLoading: boolean = false;
     constructor() { }
 
     ngOnInit() { }
 
-    toggleForm() {
-        this.isLoggingIn = !this.isLoggingIn;
-    }
-    submit() {
-        if (this.isLoggingIn) {
-            this.isLoading = true;
-            console.log("Log in is tapped")
-        } else {
-            // Perform the registration
-        }
+    login()
+    {
+        this.isLoading = true;
+        console.log("Log in is tapped")
     }
 }
