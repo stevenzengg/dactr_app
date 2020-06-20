@@ -1,3 +1,6 @@
+//Steven: use line 7 template
+//Yajur: use line 10 template
+
 import { Component } from "@angular/core";
 
 @Component({
@@ -9,6 +12,5 @@ import { Component } from "@angular/core";
             <login></login>
         </StackLayout>
     `
-    
 })
 export class AppComponent { }
