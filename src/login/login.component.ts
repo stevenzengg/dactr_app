@@ -10,10 +10,11 @@ import { Component, OnInit } from '@angular/core';
 export class LoginComponent implements OnInit {
     public isLoading: boolean = false
     public isLoggingIn = true;
-    public username: string;
-    public password: string;
+    public username = "";
+    public password = "";
 
-    constructor() { }
+    constructor() { 
+    }
 
     ngOnInit() { }
 
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
     submit() {
         if (this.isLoggingIn) {
             this.isLoading = true;
-            console.log("Log in is tapped")
+            console.log(this.username);
+            console.log(this.password);
         } else {
             // Perform the registration
         }

@@ -9,13 +9,15 @@
     <StackLayout width="200">
           <TextField width="200" minHeight="50" hint="Username"
               fontSize="20" class = "input" keyboardType = "email"
-              autocapitalize="none"></TextField>
+              autocapitalize="none" [(ngModel)] = "username"></TextField>
       </StackLayout>
 
       <!--Password Input-->
       <StackLayout width="200">
           <TextField width="200" minHeight="50" hint="Password"
-              secure="true" fontSize="20" class = "input"></TextField>
+              secure="true" fontSize="20" class = "input" 
+              [(ngModel)] = "password"
+              ></TextField>
       </StackLayout>
 
       <!--Confirm Password-->
