@@ -42,3 +42,8 @@ transition:.3s;
 border-color:dodgerBlue;
 box-shadow:0 0 8px 0 dodgerBlue;
 }
+
+.logoposition {
+  object-position: 0 0;
+  width: 50%
+}
