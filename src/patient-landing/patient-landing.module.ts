@@ -1,5 +1,4 @@
 //Steven do not import nativescript module line 13
-
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
@@ -10,10 +9,10 @@ import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
 import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autocomplete/angular";
 import { NativeScriptUIGaugeModule } from "nativescript-ui-gauge/angular";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
-import { NativeScriptModule } from '@nativescript/angular/nativescript.module';
 
-import { LoginRoutingModule } from "./login-routing.module";
-import { LoginComponent } from './login.component';
+import { NativeScriptModule } from '@nativescript/angular/nativescript.module';
+import { PatientLandingRoutingModule } from "./patient-landing-routing.module";
+import { PatientLandingComponent } from './patient-landing.component';
 
 @NgModule({
     imports: [
@@ -25,15 +24,19 @@ import { LoginComponent } from './login.component';
         NativeScriptUIAutoCompleteTextViewModule,
         NativeScriptUIGaugeModule,
         NativeScriptCommonModule,
-        LoginRoutingModule,
+        PatientLandingRoutingModule,
         NativeScriptFormsModule,
         NativeScriptModule
     ],
-    exports: [LoginComponent],
-    declarations: [LoginComponent],
+    exports: [PatientLandingComponent],
+    declarations: [PatientLandingComponent],
     providers: [],
     schemas: [
         NO_ERRORS_SCHEMA
     ]
 })
-export class LoginModule { }
+export class PatientLandingModule { }
+
+
+
+//do not import nativescript module, only import nativescript module in appmodule

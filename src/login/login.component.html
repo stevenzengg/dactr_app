@@ -1,29 +1,46 @@
-<FlexboxLayout justifyContent="space-around" class="page">
-    <Image src="~/login/dactrlogo.png" class="logoposition">
-    </Image>
-    <StackLayout row=1 width="200" alignSelf="center" class="form">
-        <StackLayout width="200" class="username">
-            <TextField width="200" minHeight="50" hint="Username"
-                fontSize="20"></TextField>
-        </StackLayout>
-        <StackLayout width="200" class="password">
-            <TextField width="200" minHeight="50" hint="Password"
-                secure="true" fontSize="20"></TextField>
-        </StackLayout>
-        <StackLayout ng-if="!isLoggingIn" class="input-field">
-            <TextField hint="Confirm password"></TextField>
-        </StackLayout>
+<FlexboxLayout justifyContent="space-between" class="page">
+  
+  <!--Logo Img-->
+    <Image src="~/login/dactrlogo.png" class="logoposition" stretch="aspectFit">
+  </Image>
 
-        <Button width="75" text="Log In" class="loginButton" (tap)="submit()">
-        </Button>
-    </StackLayout>
-    <StackLayout width="240">
-        <Label text="Don’t have an account?"></Label>
-        <Button text="Sign up now" fontWeight="bold" (tap)="submit()"
-            backgroundColor="transparent">
-        </Button>
-        <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
-    </StackLayout>
+  <StackLayout row=1 width="200" alignSelf="center" class="form">
+    <!--Username Input-->  
+    <StackLayout width="200">
+          <TextField width="200" minHeight="50" hint="Username"
+              fontSize="20" class = "input" keyboardType = "email"
+              autocapitalize="none" [(ngModel)] = "username"></TextField>
+      </StackLayout>
+
+      <!--Password Input-->
+      <StackLayout width="200">
+          <TextField width="200" minHeight="50" hint="Password"
+              secure="true" fontSize="20" class = "input" 
+              [(ngModel)] = "password"
+              ></TextField>
+      </StackLayout>
+
+      <!--Confirm Password-->
+      <StackLayout  *ngIf = "!isLoggingIn" >
+          <TextField width="200" fontSize="20" class = "input" hint="Confirm password"
+          [(ngModel)] = "confirmPassword"></TextField>
+      </StackLayout>
+
+      <!--Login Button-->
+      <Button [text]="isLoggingIn ? 'Log In' : 'Sign Up'"
+      width="150" class="loginButton" (tap)="isLoggingIn ? submit() : register()">
+      </Button>
+      <Label *ngIf = "isLoggingIn" text="Forgot your password?"></Label>
+  </StackLayout>
+
+  <!--Account Creation-->
+  <StackLayout width="240">
+      <Label text="Don’t have an account?"></Label>
+      <Button text="Sign up now" fontWeight="bold" (tap)="toggleForm()"
+          backgroundColor="transparent">
+      </Button>
+      <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
+  </StackLayout>
 
 
 </FlexboxLayout>

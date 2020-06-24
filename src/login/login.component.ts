@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import {RouterExtensions} from '@nativescript/angular/router'
+
 @Component({
     selector: "login",
     moduleId: module.id,
@@ -10,7 +12,12 @@ import { Component, OnInit } from '@angular/core';
 export class LoginComponent implements OnInit {
     public isLoading: boolean = false
     public isLoggingIn = true;
-    constructor() { }
+    public username = "";
+    public password = "";
+    public confirmPassword = "";
+
+    constructor(private routerExtensions: RouterExtensions) { 
+    }
 
     ngOnInit() { }
 
@@ -20,9 +27,23 @@ export class LoginComponent implements OnInit {
     submit() {
         if (this.isLoggingIn) {
             this.isLoading = true;
-            console.log("Log in is tapped")
+            console.log(this.username);
+            console.log(this.password);
+
+            this.routerExtensions.navigate(['/patient-landing']);
         } else {
             // Perform the registration
+        }
+    }
+
+    register() {
+        if(this.password != this.confirmPassword)
+        {
+            console.log("Your passwords did not match");
+        }
+        else
+        {
+            console.log("Account created");
         }
     }
 }
