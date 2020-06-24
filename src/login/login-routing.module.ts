@@ -2,19 +2,29 @@
 //Yajur: use line 7 import
 
 import { NgModule } from "@angular/core";
-import { Routes } from "@angular/router";
+import { Routes, RouterModule } from "@angular/router";
 
 //import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { NativeScriptRouterModule } from "@nativescript/angular/router";
 
 import { LoginComponent } from "./login.component";
+import { PatientLandingComponent } from "../patient-landing/patient-landing.component";
 
-const routes: Routes = [
-    { path: "", component: LoginComponent }
+const loginRoutes: Routes = [
+    {
+        path: 'login',
+        component: LoginComponent
+    },
+    {
+        path: 'patient-landing',
+        component: PatientLandingComponent
+    }
+
 ];
 
+
 @NgModule({
-    imports: [NativeScriptRouterModule.forChild(routes)],
+    imports: [NativeScriptRouterModule.forChild(loginRoutes)],
     exports: [NativeScriptRouterModule]
 })
 export class LoginRoutingModule { }

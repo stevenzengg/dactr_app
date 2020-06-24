@@ -5,7 +5,8 @@ import { NativeScriptModule, NativeScriptFormsModule } from "@nativescript/angul
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
-import { LoginModule } from "./login/login.module"
+import { LoginModule } from "./login/login.module";
+import { PatientLandingModule } from './patient-landing/patient-landing.module';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -22,7 +23,8 @@ import { LoginModule } from "./login/login.module"
         NativeScriptModule,
         NativeScriptFormsModule,
         AppRoutingModule,
-        LoginModule
+        LoginModule,
+        PatientLandingModule
     ],
     declarations: [
         AppComponent

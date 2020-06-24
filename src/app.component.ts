@@ -8,9 +8,7 @@ import { Component } from "@angular/core";
     //templateUrl: "./app.component.html"
     //templateUrl: "./login/login.component.html"
     template: `
-        <StackLayout>
-            <login></login>
-        </StackLayout>
+        <page-router-outlet></page-router-outlet>
     `
 })
 export class AppComponent { }

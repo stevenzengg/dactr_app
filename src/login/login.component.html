@@ -1,7 +1,7 @@
-<FlexboxLayout justifyContent="space-around" class="page">
+<FlexboxLayout justifyContent="space-between" class="page">
   
   <!--Logo Img-->
-    <Image src="~/login/dactrlogo.png" class="logoposition">
+    <Image src="~/login/dactrlogo.png" class="logoposition" stretch="aspectFit">
   </Image>
 
   <StackLayout row=1 width="200" alignSelf="center" class="form">
@@ -22,12 +22,13 @@
 
       <!--Confirm Password-->
       <StackLayout  *ngIf = "!isLoggingIn" >
-          <TextField width="200" fontSize="20" class = "input" hint="Confirm password"></TextField>
+          <TextField width="200" fontSize="20" class = "input" hint="Confirm password"
+          [(ngModel)] = "confirmPassword"></TextField>
       </StackLayout>
 
       <!--Login Button-->
       <Button [text]="isLoggingIn ? 'Log In' : 'Sign Up'"
-      width="150" class="loginButton" (tap)="submit()">
+      width="150" class="loginButton" (tap)="isLoggingIn ? submit() : register()">
       </Button>
       <Label *ngIf = "isLoggingIn" text="Forgot your password?"></Label>
   </StackLayout>
@@ -39,12 +40,6 @@
           backgroundColor="transparent">
       </Button>
       <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
-      <!--<Label (tap)="toggleForm()">
-        <FormattedString>
-            <Span [text] = "isLoggingIn ? 'Don't have an account? ' : 'Back to Login'"></Span>
-            <Span [text] = "isLoggingIn ? 'Sign Up' : ''" class = "bold"></Span>
-        </FormattedString>
-      </Label>-->
   </StackLayout>
 
 
