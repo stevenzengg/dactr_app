@@ -26,6 +26,7 @@
     "@angular/router": "~9.1.0",
     "@nativescript/angular": "~9.0.0",
     "@nativescript/theme": "~2.3.0",
+    "nativescript-oauth2": "^2.4.0",
     "reflect-metadata": "~0.1.12",
     "rxjs": "^6.5.0",
     "tns-core-modules": "~6.5.0",

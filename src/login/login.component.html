@@ -28,7 +28,7 @@
 
       <!--Login Button-->
       <Button [text]="isLoggingIn ? 'Log In' : 'Sign Up'"
-      width="150" class="loginButton" (tap)="isLoggingIn ? submit() : register()">
+      width="150" class="loginButton" (tap)="submit()">
       </Button>
       <Label *ngIf = "isLoggingIn" text="Forgot your password?"></Label>
   </StackLayout>
