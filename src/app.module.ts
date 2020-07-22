@@ -8,6 +8,21 @@ import { AppComponent } from "./app.component";
 import { LoginModule } from "./login/login.module";
 import { PatientLandingModule } from './patient-landing/patient-landing.module';
 
+import * as firebase from "nativescript-plugin-firebase";
+
+firebase.init({
+
+}).then(() => console.log('Firebase intialized!'))
+.catch(error => console.error(`Error: ${error}`));
+
+firebase.login(
+    {
+        type: firebase.LoginType.PASSWORD,
+    })
+    .then(result => JSON.stringify(result))
+    .catch(error => console.log(error));
+
+
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
 // import { NativeScriptFormsModule } from "nativescript-angular/forms";

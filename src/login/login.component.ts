@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import {RouterExtensions} from '@nativescript/angular/router';
 
+import * as viewModule from "@nativescript/core/ui/core/view";
+
+
 
 @Component({
     selector: "login",

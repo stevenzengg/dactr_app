@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "465329936529",
+    "firebase_url": "https://dactr-app-20200711.firebaseio.com",
+    "project_id": "dactr-app-20200711",
+    "storage_bucket": "dactr-app-20200711.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465329936529:android:068d6ecffaeb2196504730",
+        "android_client_info": {
+          "package_name": "org.nativescript.dactr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "465329936529-qe89j8qos97cn0sehcl0k4rs53p84clr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCT3oyQc8ne9n7cSbMHqUUISCx-O_vjbuo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "465329936529-qe89j8qos97cn0sehcl0k4rs53p84clr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "465329936529-midr1ai182rqrnspj4mfulussn6mqcom.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.nativescript.dactr"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
