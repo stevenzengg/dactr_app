@@ -1,3 +1,59 @@
-<StackLayout>
-    <Label text = "Patient Landing Page" class = "text"></Label>
-</StackLayout>
+<ActionBar title="ActionBar Title">
+    <NavigationButton icon="res://ic_arrow_back_black_24dp" (tap)="goBack()"></NavigationButton>
+    <ActionItem icon="~/login/dactrlogo.png" class="fas" ios.position="right" (tap)="openSettings()"></ActionItem>
+</ActionBar>
+
+
+<BottomNavigation selectedIndex="1">
+    <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
+    <TabStrip>
+        <TabStripItem>
+            <Label text="Home"></Label>
+            <Image src="font://&#xf015;" class="fas t-36"></Image>
+        </TabStripItem>
+        <TabStripItem class="special">
+            <Label text="Activities"></Label>
+            <Image src="font://&#xf00e;" class="fas t-36"></Image>
+        </TabStripItem>
+        <TabStripItem>
+            <Label text="Help"></Label>
+            <Image src="~/patient-landing/helpbutton.jpg" class="littleImage"></Image>
+        </TabStripItem>
+        <TabStripItem class="special">
+            <Label text="Social"></Label>
+            <Image src="font://&#xf00e;" class="fas t-36"></Image>
+        </TabStripItem>
+        <TabStripItem class="special">
+            <Label text="Account"></Label>
+            <Image src="font://&#xf00e;" class="fas t-36"></Image>
+        </TabStripItem>
+    </TabStrip>
+
+    <!-- The number of TabContentItem components should corespond to the number of TabStripItem components -->
+    <TabContentItem>
+        <GridLayout>
+            <Label text="Home Page" class="page h2 text-center"></Label>
+        </GridLayout>
+    </TabContentItem>
+    <TabContentItem>
+        <GridLayout>
+            <Label text="Activities" class="h2 text-center"></Label>
+        </GridLayout>
+    </TabContentItem>
+    <TabContentItem>
+        <GridLayout>
+            <Label text="Help Page" class="h2 text-center"></Label>
+        </GridLayout>
+    </TabContentItem>
+    <TabContentItem>
+        <GridLayout>
+            <Label text="Social Page" class="h2 text-center"></Label>
+        </GridLayout>
+    </TabContentItem>
+    <TabContentItem>
+        <GridLayout>
+            <Label text="Account Page" class="h2 text-center"></Label>
+        </GridLayout>
+    </TabContentItem>
+
+</BottomNavigation>

@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import {RouterExtensions} from '@nativescript/angular/router'
+import {RouterExtensions} from '@nativescript/angular/router';
+
+import * as viewModule from "@nativescript/core/ui/core/view";
+
+
 
 @Component({
     selector: "login",
@@ -9,14 +13,17 @@ import {RouterExtensions} from '@nativescript/angular/router'
     styleUrls: ["login.component.css"]
 })
 
+
 export class LoginComponent implements OnInit {
-    public isLoading: boolean = false
+    public isLoading: boolean = false;
     public isLoggingIn = true;
     public username = "";
     public password = "";
     public confirmPassword = "";
+    public gLogin: boolean;
 
     constructor(private routerExtensions: RouterExtensions) { 
+
     }
 
     ngOnInit() { }
@@ -24,6 +31,8 @@ export class LoginComponent implements OnInit {
     toggleForm() {
         this.isLoggingIn = !this.isLoggingIn;
     }
+
+
     submit() {
         if (this.isLoggingIn) {
             this.isLoading = true;
@@ -33,17 +42,14 @@ export class LoginComponent implements OnInit {
             this.routerExtensions.navigate(['/patient-landing']);
         } else {
             // Perform the registration
-        }
-    }
-
-    register() {
-        if(this.password != this.confirmPassword)
+            if(this.password != this.confirmPassword)
         {
             console.log("Your passwords did not match");
         }
         else
         {
             console.log("Account created");
+        }
         }
     }
 }

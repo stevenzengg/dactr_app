@@ -10,9 +10,13 @@
 // create a file named before-plugins.gradle in the current directory and place it there
 
 android {
+  dependencies {
+    implementation 'com.android.support:multidex:1.0.3'
+  }
   defaultConfig {
     minSdkVersion 17
     generatedDensities = []
+    multiDexEnabled true
   }
   aaptOptions {
     additionalParameters "--no-version-vectors"

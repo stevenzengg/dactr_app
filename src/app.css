@@ -13,10 +13,23 @@ The imported CSS rules must precede all other types of rules.
 @import "~@nativescript/theme/css/core.css";
 @import "~@nativescript/theme/css/default.css";
 
-.text{
-    font-size: 30;
-}
+.page {
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+    padding: 1em;
+    background-image: url('https://templatefor.net/wp-content/uploads/2018/10/FIW-9541556515-iPhone-Xs-Flower-screen-wallpaper.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    /*background-color: yellow;*/
+  }
 
+  .text {
+      font-size: 30;
+      font-weight: bold;
+      color: green;
+  }
 
 
 /* Place any CSS rules you want to apply on both iOS and Android here.
