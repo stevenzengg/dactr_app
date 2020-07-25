@@ -7,7 +7,7 @@ import { LoginComponent } from "../login/login.component";
 
 const welcomeRoutes: Routes = [
     { path: "", component: WelcomeComponent },
-    { path: "login", component: LoginComponent}
+    { path: "login", loadChildren: () => import("../login/login.module").then(m => m.LoginModule)}
     //{ path: "patient-landing", component: PatientLandingComponent}
     //adding names to the path or implementing a patient landing path turns my screen black
 ];
