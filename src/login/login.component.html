@@ -1,11 +1,11 @@
 <FlexboxLayout justifyContent="space-between" class="page">
-  
+
   <!--Logo Img-->
     <Image src="~/login/dactrlogo.png" class="logoposition" stretch="aspectFit">
   </Image>
 
   <StackLayout row=1 width="200" alignSelf="center" class="form">
-    <!--Username Input-->  
+    <!--Username Input-->
     <StackLayout width="200">
           <TextField width="200" minHeight="50" hint="Username"
               fontSize="20" class = "input" keyboardType = "email"
@@ -15,7 +15,7 @@
       <!--Password Input-->
       <StackLayout width="200">
           <TextField width="200" minHeight="50" hint="Password"
-              secure="true" fontSize="20" class = "input" 
+              secure="true" fontSize="20" class = "input"
               [(ngModel)] = "password"
               ></TextField>
       </StackLayout>

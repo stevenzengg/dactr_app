@@ -1,5 +1,18 @@
-<StackLayout>
-    <Label text = "WELCOME" class = "text"></Label>
-
-    <Button text = "To Login" (tap)="toLogin()"></Button>
-</StackLayout>
+<FlexboxLayout flexDirection = "column" backgroundColor = "white">
+  <Image src = "~/welcome/dactrlogo.png" backgroundImage = "writingbackground.jpg"  height = "60%" stretch = "aspectFill">
+  </Image>
+  <Label text = "hi"></Label>
+  <Label text="Welcome!" textAlignment = "center" fontSize = "35" color = "black" backgroundColor = "white"
+     width="100"></Label>
+  <Label fontSize = "14" text = "Welcome to Dactr, an AI powered" textAlignment = "center" color = "gray"
+  ></Label>
+  <Label fontSize = "14" text = "application that provides assistance for" color = "gray" textAlignment = "center"
+  ></Label>
+  <Label fontSize = "14" text = "healthier lifestyle choices!" color = "gray" textAlignment = "center"
+  ></Label>
+  <Button text="Sign in"></Button>
+  <WrapLayout orientation = "horizontal">
+    <Label text = "Don't have an account?" color = "gray" marginLeft = "20%"></Label>
+    <Button paddingLeft = "-15" text="Sign up here" fontSize = "12" backgroundColor = "white" color = "black"></Button>
+  </WrapLayout>
+</FlexboxLayout>

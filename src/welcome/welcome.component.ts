@@ -14,6 +14,10 @@ export class WelcomeComponent implements OnInit {
     {
         this.routerExtensions.navigate(['/login']);
     }
+    toRegister()
+    {
+      this.routerExtensions.navigate(['/register']);
+    }
 
     ngOnInit() { }
 }
