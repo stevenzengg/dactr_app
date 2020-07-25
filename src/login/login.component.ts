@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import {Page} from '@nativescript/core/ui/page';
 import {RouterExtensions} from '@nativescript/angular/router';
 
 import * as viewModule from "@nativescript/core/ui/core/view";
@@ -22,12 +22,13 @@ export class LoginComponent implements OnInit {
     public confirmPassword = "";
     public gLogin: boolean;
 
-    constructor(private routerExtensions: RouterExtensions) { 
+    constructor(private routerExtensions: RouterExtensions, private page : Page) {
 
     }
 
-    ngOnInit() { }
-
+    ngOnInit() {
+    this.page.backgroundImage = "~/login/landscapebackground.jpg";
+    }
     toggleForm() {
         this.isLoggingIn = !this.isLoggingIn;
     }

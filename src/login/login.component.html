@@ -1,46 +1,33 @@
-<FlexboxLayout justifyContent="space-between" class="page">
+<ActionBar  color = "black" style = "background-color: hsla(0, 0%, 0%, 0);">
+  </ActionBar>
+
+<FlexboxLayout  flexDirection = "column" justifyContent="space-between" iosOverflowSafeArea="true" backgroundImage = "~/login/landscapebackground.jpg" style = "background-position: right; background-size: cover;" >
 
   <!--Logo Img-->
-    <Image src="~/login/dactrlogo.png" class="logoposition" stretch="aspectFit">
+    <Image src="~/login/dactrlogo.png">
   </Image>
 
-  <StackLayout row=1 width="200" alignSelf="center" class="form">
+  <Label text = "Sign in" fontSize = "40" textAlignment = "center" color = "black" marginTop = "-10%">
+    </Label>
     <!--Username Input-->
     <StackLayout width="200">
           <TextField width="200" minHeight="50" hint="Username"
-              fontSize="20" class = "input" keyboardType = "email"
-              autocapitalize="none" [(ngModel)] = "username"></TextField>
+              fontSize="20" keyboardType = "email"
+              autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;"></TextField>
       </StackLayout>
 
       <!--Password Input-->
       <StackLayout width="200">
           <TextField width="200" minHeight="50" hint="Password"
-              secure="true" fontSize="20" class = "input"
-              [(ngModel)] = "password"
+              secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;"
               ></TextField>
       </StackLayout>
 
-      <!--Confirm Password-->
-      <StackLayout  *ngIf = "!isLoggingIn" >
-          <TextField width="200" fontSize="20" class = "input" hint="Confirm password"
-          [(ngModel)] = "confirmPassword"></TextField>
-      </StackLayout>
-
       <!--Login Button-->
-      <Button [text]="isLoggingIn ? 'Log In' : 'Sign Up'"
-      width="150" class="loginButton" (tap)="submit()">
+      <Button text='Log In'
+      width="150" (tap)="submit()">
       </Button>
-      <Label *ngIf = "isLoggingIn" text="Forgot your password?"></Label>
-  </StackLayout>
-
-  <!--Account Creation-->
-  <StackLayout width="240">
-      <Label text="Don’t have an account?"></Label>
-      <Button text="Sign up now" fontWeight="bold" (tap)="toggleForm()"
-          backgroundColor="transparent">
-      </Button>
-      <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
-  </StackLayout>
+      <Label text="Forgot your password?" color = "black" textAlignment = "center" ></Label>
 
 
 </FlexboxLayout>
