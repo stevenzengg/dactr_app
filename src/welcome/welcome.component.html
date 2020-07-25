@@ -10,9 +10,9 @@
   ></Label>
   <Label fontSize = "14" text = "healthier lifestyle choices!" color = "gray" textAlignment = "center"
   ></Label>
-  <Button text="Sign in"></Button>
+  <Button text="Sign in" (tap) = "toLogin()"></Button>
   <WrapLayout orientation = "horizontal">
     <Label text = "Don't have an account?" color = "gray" marginLeft = "20%"></Label>
-    <Button paddingLeft = "-15" text="Sign up here" fontSize = "12" backgroundColor = "white" color = "black"></Button>
+    <Button (tap) = "toRegister()" paddingLeft = "-15" text="Sign up here" fontSize = "12" backgroundColor = "white" color = "black"></Button>
   </WrapLayout>
 </FlexboxLayout>
