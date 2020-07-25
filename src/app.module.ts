@@ -7,6 +7,7 @@ import { AppComponent } from "./app.component";
 
 import { LoginModule } from "./login/login.module";
 import { PatientLandingModule } from './patient-landing/patient-landing.module';
+import { RegisterModule} from "./register/register.module";
 
 import * as firebase from "nativescript-plugin-firebase";
 
@@ -39,7 +40,8 @@ firebase.login(
         NativeScriptFormsModule,
         AppRoutingModule,
         LoginModule,
-        PatientLandingModule
+        PatientLandingModule,
+        RegisterModule
     ],
     declarations: [
         AppComponent

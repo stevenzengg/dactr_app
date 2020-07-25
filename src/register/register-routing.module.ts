@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { NativeScriptRouterModule } from "nativescript-angular/router";
+import { NativeScriptRouterModule } from "@nativescript/angular/router";
 
 import { RegisterComponent } from "./register.component";
 import { PatientLandingComponent } from "../patient-landing/patient-landing.component";
