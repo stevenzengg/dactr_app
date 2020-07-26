@@ -1,34 +1,36 @@
-<ActionBar  color = "black" style = "background-color: hsla(0, 0%, 0%, 0);">
+<ActionBar  color = "black" style = "background-color: 0, 0, 0, 0;">
   </ActionBar>
 
 <FlexboxLayout  flexDirection = "column" justifyContent="space-between" iosOverflowSafeArea="true" backgroundImage = "~/login/landscapebackground.jpg" style = "background-position: right; background-size: cover;" >
 
   <!--Logo Img-->
-    <Image src="~/login/dactrlogo.png">
+    <Image src="~/login/dactrlogo.png" marginTop = "-10%" stretch = "aspectFill" width = "45%" height = "45%">
   </Image>
 
-  <Label text = "Sign in" fontSize = "40" textAlignment = "center" color = "black" marginTop = "-10%">
+  <Label text = "Sign in" fontSize = "30" marginTop = "5%" marginBottom = "-10%" textAlignment = "center" color = "black">
     </Label>
     <!--Username Input-->
-    <StackLayout width="200">
+    <StackLayout width="200" marginBottom = "-12%">
           <TextField width="200" minHeight="50" hint="Username"
               fontSize="20" keyboardType = "email"
-              autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;"
-               [(ngModel)] = "username"></TextField>
+              autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;">
+            </TextField>
       </StackLayout>
 
       <!--Password Input-->
-      <StackLayout width="200">
+      <StackLayout width="200" marginBottom = "-10%">
           <TextField width="200" minHeight="50" hint="Password"
-              secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;" 
-              [(ngModel)] = "password"></TextField>
+              secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;">
+              </TextField>
       </StackLayout>
 
       <!--Login Button-->
       <Button text='Log In'
-      width="150" (tap)="submit()">
+      width="150" (tap)="login()">
       </Button>
-      <Label text="Forgot your password?" color = "black" textAlignment = "center" ></Label>
-
-
+      <AbsoluteLayout width = "100%">
+      <Label text="Forgot your password?" top = "-50%" color = "black" left = "100%"></Label>
+      <Button text = "Click here" fontSize = "12" class = "-outline" style = "">
+        </Button>
+      </AbsoluteLayout>
 </FlexboxLayout>

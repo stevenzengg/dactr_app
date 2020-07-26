@@ -7,3 +7,7 @@ vertical-align: middle;
 padding: 1em;
 /*background-color: aqua;*/
 }
+.button1{
+  border-color: transparent;
+  border-width: 1;
+}
