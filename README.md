@@ -1,7 +1,7 @@
 # dactr_app
 The mobile app for Dactr.
 
-###Dependencies:
+### Dependencies:
 1) Have Node.js installed
 2) Install Nativescript CLI
       npm install -g nativescript
@@ -9,13 +9,13 @@ The mobile app for Dactr.
       npm install 
    This will install all the dependencies in the package.json file
  
-###Run App:
+### Run App:
  1) tns preview 
   The command above will create a QR code that you can scan using the Nativescript Playground App on your phone
   
   
   
-###Android Emulation:
+### Android Emulation:
       1) Navigate to dactr_app directory and run `$ tns run android`
       2) Run option 2 (configure for local builds) and allow the powershell script to install dependencies
       3) Navigate to the Android\android-sdk\tools\bin directory it installs and follow the steps in the command tools section of https://docs.nativescript.org/tooling/android-virtual-devices#setup-android-emulators 
