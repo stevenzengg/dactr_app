@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {Page} from '@nativescript/core/ui/page';
 import {RouterExtensions} from '@nativescript/angular/router';
 
-import * as viewModule from "@nativescript/core/ui/core/view";
+import { User } from "../models/user.model";
+import  { FirebaseService } from "../services/firebase.service";
 
+import * as viewModule from "@nativescript/core/ui/core/view";
+import { EmailValidator } from '@angular/forms';
 
 
 @Component({
@@ -17,14 +20,20 @@ import * as viewModule from "@nativescript/core/ui/core/view";
 export class LoginComponent implements OnInit {
     public isLoading: boolean = false;
     public isLoggingIn = true;
+    //public isAuthenticating = false;
     public username = "";
     public password = "";
     public confirmPassword = "";
-    public gLogin: boolean;
+    
+    public user: User;
+    public number;
 
-    constructor(private routerExtensions: RouterExtensions, private page : Page) {
+    constructor(private routerExtensions: RouterExtensions, private page : Page,
+        private firebaseService: FirebaseService) {
+            this.user = new User();
 
     }
+
 
     ngOnInit() {
     this.page.backgroundImage = "~/login/landscapebackground.jpg";
@@ -34,23 +43,35 @@ export class LoginComponent implements OnInit {
     }
 
 
-    submit() {
-        if (this.isLoggingIn) {
-            this.isLoading = true;
-            console.log(this.username);
-            console.log(this.password);
-
-            this.routerExtensions.navigate(['/patient-landing']);
-        } else {
-            // Perform the registration
-            if(this.password != this.confirmPassword)
-        {
-            console.log("Your passwords did not match");
+    submit()
+    {
+        //this.isAuthenticating = true;
+        
+        if(this.isLoggingIn) {
+            this.login();
         }
-        else
-        {
-            console.log("Account created");
-        }
-        }
+       
     }
+
+    login() {
+
+        this.isLoading = true;
+        console.log(this.username);
+        console.log(this.password);
+
+        this.user.email = this.username;
+        this.user.password = this.password;
+
+        this.firebaseService.login(this.user)
+        .then(()=> {
+            //this.isAuthenticating = false;
+            this.routerExtensions.navigate(['/patient-landing']);
+        })
+        .catch((message:any) => {
+            //this.isAuthenticating = false;
+        })
+
+     
+    }
+
 }

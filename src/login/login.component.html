@@ -13,14 +13,15 @@
     <StackLayout width="200">
           <TextField width="200" minHeight="50" hint="Username"
               fontSize="20" keyboardType = "email"
-              autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;"></TextField>
+              autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;"
+               [(ngModel)] = "username"></TextField>
       </StackLayout>
 
       <!--Password Input-->
       <StackLayout width="200">
           <TextField width="200" minHeight="50" hint="Password"
-              secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;"
-              ></TextField>
+              secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;" 
+              [(ngModel)] = "password"></TextField>
       </StackLayout>
 
       <!--Login Button-->

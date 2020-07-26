@@ -2,26 +2,18 @@ import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptModule, NativeScriptFormsModule } from "@nativescript/angular";
 
 
-import { AppRoutingModule } from "./app-routing.module";
+import { AppRoutingModule, authProviders } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+
+
+import { BackendService } from "./services/backend.service";
+import { FirebaseService } from "./services/firebase.service";
 
 import { LoginModule } from "./login/login.module";
 import { PatientLandingModule } from './patient-landing/patient-landing.module';
 import { RegisterModule} from "./register/register.module";
 
-import * as firebase from "nativescript-plugin-firebase";
 
-firebase.init({
-
-}).then(() => console.log('Firebase intialized!'))
-.catch(error => console.error(`Error: ${error}`));
-
-firebase.login(
-    {
-        type: firebase.LoginType.PASSWORD,
-    })
-    .then(result => JSON.stringify(result))
-    .catch(error => console.log(error));
 
 
 
@@ -46,7 +38,11 @@ firebase.login(
     declarations: [
         AppComponent
     ],
-    providers: [],
+    providers: [
+        BackendService,
+        FirebaseService,
+        authProviders
+    ],
     schemas: [
         NO_ERRORS_SCHEMA
     ]

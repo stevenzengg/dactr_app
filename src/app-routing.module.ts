@@ -3,6 +3,11 @@ import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "@nativescript/angular";
 import { LoginComponent } from "./login/login.component";
 
+import { AuthGuard } from "./auth-guard.service";
+
+export const authProviders = [
+    AuthGuard
+];
 
 
 const routes: Routes = [
