@@ -5,6 +5,8 @@ import { Component, OnInit } from '@angular/core';
     templateUrl: 'journal.component.html'
 })
 
+
+// We n
 export class JournalComponent implements OnInit {
     public journal;
 
