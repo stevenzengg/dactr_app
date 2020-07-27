@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
 })
 
 
-// We n
+// We would import apis for Natural Language (Sentiment and Syntax) as well Places
+// We would need to access Firebase Fire DataStore as well
 export class JournalComponent implements OnInit {
     public journal;
 
