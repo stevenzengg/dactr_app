@@ -1,62 +1,70 @@
-<ActionBar title="ActionBar Title">
-    <NavigationButton icon="res://ic_arrow_back_black_24dp" (tap)="goBack()"></NavigationButton>
-    <ActionItem icon="~/login/dactrlogo.png" class="fas" ios.position="right" (tap)="openSettings()"></ActionItem>
+<ActionBar title="Title" backgroundColor = "white">
+  <StackLayout orientation="horizontal"
+    ios:horizontalAlignment="center"
+    android:horizontalAlignment="left">
+    <Image src="~/login/dactrlogo.png" stretch = "aspectFill"></Image>
+  </StackLayout>
 </ActionBar>
 
 
-<BottomNavigation selectedIndex="1">
+<BottomNavigation selectedIndex="0">
     <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
     <TabStrip>
-        <TabStripItem>
+        <TabStripItem [nsRouterLink] = "['/journal']">
             <Label text="Home"></Label>
             <Image src="font://&#xf015;" class="fas t-36"></Image>
         </TabStripItem>
-        <TabStripItem class="special" [nsRouterLink] = "['/journal']">
-            <Label text="Journal"></Label>
-            <Image src="font://&#xf00e;" class="fas t-36"></Image>
-        </TabStripItem>
-        <TabStripItem>
+        <TabStripItem class="special" >
             <Label text="Activities"></Label>
-            <Image src="~/patient-landing/helpbutton.jpg" class="littleImage"></Image>
-        </TabStripItem>
-        <TabStripItem class="special">
-            <Label text="Settings"></Label>
             <Image src="font://&#xf00e;" class="fas t-36"></Image>
         </TabStripItem>
         <TabStripItem class="special">
             <Label text="Emergency"></Label>
             <Image src="font://&#xf00e;" class="fas t-36"></Image>
         </TabStripItem>
+        <TabStripItem class="Account">
+            <Label text="Account"></Label>
+            <Image src="font://&#xf00e;" class="fas t-36"></Image>
+        </TabStripItem>
     </TabStrip>
 
-    <!-- The number of TabContentItem components should corespond to the number of TabStripItem components -->
-    <TabContentItem>
-        <GridLayout>
-            <Label text="Home Page" class="page h2 text-center"></Label>
-        </GridLayout>
-    </TabContentItem>
-    <TabContentItem>
-        <StackLayout>
-            <Label text="Home Page" class="page h2 text-center"></Label>
 
+
+
+<!-- Home Page -->
+    <TabContentItem>
+        <StackLayout backgroundImage = "~/patient-landing/mountainsbackground.jpg" style = "background-position: center; background-repeat: no-repeat; background-size: cover">
+            <Label text="Hello, ______!" color = "black" class="h1 text-center" fontSize = "40" marginTop = "5%"></Label>
             <Button text ="Enter Journals Here" [nsRouterLink] = "['/journal']"></Button>
+            <Button text ="Journal Log" [nsRouterLink] = "['/journalLog']"></Button>
         </StackLayout>
     </TabContentItem>
+
+
+
+<!-- Activities -->
     <TabContentItem>
         <GridLayout>
             <Label text="Activities" class="h2 text-center"></Label>
         </GridLayout>
     </TabContentItem>
+
+
+
+<!-- Emergency-->
     <TabContentItem>
         <GridLayout>
-            <Label text="Settings" class="h2 text-center"></Label>
+        <Label text="Emergency" class="h2 text-center"></Label>
 
-            <Button text="Logout" (tap)="logout()"></Button>
         </GridLayout>
     </TabContentItem>
+
+
+<!-- Account-->
     <TabContentItem>
         <GridLayout>
-            <Label text="Emergency" class="h2 text-center"></Label>
+          <Button text="Logout" (tap)="logout()"></Button>
+
         </GridLayout>
     </TabContentItem>
 
