@@ -20,7 +20,7 @@ import { EmailValidator } from '@angular/forms';
 export class LoginComponent implements OnInit {
     public isLoading: boolean = false;
     public isLoggingIn = true;
-    //public isAuthenticating = false;
+    public isAuthenticating = false;
     public username = "";
     public password = "";
     public confirmPassword = "";
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
 
     submit()
     {
-        //this.isAuthenticating = true;
+        this.isAuthenticating = true;
         
         if(this.isLoggingIn) {
             this.login();
@@ -64,11 +64,14 @@ export class LoginComponent implements OnInit {
 
         this.firebaseService.login(this.user)
         .then(()=> {
-            //this.isAuthenticating = false;
+            this.isAuthenticating = false;
+            //console.log("hi");
+            this.routerExtensions.navigate(['/login']);
             this.routerExtensions.navigate(['/patient-landing']);
         })
         .catch((message:any) => {
-            //this.isAuthenticating = false;
+            console.log("errrrrorrrr");
+            this.isAuthenticating = false;
         })
 
      
