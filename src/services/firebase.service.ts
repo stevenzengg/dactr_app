@@ -16,10 +16,12 @@ export class FirebaseService {
         password: user.password
       }).then(
             function (result:any) {
+              Promise.resolve('Passed');
               return JSON.stringify(result);
             },
             function (errorMessage:any) {
               alert(errorMessage);
+              Promise.reject('Failed');
             }
         )
     }
@@ -32,9 +34,11 @@ export class FirebaseService {
             password: user.password
           }
         }).then((result: any) => {
+              Promise.resolve('Passed');
               BackendService.token = result.uid;
               return JSON.stringify(result);
           }, (errorMessage: any) => {
+            Promise.reject('Failed');
             alert(errorMessage);
           });
       }

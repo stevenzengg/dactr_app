@@ -53,8 +53,11 @@ export class RegisterComponent implements OnInit {
         this.user.password = this.password;
 
         this.firebaseService.register(this.user)
-        .then(() => {
-            this.routerExtensions.navigate(['/login']);
+        .then((message) => {
+            if(message != null)
+            {
+                this.routerExtensions.navigate(['/login']);
+            }
         })
         .catch(error => {
             alert("Account creation failed, type in valid info!");
