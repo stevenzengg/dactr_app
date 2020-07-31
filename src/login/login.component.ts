@@ -65,13 +65,13 @@ export class LoginComponent implements OnInit {
         this.firebaseService.login(this.user)
         .then(()=> {
             this.isAuthenticating = false;
-            //console.log("hi");
-            this.routerExtensions.navigate(['/login']);
+            console.log("Hi");
             this.routerExtensions.navigate(['/patient-landing']);
-        })
-        .catch((message:any) => {
-            console.log("errrrrorrrr");
+        }
+        )
+        .catch(error => {
             this.isAuthenticating = false;
+            console.log("ERROR LOGGING IN");
         })
 
      

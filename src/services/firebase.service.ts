@@ -10,6 +10,20 @@ import {BackendService} from "./backend.service";
 export class FirebaseService {
     constructor() { }
     
+    register(user: User) {
+      return firebase.createUser({
+        email: user.email,
+        password: user.password
+      }).then(
+            function (result:any) {
+              return JSON.stringify(result);
+            },
+            function (errorMessage:any) {
+              alert(errorMessage);
+            }
+        )
+    }
+
     login(user: User) {
         return firebase.login({
           type: firebase.LoginType.PASSWORD,

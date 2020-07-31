@@ -1,7 +1,11 @@
 //need to check password confirmation
 import { Component, OnInit } from '@angular/core';
 
+import { User } from "../models/user.model";
+import  { FirebaseService } from "../services/firebase.service";
+
 import {RouterExtensions} from '@nativescript/angular/router';
+import { registerElement } from '@nativescript/angular';
 
 
 @Component({
@@ -13,10 +17,14 @@ import {RouterExtensions} from '@nativescript/angular/router';
 
 
 export class RegisterComponent implements OnInit {
+    public email = ""
     public password = ""
     public confirmPassword = ""
-    constructor(private routerExtensions: RouterExtensions) {
+    public result;
+    public user:User;
 
+    constructor(private routerExtensions: RouterExtensions, private firebaseService:FirebaseService) {
+        this.user = new User();
     }
 
     ngOnInit() { }
@@ -24,14 +32,34 @@ export class RegisterComponent implements OnInit {
 
     submit() {
 
+      console.log("Register:: submit()");
+      console.log("Email: " + this.email);
+      console.log("Password: " + this.password);
+      console.log("ConfirmPassword: " + this.confirmPassword);
+
       if(this.password != this.confirmPassword)
       {
-          console.log("Your passwords did not match");
+          alert("Your passwords did not match");
       }
       else
       {
-          console.log("Account created");
-          this.routerExtensions.navigate(['/patient-landing']);
+          this.register();
       }
+    }
+
+    register()
+    {
+        this.user.email = this.email;
+        this.user.password = this.password;
+
+        this.firebaseService.register(this.user)
+        .then(() => {
+            this.routerExtensions.navigate(['/login']);
+        })
+        .catch(error => {
+            alert("Account creation failed, type in valid info!");
+        }
+        );
+        
     }
 }

@@ -9,7 +9,7 @@ import { RegisterComponent } from "../register/register.component";
 
 const welcomeRoutes: Routes = [
     { path: "", component: WelcomeComponent },
-    { path: "login", loadChildren: () => import("../login/login.module").then(m => m.LoginModule)},
+    { path: "login", loadChildren: () => import("../login/login.component").then(m => m.LoginComponent)},
     { path: "register", loadChildren: () => import("../register/register.module").then(m => m.RegisterModule)}
     //{ path: "register", loadChildren: () => import("../register/register.module").then(m => m.RegisterModule)}
     //{ path: "patient-landing", component: PatientLandingComponent}
