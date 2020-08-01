@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     public username = "";
     public password = "";
     public confirmPassword = "";
-    
+
     public user: User;
     public number;
 
@@ -46,15 +46,16 @@ export class LoginComponent implements OnInit {
     submit()
     {
         this.isAuthenticating = true;
-        
+
         if(this.isLoggingIn) {
             this.login();
         }
-       
+
     }
 
     login() {
-
+        this.routerExtensions.navigate(['/patient-landing']);
+        return;
         this.isLoading = true;
         console.log(this.username);
         console.log(this.password);
@@ -78,7 +79,7 @@ export class LoginComponent implements OnInit {
 
         this.routerExtensions.navigate(['/login']);
 
-     
+
     }
 
 }

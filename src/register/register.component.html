@@ -10,25 +10,34 @@
   <Label text = "Sign up" fontSize = "30" marginTop = "-10%" marginBottom = "-10%" textAlignment = "center" color = "black">
     </Label>
     <!--Username Input-->
-    <StackLayout width="200" marginBottom = "-12%">
+    <StackLayout width="200" marginBottom = "-4%">
+          <TextField width="200" minHeight="50" hint="First Name"
+              fontSize="20"
+              autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;">
+            </TextField>
+      </StackLayout>
+      <StackLayout width="200" marginBottom = "-4%">
+            <TextField width="200" minHeight="50" hint="Last Name"
+                fontSize="20"
+                autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;">
+              </TextField>
+        </StackLayout>
+    <StackLayout width="200" marginBottom = "-4%">
           <TextField width="200" minHeight="50" hint="Username"
               fontSize="20" keyboardType = "email"
-              autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;"
-              [(ngModel)] = "email">
+              autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;">
             </TextField>
       </StackLayout>
 
       <!--Password Input-->
-      <StackLayout width="200" marginBottom = "-10%">
+      <StackLayout width="200" marginBottom = "-4%">
           <TextField width="200" minHeight="50" hint="Password"
-              secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;"
-              [(ngModel)] = "password">
+              secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;">
               </TextField>
       </StackLayout>
-      <StackLayout width="200" marginBottom = "-10%">
+      <StackLayout width="200" marginBottom = "-4%">
       <TextField width="200" minHeight="50" hint="Confirm Password"
-          secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;"
-          [(ngModel)] = "confirmPassword">
+          secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;">
           </TextField>
         </StackLayout>
       <!--Login Button-->

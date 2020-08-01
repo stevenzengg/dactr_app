@@ -1,8 +1,8 @@
-<ActionBar title="Title" backgroundColor = "white">
-  <StackLayout orientation="horizontal"
+<ActionBar color = "black" title="Title" backgroundColor = "white">
+  <StackLayout maxHeight = 10% orientation="horizontal"
     ios:horizontalAlignment="center"
     android:horizontalAlignment="left">
-    <Image src="~/login/dactrlogo.png" stretch = "aspectFill"></Image>
+    <Image src="~/login/dactrlogo.png"></Image>
   </StackLayout>
 </ActionBar>
 
@@ -44,9 +44,26 @@
 
 <!-- Activities -->
     <TabContentItem>
-        <GridLayout>
-            <Label text="Activities" class="h2 text-center"></Label>
+      <StackLayout orientation = "vertical">
+        <Label fontSize = "40" textAlignment = "center" text = "What would you like to">
+          </Label>
+          <Label fontSize = "40" text="do today?" textAlignment = "center"></Label>
+        <GridLayout rows = "200, 200" columns = "200, 200" [class.dialogOpen]="dialogOpen">
+          <Button text = "Art" row = "0" col = "0" backgroundColor = "white" (tap)="showArtDialog()"></Button>
+          <Button text = "Exercise" row = "0" col = "1" backgroundColor = "white" (tap)="showExerciseDialog()"></Button>
+          <Button text = "Entertainment" row = "1" col = "0" backgroundColor = "white" (tap)="showEntertainmentDialog()"></Button>
+          <Button text = "Other" row = "1" col = "1" backgroundColor = "white" (tap)="showOtherDialog()"></Button>
         </GridLayout>
+        </StackLayout>
+        <AbsoluteLayout class="dialog--exercise-wrapper">
+    <StackLayout class="dialog">
+      <Label textWrap="true" text="Exercise Options" color = "gray"></Label>
+      <Button class="btn" text="Outdoor Activities"></Button>
+      <Button class="btn" text="Local Classes"></Button>
+      <Button class="btn" text="App Connects"></Button>
+      <Button class="btn" text="Cancel" (tap)="closeExerciseDialog()"></Button>
+    </StackLayout>
+  </AbsoluteLayout>
     </TabContentItem>
 
 
