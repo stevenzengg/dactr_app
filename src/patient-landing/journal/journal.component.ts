@@ -28,7 +28,7 @@ export class JournalComponent implements OnInit {
     {
         console.log(this.journal);       
       
-        // Instantiates a client
+        // Instantiates a client  "C:\Users\divye\Downloads\dactr-app-20200711-5669204fabb5.json"
         var client = new language.LanguageServiceClient({projectId: "dactr-app-20200711", keyFilename: this.environment.getGoogleNLPKey()});
       
         // The text to analyze
