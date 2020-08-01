@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { EnvironmentManagerService } from '../../services/environment-manager.service';
 
+import * as language from '@google-cloud/language';
 // Imports the Google Cloud client library
-const language = require('@google-cloud/language');
+//const language = require('@google-cloud/language');
 
 @Component({
     selector: 'journal',
+    providers: [EnvironmentManagerService],
     templateUrl: 'journal.component.html'
 })
 
@@ -13,33 +16,38 @@ const language = require('@google-cloud/language');
 // We would need to access Firebase Fire DataStore as well
 export class JournalComponent implements OnInit {
     public journal;
+    private environment;
     
 
-    constructor() { }
+    constructor(private envService: EnvironmentManagerService) {
+        this.environment = new EnvironmentManagerService();
+     }
 
+     
     async printJournal()
     {
         console.log(this.journal);       
       
-        // Instantiates a client
-        const client = new language.LanguageServiceClient();
+        // Instantiates a client  "C:\Users\divye\Downloads\dactr-app-20200711-5669204fabb5.json"
+        var client = new language.LanguageServiceClient({projectId: "dactr-app-20200711", keyFilename: this.environment.getGoogleNLPKey()});
       
         // The text to analyze
-        const text = 'Hello, world!';
+        var text = 'Hello, world!';
       
-        const document = {
+        var document = {
           content: text,
-          type: 'PLAIN_TEXT',
+          type: 1
         };
       
         // Detects the sentiment of the text
-        const [result] = await client.analyzeSentiment({document: document});
-        const sentiment = result.documentSentiment;
+        var [result] = await client.analyzeSentiment({document: document});
+        var sentiment = result.documentSentiment;
       
         console.log(`Text: ${text}`);
         console.log(`Sentiment score: ${sentiment.score}`);
         console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
     }
+    
 
     ngOnInit() { }
 }
