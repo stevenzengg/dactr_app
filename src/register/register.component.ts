@@ -4,6 +4,12 @@ import { Component, OnInit } from '@angular/core';
 import { User } from "../models/user.model";
 import  { FirebaseService } from "../services/firebase.service";
 
+const firebase = require("nativescript-plugin-firebase/app");
+
+firebase.initializeApp({});
+
+const userCollection = firebase.firestore().collection("user_database");
+
 import {RouterExtensions} from '@nativescript/angular/router';
 import { registerElement } from '@nativescript/angular';
 
@@ -17,9 +23,11 @@ import { registerElement } from '@nativescript/angular';
 
 
 export class RegisterComponent implements OnInit {
-    public email = ""
-    public password = ""
-    public confirmPassword = ""
+    public email = "";
+    public password = "";
+    public confirmPassword = "";
+    public firstName = "";
+    public lastName = "";
     public result;
     public user:User;
 
@@ -51,11 +59,22 @@ export class RegisterComponent implements OnInit {
     {
         this.user.email = this.email;
         this.user.password = this.password;
+        this.user.firstName = this.firstName;
+        this.user.lastName = this.lastName;
 
         this.firebaseService.register(this.user)
         .then((message) => {
             if(message != null)
             {
+                userCollection.doc(this.user.email).set({
+                    email: this.user.email,
+                    firstName: this.user.firstName,
+                    lastName: this.user.lastName
+                })
+                .then(()=> {
+                    console.log(this.email + " added to user database");
+                })
+
                 this.routerExtensions.navigate(['/login']);
             }
         })
