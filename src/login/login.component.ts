@@ -5,8 +5,22 @@ import {RouterExtensions} from '@nativescript/angular/router';
 import { User } from "../models/user.model";
 import  { FirebaseService } from "../services/firebase.service";
 
+
+const firebase = require("nativescript-plugin-firebase/app");
+
+firebase.initializeApp({});
+
+const userCollection = firebase.firestore().collection("user_database");
+
+import {
+    getString,
+    setString,
+    remove
+} from "tns-core-modules/application-settings";
+
 import * as viewModule from "@nativescript/core/ui/core/view";
 import { EmailValidator } from '@angular/forms';
+
 
 
 @Component({
@@ -17,20 +31,21 @@ import { EmailValidator } from '@angular/forms';
 })
 
 
+
 export class LoginComponent implements OnInit {
     public isLoading: boolean = false;
     public isLoggingIn = true;
     public isAuthenticating = false;
     public username = "";
     public password = "";
+    public firstName = "";
+    public lastName = "";
     public confirmPassword = "";
 
-    public user: User;
     public number;
 
     constructor(private routerExtensions: RouterExtensions, private page : Page,
         private firebaseService: FirebaseService) {
-            this.user = new User();
 
     }
 
@@ -54,20 +69,51 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
-        this.routerExtensions.navigate(['/patient-landing']);
-        return;
         this.isLoading = true;
         console.log(this.username);
         console.log(this.password);
 
-        this.user.email = this.username;
-        this.user.password = this.password;
+        //Set's current user's email and password
+        User.setEmail(this.username);
+        User.setPassword(this.password);
 
-        this.firebaseService.login(this.user)
+        this.firebaseService.login(User)
         .then((message)=> {
             this.isAuthenticating = false;
+            
             if(message != null)
             {
+                userCollection.doc(this.username).get()
+                .then((doc) => {
+
+                    //If user document doesn't exists in database
+                    if(!doc.exists) {
+                        console.log("Document doesn't exist");
+                    }
+                    //If user document does exist in database
+                    else {
+                       console.log("Document data: ", doc.data());
+                       console.log(doc.data().firstName);
+
+                        //Sets first name and last name
+                        User.setFirstName(doc.data().firstName);
+                        User.setLastName(doc.data().lastName);
+
+                        //Clears app settings
+                        remove("email");
+                        remove("firstName");
+                        //Sets application settings so we can access these values
+                        //in other components
+                        setString("email", User.getEmail());
+                        setString("firstName", User.getFirstName());
+                        
+                    }
+
+                })
+                .catch(error => {
+                    console.log("Error getting doc");
+                })
+
                 this.routerExtensions.navigate(['/patient-landing']);
             }
         }
@@ -75,11 +121,12 @@ export class LoginComponent implements OnInit {
         .catch(error => {
             this.isAuthenticating = false;
             console.log("ERROR LOGGING IN");
+            this.routerExtensions.navigate(['/login']);
         })
 
-        this.routerExtensions.navigate(['/login']);
 
 
     }
 
 }
+

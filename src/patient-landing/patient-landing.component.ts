@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { FirebaseService } from '../services/firebase.service';
 import { RouterExtensions} from '@nativescript/angular/router';
+import { User } from '../models/user.model';
+
+import * as appSettings from "tns-core-modules/application-settings";
+
 
 @Component({
     selector: 'patient-landing',
@@ -15,8 +19,15 @@ export class PatientLandingComponent implements OnInit {
     dialogArtOpen = false;
     dialogEntertainmentOpen = false;
     dialogOtherOpen = false;
+    welcomeMessage: string;
+    firstName = appSettings.getString("firstName");
 
-    constructor(private firebaseService: FirebaseService, private routerExtensions: RouterExtensions) { }
+
+    constructor(private firebaseService: FirebaseService, private routerExtensions: RouterExtensions) { 
+      
+      this.welcomeMessage = "Hello, " + this.firstName;
+      appSettings.remove("firstName");
+    }
 
     ngOnInit() { }
 

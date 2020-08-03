@@ -12,16 +12,14 @@ export class FirebaseService {
     
     register(user: User) {
       return firebase.createUser({
-        email: user.email,
-        password: user.password
+        email: User.getEmail(),
+        password: User.getPassword()
       }).then(
             function (result:any) {
-              Promise.resolve('Passed');
               return JSON.stringify(result);
             },
             function (errorMessage:any) {
               alert(errorMessage);
-              Promise.reject('Failed');
             }
         )
     }
@@ -30,15 +28,13 @@ export class FirebaseService {
         return firebase.login({
           type: firebase.LoginType.PASSWORD,
           passwordOptions: {
-            email: user.email,
-            password: user.password
+            email: User.getEmail(),
+            password: User.getPassword()
           }
         }).then((result: any) => {
-              Promise.resolve('Passed');
               BackendService.token = result.uid;
               return JSON.stringify(result);
           }, (errorMessage: any) => {
-            Promise.reject('Failed');
             alert(errorMessage);
           });
       }

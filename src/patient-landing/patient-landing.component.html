@@ -2,7 +2,7 @@
   <StackLayout maxHeight = 10% orientation="horizontal"
     ios:horizontalAlignment="center"
     android:horizontalAlignment="left">
-    <Image src="~/login/dactrlogo.png"></Image>
+    <Image src="../login/dactrlogo.png"></Image>
   </StackLayout>
 </ActionBar>
 
@@ -10,7 +10,7 @@
 <BottomNavigation selectedIndex="0">
     <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
     <TabStrip>
-        <TabStripItem [nsRouterLink] = "['/journal']">
+        <TabStripItem>
             <Label text="Home"></Label>
             <Image src="font://&#xf015;" class="fas t-36"></Image>
         </TabStripItem>
@@ -34,7 +34,7 @@
 <!-- Home Page -->
     <TabContentItem>
         <StackLayout backgroundImage = "~/patient-landing/mountainsbackground.jpg" style = "background-position: center; background-repeat: no-repeat; background-size: cover">
-            <Label text="Hello, ______!" color = "black" class="h1 text-center" fontSize = "40" marginTop = "5%"></Label>
+            <Label [text] = "welcomeMessage" color = "black" class="h1 text-center" fontSize = "40" marginTop = "5%"></Label>
             <Button text ="Enter Journals Here" [nsRouterLink] = "['/journal']"></Button>
             <Button text ="Journal Log" [nsRouterLink] = "['/journalLog']"></Button>
         </StackLayout>

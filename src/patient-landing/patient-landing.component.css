@@ -38,7 +38,7 @@ Image{
 .dialogOpen .dialog-exercise-wrapper .dialog-entertainment-wrapper .dialog-art-wrapper .dialog-other-wrapper{
   visibility: visible;
 }
-.dialog-exercise-wrapper .dialog-entertainment-wrapper .dialog-art-wrapper .dialog-other-wrapper{{
+.dialog-exercise-wrapper .dialog-entertainment-wrapper .dialog-art-wrapper .dialog-other-wrapper{
   visibility: collapse;
 }
 .dialog {

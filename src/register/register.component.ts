@@ -23,16 +23,16 @@ import { registerElement } from '@nativescript/angular';
 
 
 export class RegisterComponent implements OnInit {
-    public email = "";
-    public password = "";
-    public confirmPassword = "";
-    public firstName = "";
-    public lastName = "";
-    public result;
-    public user:User;
+        private email = "";
+        private password = "";
+        private confirmPassword = "";
+        private firstName = "";
+        private lastName = "";
+        public result;
+    
 
     constructor(private routerExtensions: RouterExtensions, private firebaseService:FirebaseService) {
-        this.user = new User();
+        //this.user = new User();
     }
 
     ngOnInit() { }
@@ -57,19 +57,16 @@ export class RegisterComponent implements OnInit {
 
     register()
     {
-        this.user.email = this.email;
-        this.user.password = this.password;
-        this.user.firstName = this.firstName;
-        this.user.lastName = this.lastName;
+        this.setUserInfo();
 
-        this.firebaseService.register(this.user)
+        this.firebaseService.register(User)
         .then((message) => {
             if(message != null)
             {
-                userCollection.doc(this.user.email).set({
-                    email: this.user.email,
-                    firstName: this.user.firstName,
-                    lastName: this.user.lastName
+                userCollection.doc(User.getEmail()).set({
+                    email: User.getEmail(),
+                    firstName: User.getFirstName(),
+                    lastName: User.getLastName()
                 })
                 .then(()=> {
                     console.log(this.email + " added to user database");
@@ -83,5 +80,13 @@ export class RegisterComponent implements OnInit {
         }
         );
         
+    }
+
+    setUserInfo()
+    {
+        User.setEmail(this.email);
+        User.setPassword(this.password);
+        User.setFirstName(this.firstName);
+        User.setLastName(this.lastName);
     }
 }
