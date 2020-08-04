@@ -19,6 +19,7 @@ const user = userCollection.doc(getString("email"));
 
 export class JournalComponent implements OnInit {
     public journal  = "";
+    
 
     constructor() { }
 
@@ -26,10 +27,11 @@ export class JournalComponent implements OnInit {
     {
         console.log(this.journal);
 
-        user.collection("journal_entry").doc("Journal 1").set({
+          //Comment code underneath to stop writing into database
+       /* user.collection("journal_entry").doc("Journal 1").set({
             journal: this.journal
         })
-
+        */
     }
 
     ngOnInit() { }

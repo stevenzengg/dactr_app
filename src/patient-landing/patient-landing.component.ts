@@ -24,9 +24,8 @@ export class PatientLandingComponent implements OnInit {
 
 
     constructor(private firebaseService: FirebaseService, private routerExtensions: RouterExtensions) { 
-      
+      console.log(appSettings.getString("firstName"));
       this.welcomeMessage = "Hello, " + this.firstName;
-      appSettings.remove("firstName");
     }
 
     ngOnInit() { }
