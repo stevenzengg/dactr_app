@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { EnvironmentManagerService } from '../../services/environment-manager.service';
 import { SentimentService } from '../../services/sentiment.service'
 
-// Imports the Google Cloud client library
-//const language = require('@google-cloud/language');
+
 
 @Component({
     selector: 'journal',
     providers: [EnvironmentManagerService, SentimentService],
-    templateUrl: 'journal.component.html'
+    templateUrl: 'journal.component.html'    
 })
 
 
@@ -38,6 +37,12 @@ export class JournalComponent implements OnInit {
         };
 
         //this.sentimentAnalysis(this.document);
+    }
+
+    // Imports the Google Cloud client library
+    async quickstart() {
+        const language = require('@google-cloud/language');
+        const client = new language.LanguageServiceClient({projectId: "dactr-app-20200711", keyFilename: 'C:/Users/divye/Downloads/dactr-app-20200711-4297127355a7.json'}); //{projectId: "dactr-app-20200711", keyFilename: this.environment.getGoogleNLPKey()}
     }
     
 

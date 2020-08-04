@@ -3,7 +3,7 @@ async function quickstart() {
     const language = require('@google-cloud/language');
   
     // Instantiates a client
-    const client = new language.LanguageServiceClient();
+    const client = new language.LanguageServiceClient({projectId: "dactr-app-20200711", keyFilename: 'C:/Users/divye/Downloads/dactr-app-20200711-4297127355a7.json'});
   
     // The text to analyze
     const text = 'Hello, world!';
@@ -21,3 +21,5 @@ async function quickstart() {
     console.log(`Sentiment score: ${sentiment.score}`);
     console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
   }
+
+  quickstart();

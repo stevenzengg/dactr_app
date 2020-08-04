@@ -11,7 +11,7 @@ export class SentimentService {
     {
         
         // Instantiates a client
-        var client = new language.LanguageServiceClient({projectId: "dactr-app-20200711", keyFilename: 'C:\Users\divye\Downloads\dactr-app-20200711-4297127355a7.json'}); //{projectId: "dactr-app-20200711", keyFilename: this.environment.getGoogleNLPKey()}
+        var client = new language.LanguageServiceClient({projectId: "dactr-app-20200711", keyFilename: 'C:/Users/divye/Downloads/dactr-app-20200711-4297127355a7.json'}); //{projectId: "dactr-app-20200711", keyFilename: this.environment.getGoogleNLPKey()}
       
         // The text to analyze
         //var text = 'Hello, world!';
@@ -27,6 +27,5 @@ export class SentimentService {
         // (return the sentiment score)
         
         
-    }
-*/
+    }*/
 }
