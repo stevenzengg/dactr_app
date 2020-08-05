@@ -1,0 +1,10 @@
+<!--<Label text = "Journal Log"></Label> -->
+
+<ListView [items]="journalLog">
+    <ng-template let-item = "item" let-i ="index">
+        <StackLayout>
+            <Label [text] = "item.journal"></Label>
+        </StackLayout>
+    </ng-template>
+</ListView>
+
