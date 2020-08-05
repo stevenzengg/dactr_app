@@ -296,10 +296,7 @@ module.exports = env => {
             // Define useful constants like TNS_WEBPACK
             new webpack.DefinePlugin({
                 "global.TNS_WEBPACK": "true",
-                "process.env": {
-                    // Definitions for Google API key inputs
-                    'nlpKey': JSON.stringify(env && env.nlpKey ? env.nlpKey : "")
-                }
+                "process": "global.process",
             }),
             // Remove all files from the out dir.
             new CleanWebpackPlugin(itemsToClean, { verbose: !!verbose }),
