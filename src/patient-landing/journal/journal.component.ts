@@ -28,10 +28,10 @@ export class JournalComponent implements OnInit {
         console.log(this.journal);
 
           //Comment code underneath to stop writing into database
-       /* user.collection("journal_entry").doc("Journal 1").set({
+       user.collection("journal_entry").add({
             journal: this.journal
         })
-        */
+        
     }
 
     ngOnInit() { }
