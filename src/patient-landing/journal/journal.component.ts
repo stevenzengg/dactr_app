@@ -14,14 +14,16 @@ const user = userCollection.doc(getString("email"));
 
 @Component({
     selector: 'journal',
-    templateUrl: 'journal.component.html'
+    templateUrl: 'journal.component.html'    
 })
 
-export class JournalComponent implements OnInit {
-    public journal  = "";
-    
 
-    constructor() { }
+// We would import apis for Natural Language (Sentiment and Syntax) as well Places
+// We would need to access Firebase Fire DataStore as well
+export class JournalComponent implements OnInit {
+    public journal  = "";    
+    
+    constructor(){}
 
     printJournal()
     {
