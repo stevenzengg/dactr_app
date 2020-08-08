@@ -12,6 +12,8 @@ import { FirebaseService } from "./services/firebase.service";
 import { LoginModule } from "./login/login.module";
 import { PatientLandingModule } from './patient-landing/patient-landing.module';
 import { RegisterModule} from "./register/register.module";
+import {ClinicianLoginModule} from './clinician-login/clinician-login.module';
+import {ClinicianLandingModule} from './clinician-landing/clinician-landing.module';
 
 
 
@@ -33,7 +35,9 @@ import { RegisterModule} from "./register/register.module";
         AppRoutingModule,
         LoginModule,
         PatientLandingModule,
-        RegisterModule
+        RegisterModule,
+        ClinicianLoginModule,
+        ClinicianLandingModule
     ],
     declarations: [
         AppComponent

@@ -1,10 +1,15 @@
-<!--<Label text = "Journal Log"></Label> -->
 
-<ListView [items]="journalLog">
-    <ng-template let-item = "item" let-i ="index">
-        <StackLayout>
-            <Label [text] = "item.journal"></Label>
-        </StackLayout>
-    </ng-template>
-</ListView>
+<StackLayout>
+    <Label text = "Journal Log" class = "text"></Label> 
 
+    <ScrollView marginTop = "10%">
+        <ListView [items]="journalLog" height="300">
+            <ng-template let-item = "item" let-i ="index">
+                <GridLayout height = "40">
+                    <Label [text] = "item.journal"></Label>
+                </GridLayout>
+            </ng-template>
+        </ListView>
+
+    </ScrollView>
+</StackLayout>
