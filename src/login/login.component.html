@@ -1,5 +1,5 @@
 
-<ActionBar  color = "black" style = "background-color: hsla(0, 0%, 0%, 0);">
+<ActionBar style = "background-color: hsla(0, 0%, 0%, 0);">
 </ActionBar>
 
 <FlexboxLayout  flexDirection = "column" justifyContent="space-between" iosOverflowSafeArea="true" backgroundImage = "~/login/landscapebackground.jpg" style = "background-position: right; background-size: cover;" >
@@ -12,7 +12,7 @@
     </Label>
     <!--Username Input-->
     <StackLayout width="200">
-          <TextField width="200" minHeight="50" hint="Username"
+          <TextField width="200" minHeight="50" hint="E-mail"
               fontSize="20" keyboardType = "email"
               autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;"
                [(ngModel)] = "username"></TextField>
@@ -21,7 +21,7 @@
       <!--Password Input-->
       <StackLayout width="200">
           <TextField width="200" minHeight="50" hint="Password"
-              secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;" 
+              secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;"
               [(ngModel)] = "password"></TextField>
       </StackLayout>
 

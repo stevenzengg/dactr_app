@@ -1,11 +1,5 @@
-<ActionBar color = "black" title="Title" backgroundColor = "white">
-  <StackLayout maxHeight = 10% orientation="horizontal"
-    ios:horizontalAlignment="center"
-    android:horizontalAlignment="left">
-    <Image src="../login/dactrlogo.png"></Image>
-  </StackLayout>
+<ActionBar style = "background-color: hsla(0, 0%, 0%, 0);">
 </ActionBar>
-
 
 <BottomNavigation selectedIndex="0">
     <!-- The bottom tab UI is created via TabStrip (the containier) and TabStripItem (for each tab)-->
@@ -48,7 +42,7 @@
         <Label fontSize = "40" textAlignment = "center" text = "What would you like to">
           </Label>
           <Label fontSize = "40" text="do today?" textAlignment = "center"></Label>
-        <GridLayout rows = "200, 200" columns = "200, 200" [class.dialogOpen]="dialogOpen">
+        <GridLayout rows = "*, *" columns = "*, *" height = "400" width = "100%" [class.dialogOpen]="dialogOpen">
           <Button text = "Art" row = "0" col = "0" backgroundColor = "white" (tap)="showArtDialog()"></Button>
           <Button text = "Exercise" row = "0" col = "1" backgroundColor = "white" (tap)="showExerciseDialog()"></Button>
           <Button text = "Entertainment" row = "1" col = "0" backgroundColor = "white" (tap)="showEntertainmentDialog()"></Button>
