@@ -19,5 +19,11 @@ export class WelcomeComponent implements OnInit {
       this.routerExtensions.navigate(['/register']);
     }
 
+    toClincianLogin()
+    {
+        this.routerExtensions.navigate(['/clinician-login']);
+    }
+
+
     ngOnInit() { }
 }

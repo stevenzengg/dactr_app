@@ -5,6 +5,7 @@ import {
     setString,
   } from "tns-core-modules/application-settings";
 
+
 const firebase = require("nativescript-plugin-firebase/app");
 
 firebase.initializeApp({});
@@ -27,11 +28,15 @@ export class JournalComponent implements OnInit {
 
     printJournal()
     {
+        /* Uncomment to debug journal entry
         console.log(this.journal);
-
+        console.log(firebase.firestore().FieldValue().serverTimestamp());
+    */
           //Comment code underneath to stop writing into database
+        //This code adds journal to database with journal and date fields
        user.collection("journal_entry").add({
-            journal: this.journal
+            journal: this.journal,
+            date: firebase.firestore().FieldValue().serverTimestamp()
         })
         
     }
