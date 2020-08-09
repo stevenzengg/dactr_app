@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterExtensions } from '@nativescript/angular/router';
-//import { getSentimentService } from "../../services/get-sentiment.service";
-//import { getNounsVerbsService } from "../../services/get-nouns-verbs.service";
+import { getSentimentService } from "../../services/get-sentiment.service";
+import { getNounsVerbsService } from "../../services/get-nouns-verbs.service";
 
 import { getString, setString, } from "tns-core-modules/application-settings";
 
@@ -14,7 +14,7 @@ const user = userCollection.doc(getString("email"));
 
 @Component({
     selector: 'journal',
-    providers: [],
+    providers: [getSentimentService, getNounsVerbsService],
     templateUrl: 'journal.component.html'    
 })
 
@@ -26,9 +26,13 @@ export class JournalComponent implements OnInit {
     //sentimentScore: Number;
     //nouns: Array<string>;
     //verbs: Array<string>;
+
+    private pos_sentences: string[]
+    private nouns: string[]
+    private verbs: string[]
     
     // private sentiment: getSentimentService, private syntax: getNounsVerbsService
-    constructor(private router: RouterExtensions){}
+    constructor(private sentiment: getSentimentService, private syntax: getNounsVerbsService,private router: RouterExtensions){}
 
     ngOnInit() {}
 
@@ -37,17 +41,105 @@ export class JournalComponent implements OnInit {
     submitJournal(){
 
         console.log(this.journal);
-
+        /*
         //Comment code underneath to stop writing into database
         user.collection("journal_entry").add({
             journal: this.journal,
             timestamp: firebase.firestore().FieldValue().serverTimestamp()
         });
+        */
         
-        this.router.navigate(['/feedback']);
+        //this.router.navigate(['/feedback']);
+
+        this.activity().catch(error => console.log(error));
     }
 
-        // ACTIVITY RECOMMENDER
+    // ACTIVITY RECOMMENDER
+    private async activity(){
+        // Obtain latest journal entry
+        const journal = await this.findLatestJournal();
+        console.log("JOURNAL: ", journal)
+
+        // Break journal into sentences
+        const sentences = journal.match(/[^.?!]+[.!?]+[\])'"`’”]*|.+/g);
+        console.log("SENTENCES: ", sentences)
+
+        // Loop through each sentence, find sentiment, and collect positive sentences
+        for(let sentence of sentences){
+            await this.sentimentQuery(sentence)
+        }
+
+        console.log("POS SENTENCES: ", this.pos_sentences);
+
+        // Loop through each positive sentence and collect nouns and verbs
+        for(let sentence of this.pos_sentences){
+            await this.syntaxQuery(sentence)            
+        }
+
+        console.log('NOUNS: ', this.nouns)
+        console.log('VERBS: ', this.verbs)
+    }
+
+    // Will find latest journal and return it
+    private async findLatestJournal(){
+        const journal_entries = user.collection("journal_entry");
+
+        let doc = await journal_entries.orderBy('timestamp', 'desc').limit(1).get()
+        
+        return doc.journal;
+    }
+
+    
+    // Will query sentiment http request    
+    private async sentimentQuery(sentence){
+        let result = await this.sentiment.getSentiment(sentence).toPromise()
+        this.setSentimentResults(sentence, result)
+    }
+
+    // Will query nouns and verbs http request    
+    private async syntaxQuery(sentence){
+        let result = await this.syntax.getNounsVerbs(sentence).toPromise()
+        this.setSyntaxResults(result)
+    }
+
+    // Set pos_sentences
+    private setSentimentResults(sentence: string, result){
+        if(result.sentiment.score > 0){ this.pos_sentences.push(sentence) }
+    }
+
+    // Set nouns and verbs
+    private setSyntaxResults(result){
+        this.nouns = this.nouns.concat(result.nouns)
+        this.verbs = this.verbs.concat(result.verbs)
+    }
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /*
         
         let pos_sentences: string[]

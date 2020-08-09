@@ -29,21 +29,12 @@ export class FeedbackComponent implements OnInit {
     ngOnInit() { 
         
         // Obtain latest journal entry
-        const journal = (function(): any{
-            const journal_entries = user.collection("journal_entry");
-
-            journal_entries.orderBy('timestamp').limit(1)
-            .then(doc => { 
-                return doc.journal;
-            })
-            .catch(error => {
-                console.log(error)
-                return null
-            });            
-        })();
+        const journal = this.findLatestJournal();
+        console.log("JOURNAL: ", journal)
 
         // Break journal into sentences
         const sentences = journal.match(/[^.?!]+[.!?]+[\])'"`’”]*|.+/g);
+        console.log("SENTENCES: ", sentences)
 
         // Loop through each sentence, find sentiment, and collect positive sentences
         for(let sentence of sentences){
@@ -52,8 +43,28 @@ export class FeedbackComponent implements OnInit {
 
         console.log("POS SENTENCES: ", this.pos_sentences);
 
-        // for(let )
+        // Loop through each positive sentence and collect nouns and verbs
+        for(let sentence of this.pos_sentences){
+            this.syntaxQuery(sentence)            
+        }
 
+        console.log('NOUNS: ', this.nouns)
+        console.log('VERBS: ', this.verbs)
+
+    }
+
+    // Will find latest journal and return it
+    private findLatestJournal(): any{
+        const journal_entries = user.collection("journal_entry");
+
+        journal_entries.orderBy('timestamp', 'desc').limit(1).get()
+        .then(doc => { 
+            return doc.journal;
+        })
+        .catch(error => {
+            console.log(error)
+            return null
+        });
     }
 
     
@@ -71,8 +82,7 @@ export class FeedbackComponent implements OnInit {
         });
     }
 
-    // Will query nouns and verbs http request
-    
+    // Will query nouns and verbs http request    
     private syntaxQuery(sentence){
         this.syntax.getNounsVerbs(sentence)
             .subscribe((result) => {
@@ -86,10 +96,12 @@ export class FeedbackComponent implements OnInit {
             });
     }
 
+    // Set pos_sentences
     private setSentimentResults(sentence: string, result){
         if(result.sentiment.score > 0){ this.pos_sentences.push(sentence) }
     }
 
+    // Set nouns and verbs
     private setSyntaxResults(result){
         this.nouns = this.nouns.concat(result.nouns)
         this.verbs = this.verbs.concat(result.verbs)
