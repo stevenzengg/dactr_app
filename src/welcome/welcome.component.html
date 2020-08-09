@@ -1,26 +1,23 @@
 
 <FlexboxLayout flexDirection = "column" style="background-color: white;">
-  <Image src = "~/welcome/dactrlogo.png" backgroundImage = "~/welcome/writingbackground.jpg"  height = "65%" style = "background-position: center top; background-repeat: no-repeat; background-size: cover;" iosOverflowSafeArea="true"
-         marginBottom = "-20%">
-  </Image>
-  <Label text="Welcome!" textAlignment = "center" fontSize = "35" color = "black" backgroundColor = "white"
-     width="100"></Label>
-  <Label fontSize = "14" text = "Welcome to Dactr, an AI powered" textAlignment = "center" color = "gray"
-  ></Label>
-  <Label fontSize = "14" text = "application that provides assistance for" color = "gray" textAlignment = "center"
-  ></Label>
-  <Label fontSize = "14" text = "healthier lifestyle choices!" color = "gray" textAlignment = "center"
-  ></Label>
-  <Button text="Sign in" (tap) = "toLogin()"></Button>
-<<<<<<< HEAD
-  <WrapLayout orientation = "horizontal" backgroundColor = "red">
-    <Label text = "Don't have an account?" backgroundColor = "orange" color = "gray" marginLeft = "20%"></Label>
-    <Button (tap) = "toRegister()" text="Sign up here" fontSize = "12" backgroundColor = "yellow" color = "black"></Button>
-=======
-  <Button text="Clinician" (tap) = "toClincianLogin()"></Button>
-  <WrapLayout orientation = "horizontal">
-    <Label text = "Don't have an account?" color = "gray" marginLeft = "20%"></Label>
-    <Button (tap) = "toRegister()" text="Sign up here" fontSize = "12" backgroundColor = "white" color = "black"></Button>
->>>>>>> c507aa55d3faf0364601f2cadc60e4092d8aca7d
-  </WrapLayout>
+    <Image src = "~/welcome/dactrlogo.png" backgroundImage = "~/welcome/writingbackground.jpg"  height = "65%" style = "background-position: center top; background-repeat: no-repeat; background-size: cover;" iosOverflowSafeArea="true">
+    </Image>
+    <Label text="Welcome!" textAlignment = "center" fontSize = "35" color = "black" backgroundColor = "white" marginTop = "5%"
+           width="100"></Label>
+    <Label fontSize = "14" text = "Welcome to Dactr, an AI powered" textAlignment = "center" color = "gray"
+    ></Label>
+    <Label fontSize = "14" text = "application that provides assistance for" color = "gray" textAlignment = "center"
+    ></Label>
+    <Label fontSize = "14" text = "healthier lifestyle choices!" color = "gray" textAlignment = "center"
+    ></Label>
+    <Button text="Sign in" (tap) = "toLogin()"></Button>
+    <WrapLayout orientation = "horizontal" justifyContent = "center" marginBottom = "-100%">
+        <Label text = "Are you a practitioner?" color = "gray" marginLeft = "20%"></Label>
+        <Button (tap) = "toClincianLogin()" text="Log in here" marginLeft = "-10%" height = "20"
+                fontSize = "12" backgroundColor = "white" paddingTop = "-8%" borderColor = "transparent" color = "black"></Button>
+    </WrapLayout>
+    <WrapLayout orientation = "horizontal" marginTop = "-50%">
+        <Label text = "Don't have an account?" color = "gray" marginLeft = "20%"></Label>
+        <Button (tap) = "toRegister()" borderColor = "transparent" text="Sign up here" paddingTop = "-8%" height = "20" fontSize = "12" backgroundColor = "white" color = "black"></Button>
+    </WrapLayout>
 </FlexboxLayout>

@@ -1,1 +1,14 @@
-<Label text = "Clincian Landing"></Label>
+<StackLayout>
+    <Label text = "Welcome!" class = "text" textAlignment = "center"></Label>
+    <Label text = "Here are your patients:" class = "text" textAlignment = "center"></Label>
+    <ScrollView marginTop = "10%">
+        <ListView [items]="" height="300">
+            <ng-template let-item = "item" let-i ="index">
+                <GridLayout height = "40">
+                    <Label [text] = ""></Label>
+                </GridLayout>
+            </ng-template>
+        </ListView>
+
+    </ScrollView>
+</StackLayout>

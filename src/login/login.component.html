@@ -14,22 +14,23 @@
     <StackLayout width="200">
           <TextField width="200" minHeight="50" hint="E-mail"
               fontSize="20" keyboardType = "email"
-              autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;"
-               [(ngModel)] = "username"></TextField>
+              autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;"></TextField>
       </StackLayout>
 
       <!--Password Input-->
       <StackLayout width="200">
           <TextField width="200" minHeight="50" hint="Password"
-              secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;"
-              [(ngModel)] = "password"></TextField>
+              secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;"></TextField>
       </StackLayout>
 
       <!--Login Button-->
       <Button text='Log In'
       width="150" (tap)="submit()">
       </Button>
-      <Label text="Forgot your password?" color = "black" textAlignment = "center" ></Label>
+  <WrapLayout orientation = "horizontal" marginTop = "-50%" justifyContent = "center">
+    <Label text = "Forgot your password?" color = "gray" marginLeft = "20%"></Label>
+    <Button (tap) = "toRegister()" borderColor = "transparent" text="Click here" paddingTop = "-8%" height = "20" fontSize = "12" backgroundColor = "transparent" color = "black"></Button>
+  </WrapLayout>
 
 
 </FlexboxLayout>
