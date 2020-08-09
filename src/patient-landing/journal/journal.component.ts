@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { getSentimentService } from "../../services/get-sentiment.service";
-import { getNounsVerbsService } from "../../services/get-nouns-verbs.service";
+import { RouterExtensions } from '@nativescript/angular/router';
+//import { getSentimentService } from "../../services/get-sentiment.service";
+//import { getNounsVerbsService } from "../../services/get-nouns-verbs.service";
 
-import {
-    getString,
-    setString,
-  } from "tns-core-modules/application-settings";
+import { getString, setString, } from "tns-core-modules/application-settings";
 
 const firebase = require("nativescript-plugin-firebase/app");
 
@@ -16,7 +14,7 @@ const user = userCollection.doc(getString("email"));
 
 @Component({
     selector: 'journal',
-    providers: [getSentimentService, getNounsVerbsService],
+    providers: [],
     templateUrl: 'journal.component.html'    
 })
 
@@ -25,12 +23,12 @@ const user = userCollection.doc(getString("email"));
 // We would need to access Firebase Fire DataStore as well
 export class JournalComponent implements OnInit {
     public journal  = "";
-    sentimentScore: Number;
-    nouns: Array<string>;
-    verbs: Array<string>;
+    //sentimentScore: Number;
+    //nouns: Array<string>;
+    //verbs: Array<string>;
     
-    constructor(private sentiment: getSentimentService,
-        private syntax: getNounsVerbsService){}
+    // private sentiment: getSentimentService, private syntax: getNounsVerbsService
+    constructor(private router: RouterExtensions){}
 
     ngOnInit() {}
 
@@ -42,14 +40,19 @@ export class JournalComponent implements OnInit {
 
         //Comment code underneath to stop writing into database
         user.collection("journal_entry").add({
-            journal: this.journal
+            journal: this.journal,
+            date: firebase.firestore().Timestamp
         });
+        
+        this.router.navigate(['/feedback']);
+    }
 
         // ACTIVITY RECOMMENDER
+        /*
         
         let pos_sentences: string[]
         let nouns_verbs: undefined
-
+        
         // Find positive sentences
         pos_sentences = this.analyzeSentiment();
 
@@ -67,6 +70,7 @@ export class JournalComponent implements OnInit {
 
         Returns: list of all positively scored sentences in journal entry
      */
+    /*
     private analyzeSentiment()
     {
         // List of positive sentences
@@ -79,19 +83,62 @@ export class JournalComponent implements OnInit {
             // Obtain sentiment score
             // If greater than 0, append to pos_sentence_list
 
-            this.sentimentQuery(sentence)
+            this.sentiment.getSentiment(sentence).toPromise((result) =>{
+                this.setSentimentResults(result)
+            })
+            .then(_ => {
+                console.log("SCORE: ", this.sentimentScore)
+
+                if (this.sentimentScore > 0) {
+                    pos_sentence_list.push(sentence);
+                }
+
+                console.log("CURRENT STATE OF POS_SENTENCE_LIST: ", pos_sentence_list)
+                })
+            .catch(error => {
+                console.log(error)
+            })          
             
-            console.log("SCORE: ", this.sentimentScore)
-
-            if (this.sentimentScore > 0) {
-                pos_sentence_list.push(sentence);
-            }
-
-            console.log("CURRENT STATE OF POS_SENTENCE_LIST: ", pos_sentence_list)
         }
         
         return pos_sentence_list;              
     }
+    */
+   /*
+   private analyzeSentiment()
+   {
+       // List of positive sentences
+       const pos_sentence_list = [];
+
+       // Break journal into sentences
+       const sentences = this.journal.match(/[^.?!]+[.!?]+[\])'"`’”]*|.+/g); 
+
+       for (let sentence of sentences){            
+           // Obtain sentiment score
+           // If greater than 0, append to pos_sentence_list
+
+           this.sentiment.getSentiment(sentence).toPromise((result) =>{
+               this.setSentimentResults(result)
+           })
+           .then(_ => {
+               console.log("SCORE: ", this.sentimentScore)
+
+               if (this.sentimentScore > 0) {
+                   pos_sentence_list.push(sentence);
+               }
+
+               console.log("CURRENT STATE OF POS_SENTENCE_LIST: ", pos_sentence_list)
+               })
+           .catch(error => {
+               console.log(error)
+           })          
+           
+       }
+       
+       return pos_sentence_list;              
+   }
+   */
+
 
     /**
      *  Obtains nouns and verbs of entered list of positive sentences
@@ -100,6 +147,7 @@ export class JournalComponent implements OnInit {
 
         Returns: dictionary with nouns and verbs of sentences
      */
+    /*
     private nouns_verbs(pos_sentence_list){
 
         const nouns_verbs = {
@@ -119,8 +167,8 @@ export class JournalComponent implements OnInit {
     }
 
     /*
-        Will query sentiment http request
-    */
+    // Will query sentiment http request
+    
     private sentimentQuery(sentence){        
         this.sentiment.getSentiment(sentence)
         .subscribe((result) => {
@@ -133,10 +181,10 @@ export class JournalComponent implements OnInit {
         
         });
     }
-
-    /*
-        Will query nouns and verbs http request
     */
+    
+    // Will query nouns and verbs http request
+    /*
    private syntaxQuery(sentence){
         this.syntax.getNounsVerbs(sentence)
             .subscribe((result) => {
@@ -145,19 +193,29 @@ export class JournalComponent implements OnInit {
                 console.log(error)
             });
     }
+    
+
     /*
         Will extract data for sentiment http request
+    
+    private async setSentimentResults(sentence: string){
+        let result = this.sentiment.sentimentQuery(sentence)
+        Promise.resolve(this.sentimentScore = result.sentiment.score)
+    }
     */
+    /*
     private setSentimentResults(result){
-        this.sentimentScore = result.sentiment.score
+        this.sentimentScore = result.sentiment.score;
     }
 
     /*
         Will extract data for nouns and verbs http request
     */
+   /*
     private setSyntaxResults(result){
         this.nouns = result.nouns
         this.verbs = result.verbs
     }
+    */
 
 }

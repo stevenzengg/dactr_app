@@ -2,11 +2,9 @@ import { NgModule } from "@angular/core";
 import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "@nativescript/angular/router";
 
-import { JournalComponent } from "./journal.component";
-import { FeedbackComponent } from "./feedback/feedback.component"
+import { FeedbackComponent } from "./feedback.component";
 
 const routes: Routes = [
-    { path: "journal", component: JournalComponent },
     { path: "feedback", component: FeedbackComponent }
 ];
 
@@ -14,4 +12,4 @@ const routes: Routes = [
     imports: [NativeScriptRouterModule.forChild(routes)],
     exports: [NativeScriptRouterModule]
 })
-export class JournalRoutingModule { }
+export class FeedbackRoutingModule { }

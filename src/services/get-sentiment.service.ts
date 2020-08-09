@@ -9,6 +9,7 @@ export class getSentimentService {
 
     constructor(private http: HttpClient){}
 
+    
     /*
      Provides sentiment results based on inputted sentence in JSON format
      ex. {sentence: '', 
@@ -22,5 +23,32 @@ export class getSentimentService {
         console.log('getSentiment says hi')
         return this.http.get(this.url + sentence);
     }
+    
+    
+    /*
+        Will query sentiment http request
+    */
+   /*
+    sentimentQuery(sentence: string): any{        
+        this.getSentiment(sentence)
+        .subscribe((result) => {
+
+            return result
+        
+        }, (error) => {
+            
+            console.log(error)
+        
+        });
+    }
+    */
+
+    
+    /*
+    private sentimentResults(sentence){
+        let result = this.sentimentQuery(sentence)
+        return result.sentiment.score;
+    }
+    */
 
 }
