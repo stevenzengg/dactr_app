@@ -1,11 +1,13 @@
 import { NgModule } from "@angular/core";
-import { Routes } from "@angular/router";
+import { Routes, RouterModule } from "@angular/router";
 import { NativeScriptRouterModule } from "@nativescript/angular/router";
 
 import { JournalComponent } from "./journal.component";
+import { FeedbackModule } from "./feedback/feedback.module"
 
 const routes: Routes = [
-    { path: "journal", component: JournalComponent }
+    { path: "journal", component: JournalComponent },
+    { path: "feedback", component: FeedbackModule }
 ];
 
 @NgModule({

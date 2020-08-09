@@ -1,5 +1,6 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptModule, NativeScriptFormsModule } from "@nativescript/angular";
+import { NativeScriptHttpClientModule } from "@nativescript/angular/http-client";
 
 
 import { AppRoutingModule, authProviders } from "./app-routing.module";
@@ -32,6 +33,7 @@ import {ClinicianLandingModule} from './clinician-landing/clinician-landing.modu
     imports: [
         NativeScriptModule,
         NativeScriptFormsModule,
+        NativeScriptHttpClientModule,
         AppRoutingModule,
         LoginModule,
         PatientLandingModule,

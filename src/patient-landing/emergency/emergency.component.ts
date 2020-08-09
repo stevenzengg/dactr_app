@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class EmergencyComponent implements OnInit {
-    constructor() { }
+
+    constructor() {  }
 
     ngOnInit() { }
 }
