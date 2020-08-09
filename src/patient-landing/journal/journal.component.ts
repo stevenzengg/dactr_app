@@ -41,7 +41,7 @@ export class JournalComponent implements OnInit {
         //Comment code underneath to stop writing into database
         user.collection("journal_entry").add({
             journal: this.journal,
-            date: firebase.firestore().Timestamp
+            timestamp: firebase.firestore().FieldValue().serverTimestamp()
         });
         
         this.router.navigate(['/feedback']);
