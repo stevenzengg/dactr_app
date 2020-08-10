@@ -135,16 +135,10 @@ export class JournalComponent implements OnInit {
     }
 
 
-    // Will query location of user 
-    private async locationQuery(lat, lon) {
-    let result = await this.search.(lat, lon).toPromise()
-    this.setSyntaxResults(lat, lon)}
-
-
     // Will query Places http request
     private async searchQuery(lat, lon, noun_doc.noun){
         let result = await this.search.getPlacesFunct(lat, lon, noun_doc.noun).toPromise()
-        this.setSyntaxResults(results)
+        this.searchQuery(result)
 
         
 

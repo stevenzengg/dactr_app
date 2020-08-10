@@ -26,13 +26,19 @@ export class getLocationService {
         });
     }
 
-    public updateLocation() {
+    private updateLocation() {
         this.getDeviceLocation().then(result => {
             this.latitude = result.latitude;
             this.longitude = result.longitude;
         }, error => {
             console.error(error);
         });
+    }
+
+    public getLatLot() {
+        this.updateLocation.then(result => {
+            return [this.latitude, this.longitude]
+        }).catch(e => console.log(e))
     }
 
     public startWatchingLocation() {
