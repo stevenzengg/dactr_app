@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 
-import { ClinicianLandingComponent } from './clinician-landing.component';
-import { ClinicianLandingRoutingModule} from './clinician-landing-routing.module';
+import { ClinicianProfileComponent } from './clinician-profile.component';
+import { ClinicianProfileRoutingModule} from './clinician-profile-routing.module';
 
 @NgModule({
-    imports: [ClinicianLandingRoutingModule],
+    imports: [ClinicianProfileRoutingModule],
     exports: [],
-    declarations: [ClinicianLandingComponent],
+    declarations: [ClinicianProfileComponent],
     providers: [],
 })
-export class ClinicianLandingModule { }
+export class ClinicianProfileModule { }

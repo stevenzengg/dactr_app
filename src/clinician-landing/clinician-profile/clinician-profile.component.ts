@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../models/user.model';
+import { User } from '../../models/user.model';
 
 const firebase = require("nativescript-plugin-firebase/app");
 
@@ -8,11 +8,11 @@ firebase.initializeApp({});
 const userCollection = firebase.firestore().collection("user_database");
 
 @Component({
-    selector: 'clinician-landing',
-    templateUrl: 'clinician-landing.component.html'
+    selector: 'clinician-profile',
+    templateUrl: 'clinician-profile.component.html'
 })
 
-export class ClinicianLandingComponent implements OnInit {
+export class ClinicianProfileComponent implements OnInit {
     constructor() { }
 
     private patientList = new Array<String>();
