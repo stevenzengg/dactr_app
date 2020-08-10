@@ -31,6 +31,7 @@ export class JournalComponent implements OnInit {
     private pos_sentences: string[]
     private nouns: string[]
     private verbs: string[]
+    private mapsInputs: {}
     
     // private sentiment: getSentimentService, private syntax: getNounsVerbsService
     constructor(private sentiment: getSentimentService, private syntax: getNounsVerbsService,private router: RouterExtensions){}
@@ -90,6 +91,27 @@ export class JournalComponent implements OnInit {
         console.log('findLatestJournal -> ', doc.journal)
         
         return doc.journal;
+    }
+
+    private async mapsDatabaseQuery() {
+
+        // const noun_list = this.nouns;
+        // const verb_list = this.verbs;
+        const activitySearch = firebase.firestore().collection("activity_search");
+        const noun_doc = await activitySearch.doc("nouns").get()
+        const verb_doc = await activitySearch.doc("verbs").get()
+    
+        for (let noun of this.nouns) {
+            if (noun in noun_doc) {
+                this.mapsInputs[noun] = noun_doc.noun
+            }
+        }
+    
+        for (let verb of this.verbs) {
+            if (verb in verb_doc) {
+                this.mapsInputs[verb] = verb_doc.verb
+            }
+        }
     }
 
     
