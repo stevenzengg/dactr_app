@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { RouterExtensions } from '@nativescript/angular/router';
 import { getSentimentService } from "../../services/get-sentiment.service";
 import { getNounsVerbsService } from "../../services/get-nouns-verbs.service";
-//import * as GooglePlaces from 'nativescript-plugin-google-places';
-import { getString, setString, } from "tns-core-modules/application-settings"; 
+
+import { getString, setString, } from "tns-core-modules/application-settings";
+import{ getPlacesService } from "../../services/getPlacesAPI.service"
 
 const firebase = require("nativescript-plugin-firebase/app");
 
@@ -14,7 +15,7 @@ const user = userCollection.doc(getString("email"));
 
 @Component({
     selector: 'journal',
-    providers: [getSentimentService, getNounsVerbsService],
+    providers: [getSentimentService, getNounsVerbsService, getPlacesService],
     templateUrl: 'journal.component.html'    
 })
 
@@ -32,9 +33,7 @@ export class JournalComponent implements OnInit {
     private verbs: string[]
     
     // private sentiment: getSentimentService, private syntax: getNounsVerbsService
-    constructor(private sentiment: getSentimentService, private syntax: getNounsVerbsService,private router: RouterExtensions){
-        // GooglePlaces.init();
-    }
+    constructor(private sentiment: getSentimentService, private syntax: getNounsVerbsService,private router: RouterExtensions, private search: getPlacesService){}
 
     ngOnInit() {}
 
@@ -53,7 +52,7 @@ export class JournalComponent implements OnInit {
         
         //this.router.navigate(['/feedback']);
 
-        this.activity().then(() => console.log("WOOOOOOOOOOOO")).catch(error => console.log(error));
+        this.activity().catch(error => console.log(error));
     }
 
     // ACTIVITY RECOMMENDER
@@ -86,19 +85,9 @@ export class JournalComponent implements OnInit {
     private async findLatestJournal(){
         const journal_entries = user.collection("journal_entry");
 
-        let docSnapShot = await journal_entries.orderBy('timestamp', 'desc').limit(1).get()
-
-        console.log('doc: ', docSnapShot)
-
-        let journal: string;
-
-        docSnapShot.forEach(doc => {
-            journal = doc.journal;
-        });
+        let doc = await journal_entries.orderBy('timestamp', 'desc').limit(1).get()
         
-        console.log('findLatestJournal -> ', journal)
-
-        return journal;
+        return doc.journal;
     }
 
     
@@ -125,22 +114,122 @@ export class JournalComponent implements OnInit {
         this.verbs = this.verbs.concat(result.verbs)
     }
 
-    // // Set up Feeddback
-    // user.collection('activity_recommendation' --> each doc: "activity", fields: {frequency: 1, search_term: '', timestamp: firebase.firestore().FieldValue().serverTimestamp()})
-    // (Return 2 activities that have highest frequency and 2 latest added activities
+    // Will query Places http request
+    private async searchQuery(location, keyword){
+        let result = await this.search.getPlacesFunct(location, keyword).toPromise()
+        this.setSyntaxResults(result2)
 
-
-    // private getPlaces(this.nouns, this.verbs){
         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+        
+        let pos_sentences: string[]
+        let nouns_verbs: undefined
+        
+        // Find positive sentences
+        pos_sentences = this.analyzeSentiment();
+
+        console.log('pos_sentences at end of sentiment analysis: ', pos_sentences)
+
+        // Obtain nouns and verbs as a JSON
+        // const nouns_verbs = this.nouns_verbs(pos_sentences);
+        // console.log('nouns_verbs at end of syntax analysis: ', nouns_verbs)
+    }
     
-        // //Comment code underneath to stop writing into database
-        // user.collection("journal_entry").add({
-        //     journal: this.journal,
-        //     timestamp: firebase.firestore().FieldValue().serverTimestamp()
-        // });
+    /**
+        Analyzes sentiment of each sentence in journal, returns list with all positively scored sentences
 
+        Args: journal input
 
+        Returns: list of all positively scored sentences in journal entry
+     */
     /*
+    private analyzeSentiment()
+    {
+        // List of positive sentences
+        const pos_sentence_list = [];
+
+        // Break journal into sentences
+        const sentences = this.journal.match(/[^.?!]+[.!?]+[\])'"`’”]*|.+/g); 
+
+        for (let sentence of sentences){            
+            // Obtain sentiment score
+            // If greater than 0, append to pos_sentence_list
+
+            this.sentiment.getSentiment(sentence).toPromise((result) =>{
+                this.setSentimentResults(result)
+            })
+            .then(_ => {
+                console.log("SCORE: ", this.sentimentScore)
+
+                if (this.sentimentScore > 0) {
+                    pos_sentence_list.push(sentence);
+                }
+
+                console.log("CURRENT STATE OF POS_SENTENCE_LIST: ", pos_sentence_list)
+                })
+            .catch(error => {
+                console.log(error)
+            })          
+            
+        }
+        
+        return pos_sentence_list;              
+    }
+    */
+   /*
+   private analyzeSentiment()
+   {
+       // List of positive sentences
+       const pos_sentence_list = [];
+
+       // Break journal into sentences
+       const sentences = this.journal.match(/[^.?!]+[.!?]+[\])'"`’”]*|.+/g); 
+
+       for (let sentence of sentences){            
+           // Obtain sentiment score
+           // If greater than 0, append to pos_sentence_list
+
+           this.sentiment.getSentiment(sentence).toPromise((result) =>{
+               this.setSentimentResults(result)
+           })
+           .then(_ => {
+               console.log("SCORE: ", this.sentimentScore)
+
+               if (this.sentimentScore > 0) {
+                   pos_sentence_list.push(sentence);
+               }
+
+               console.log("CURRENT STATE OF POS_SENTENCE_LIST: ", pos_sentence_list)
+               })
+           .catch(error => {
+               console.log(error)
+           })          
            
        }
        
@@ -226,4 +315,5 @@ export class JournalComponent implements OnInit {
         this.verbs = result.verbs
     }
     */
+
 }
