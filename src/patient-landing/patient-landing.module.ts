@@ -7,6 +7,10 @@ import { PatientLandingRoutingModule } from "./patient-landing-routing.module";
 import { PatientLandingComponent } from './patient-landing.component';
 
 import {JournalModule} from './journal/journal.module';
+import { ModalComponent } from "../modal/modal.component";
+import { ModalOtherComponent } from "../modal/modalother.component";
+import { ModalEntertainmentComponent } from "../modal/modalentertainment.component";
+import { ModalArtComponent } from "../modal/modalart.component";
 
 @NgModule({
     imports: [
@@ -16,11 +20,19 @@ import {JournalModule} from './journal/journal.module';
         JournalModule
     ],
     exports: [PatientLandingComponent],
-    declarations: [PatientLandingComponent],
+    declarations: [PatientLandingComponent,
+                ModalComponent,
+                ModalArtComponent,
+                ModalEntertainmentComponent,
+                ModalOtherComponent],
     providers: [],
     schemas: [
         NO_ERRORS_SCHEMA
-    ]
+    ],
+    entryComponents: [ModalComponent,
+                    ModalArtComponent,
+                    ModalEntertainmentComponent,
+                    ModalOtherComponent]
 })
 export class PatientLandingModule { }
 
