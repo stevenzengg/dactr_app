@@ -36,7 +36,11 @@ export class JournalComponent implements OnInit {
     private mapsInputs: {}
     
     // private sentiment: getSentimentService, private syntax: getNounsVerbsService
-    constructor(private sentiment: getSentimentService, private syntax: getNounsVerbsService,private router: RouterExtensions, private search: getPlacesService){}
+    constructor(private sentiment: getSentimentService, private syntax: getNounsVerbsService,private router: RouterExtensions, private search: getPlacesService){
+        this.pos_sentences = []
+        this.nouns = []
+        this.verbs = []
+    }
 
     ngOnInit() {}
 
@@ -55,17 +59,11 @@ export class JournalComponent implements OnInit {
         
         //this.router.navigate(['/feedback']);
 
-        this.activity().catch(error => console.log(error));
+        this.activity().then(() => console.log("WOOOOOOOOOOOO")).catch(error => console.log(error));
     }
 
     // ACTIVITY RECOMMENDER
     private async activity(){
-        // Obtain latest journal entry
-
-        // const journal = this.findLatestJournal();
-        // console.log("JOURNAL: ", journal)
-
-        //let journal = 'Get your glizzy gobblers today! I am swimming tomorrow, care to join?'
 
         // Break journal into sentences
         const sentences = this.journal.match(/[^.?!]+[.!?]+[\])'"`’”]*|.+/g);
@@ -76,24 +74,10 @@ export class JournalComponent implements OnInit {
             await this.sentimentQuery(sentence)
         }
 
-        console.log("POS SENTENCES: ", this.pos_sentences);
-
         // Loop through each positive sentence and collect nouns and verbs
         for(let sentence of this.pos_sentences){
             await this.syntaxQuery(sentence)            
         }
-
-        console.log('NOUNS: ', this.nouns)
-        console.log('VERBS: ', this.verbs)
-    }
-
-    // Will find latest journal and return it
-    private findLatestJournal(): any{
-        const journal_entries = user.collection("journal_entry");
-
-        let doc = await journal_entries.orderBy('timestamp', 'desc').limit(1).get()
-        
-        return doc.journal;
     }
 
     private async mapsDatabaseQuery() {
@@ -144,7 +128,6 @@ export class JournalComponent implements OnInit {
     private setSyntaxResults(result){
         this.nouns = this.nouns.concat(result.nouns)
         this.verbs = this.verbs.concat(result.verbs)
-
     }
 
 
