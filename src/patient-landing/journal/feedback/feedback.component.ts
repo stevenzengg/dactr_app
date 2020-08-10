@@ -23,8 +23,16 @@ export class FeedbackComponent implements OnInit {
     private nouns: string[]
     private verbs: string[]
     
+    public htmlString: string
+    
     constructor(private sentiment: getSentimentService, 
-        private syntax: getNounsVerbsService) { }
+        private syntax: getNounsVerbsService) { 
+
+        this.htmlString = `<span>
+                            <h1>HtmlView demo in <font color="blue">NativeScript</font> App</h1>
+                        </span>`;
+                        
+        }
 
     ngOnInit() { 
         

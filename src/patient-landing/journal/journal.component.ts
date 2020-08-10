@@ -52,7 +52,7 @@ export class JournalComponent implements OnInit {
         
         //this.router.navigate(['/feedback']);
 
-        this.activity().catch(error => console.log(error));
+        this.activity().then(() => console.log("WOOOOOOOOOOOO")).catch(error => console.log(error));
     }
 
     // ACTIVITY RECOMMENDER
@@ -85,7 +85,9 @@ export class JournalComponent implements OnInit {
     private async findLatestJournal(){
         const journal_entries = user.collection("journal_entry");
 
-        let doc = await journal_entries.orderBy('timestamp', 'desc').limit(1).get()
+        let doc = await journal_entries.orderBy('timestamp', 'desc').limit(1)
+	
+        console.log('findLatestJournal -> ', doc.journal)
         
         return doc.journal;
     }
