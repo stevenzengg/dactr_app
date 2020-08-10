@@ -7,6 +7,10 @@ import {RouterExtensions} from '@nativescript/angular/router';
 })
 
 export class ClinicianLoginComponent implements OnInit {
+    public email = "";
+    public password = "";
+
+
     constructor(private routerExtensions: RouterExtensions) { }
 
     ngOnInit() { }

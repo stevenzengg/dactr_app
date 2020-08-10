@@ -2,10 +2,10 @@
     <Label text = "Welcome!" class = "text" textAlignment = "center"></Label>
     <Label text = "Here are your patients:" class = "text" textAlignment = "center"></Label>
     <ScrollView marginTop = "10%">
-        <ListView [items]="" height="300">
+        <ListView [items]="patientList" height="300">
             <ng-template let-item = "item" let-i ="index">
                 <GridLayout height = "40">
-                    <Label [text] = ""></Label>
+                    <Label [text] = "Hello"></Label>
                 </GridLayout>
             </ng-template>
         </ListView>
