@@ -144,26 +144,27 @@ export class JournalComponent implements OnInit {
         this.verbs = this.verbs.concat(result.verbs)
     }
 
-<<<<<<< HEAD
-=======
-    /*
-    // Will query location of user 
-    private async locationQuery(lat, lon) {
-    let result = await this.search.(lat, lon).toPromise()
-    this.setSyntaxResults(lat, lon)}
-
->>>>>>> 75e26b410dfb7b5e3f4bb42940ec7b9bafd97f77
 
     // Will query Places http request
-    private async searchQuery(lat, lon, noun_doc.noun){
-        let result = await this.search.getPlacesFunct(lat, lon, noun_doc.noun).toPromise()
-<<<<<<< HEAD
-        this.searchQuery(result)
+    private async searchQuery(){
+        // Connect to activities feedback database
+        const activitiesCollection = firebase.firestore().collection("activities_feedback");
+        // Go through MapsInput and add to activities feedback collection
+        for x in activitiesCollection() {
+            
+        }
 
-=======
-        this.setSyntaxResults(results)
-    */
->>>>>>> 75e26b410dfb7b5e3f4bb42940ec7b9bafd97f77
+        }
+        
+        query
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach(doc => {
+                console.log(`Relatively small Californian city: ${doc.id} => ${JSON.stringify(doc.data())}`);
+              });
+            });
+        return 
+
         
 
 
