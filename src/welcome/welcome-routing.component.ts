@@ -13,8 +13,6 @@ const welcomeRoutes: Routes = [
     { path: "login", loadChildren: () => import("../login/login.component").then(m => m.LoginComponent)},
     { path: "register", loadChildren: () => import("../register/register.module").then(m => m.RegisterModule)},
     { path: "clinician-login", component: ClinicianLoginModule}
-    //{ path: "register", loadChildren: () => import("../register/register.module").then(m => m.RegisterModule)}
-    //{ path: "patient-landing", component: PatientLandingComponent}
     //adding names to the path or implementing a patient landing path turns my screen black
 ];
 
