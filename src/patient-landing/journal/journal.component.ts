@@ -17,7 +17,7 @@ const user = userCollection.doc(getString("email"));
 
 @Component({
     selector: 'journal',
-    providers: [getSentimentService, getNounsVerbsService, getPlacesService],
+    providers: [getSentimentService, getNounsVerbsService, getPlacesService, getLocationService],
     templateUrl: 'journal.component.html'    
 })
 
@@ -149,12 +149,14 @@ export class JournalComponent implements OnInit {
 
 
     // Will query location of user 
-    private async locationQuery()
+    private async locationQuery(lat, lon) {
+    let result = await this.search.(lat, lon).toPromise()
+    this.setSyntaxResults(lat, lon)}
 
 
     // Will query Places http request
-    private async searchQuery(lat, lon, keyword){
-        let result = await this.search.getPlacesFunct(lat, lon, keyword).toPromise()
+    private async searchQuery(lat, lon, noun_doc.noun){
+        let result = await this.search.getPlacesFunct(lat, lon, noun_doc.noun).toPromise()
         this.setSyntaxResults(results)
 
         
