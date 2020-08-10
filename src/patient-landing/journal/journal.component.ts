@@ -4,7 +4,9 @@ import { getSentimentService } from "../../services/get-sentiment.service";
 import { getNounsVerbsService } from "../../services/get-nouns-verbs.service";
 
 import { getString, setString, } from "tns-core-modules/application-settings";
+
 import{ getPlacesService } from "../../services/getPlacesAPI.service"
+import{ getLocationService } from "../../services/getLocation.service"
 
 const firebase = require("nativescript-plugin-firebase/app");
 
@@ -114,10 +116,15 @@ export class JournalComponent implements OnInit {
         this.verbs = this.verbs.concat(result.verbs)
     }
 
+
+    // Will query location of user 
+    private async locationQuery()
+
+
     // Will query Places http request
-    private async searchQuery(location, keyword){
-        let result = await this.search.getPlacesFunct(location, keyword).toPromise()
-        this.setSyntaxResults(result2)
+    private async searchQuery(lat, lon, keyword){
+        let result = await this.search.getPlacesFunct(lat, lon, keyword).toPromise()
+        this.setSyntaxResults(results)
 
         
 

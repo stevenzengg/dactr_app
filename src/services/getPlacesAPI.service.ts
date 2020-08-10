@@ -5,13 +5,12 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 @Injectable()
 export class getPlacesService {
 
-    private url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?AIzaSyCdu52mSKeOKY9AYWyak1yLjhge2zfNAvI";
-
+    private url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     constructor(private http: HttpClient){}
 
-    getPlacesFunct(location, keyword){
+    getPlacesFunct(lat, lon, keyword){
         console.log('getPlaces says hi')
-        return this.http.get(this.url + "&" + location + "&"+ "50000" + "&" + keyword);
+        return this.http.get(this.url + "location="+ lat + "," + lon + "&radius=50000&keyword=" + keyword + "&key=AIzaSyCdu52mSKeOKY9AYWyak1yLjhge2zfNAvI");
     }
     
 
