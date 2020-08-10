@@ -35,7 +35,7 @@ export class getLocationService {
         });
     }
 
-    public getLatLot() {
+    public getLatLot(): any {
         this.updateLocation.then(result => {
             return [this.latitude, this.longitude]
         }).catch(e => console.log(e))

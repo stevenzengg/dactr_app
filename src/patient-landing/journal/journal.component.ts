@@ -44,6 +44,7 @@ export class JournalComponent implements OnInit {
         this.pos_sentences = []
         this.nouns = []
         this.verbs = []
+        this.mapsInputs = {}
     }
 
     ngOnInit() {}
@@ -53,16 +54,16 @@ export class JournalComponent implements OnInit {
     submitJournal(){
 
         console.log(this.journal);
-        /*
+        
         //Comment code underneath to stop writing into database
         user.collection("journal_entry").add({
             journal: this.journal,
             timestamp: firebase.firestore().FieldValue().serverTimestamp()
         });
-        */
+        
         
         //this.router.navigate(['/feedback']);
-
+        
         this.activity().then(() => console.log("WOOOOOOOOOOOO")).catch(error => console.log(error));
     }
 
@@ -76,31 +77,45 @@ export class JournalComponent implements OnInit {
         // Loop through each sentence, find sentiment, and collect positive sentences
         for(let sentence of sentences){
             await this.sentimentQuery(sentence)
-        }
+        }        
+        console.log("POS_SENTENCES: ", this.pos_sentences)
 
         // Loop through each positive sentence and collect nouns and verbs
         for(let sentence of this.pos_sentences){
             await this.syntaxQuery(sentence)            
         }
+        console.log("NOUNS AND VERBS: ", this.nouns, this.verbs)
+
+        await this.mapsDatabaseQuery()
+        console.log('MAPS INPUTS: ', this.mapsInputs)
     }
 
     private async mapsDatabaseQuery() {
-
         // const noun_list = this.nouns;
         // const verb_list = this.verbs;
         const activitySearch = firebase.firestore().collection("activity_search");
         const noun_doc = await activitySearch.doc("nouns").get()
         const verb_doc = await activitySearch.doc("verbs").get()
+
+        const noun_JSON = noun_doc.data()
+        const verb_JSON = verb_doc.data()
+
     
         for (let noun of this.nouns) {
-            if (noun in noun_doc) {
-                this.mapsInputs[noun] = noun_doc.noun
+            console.log('CURRENT NOUN: ', noun)
+            if (noun in noun_JSON) {
+                console.log(noun_JSON[noun])
+                this.mapsInputs[noun] = noun_JSON[noun]
+                console.log('INPUTTED NOUN: ', noun)
             }
         }
     
         for (let verb of this.verbs) {
-            if (verb in verb_doc) {
-                this.mapsInputs[verb] = verb_doc.verb
+            console.log('CURRENT VERB: ', verb)
+            if (verb in verb_JSON) {
+                console.log(verb_JSON[verb])
+                this.mapsInputs[verb] = verb_JSON[verb]
+                console.log('INPUTTED VERB: ', verb)
             }
         }
     }
@@ -109,8 +124,6 @@ export class JournalComponent implements OnInit {
     // Will query sentiment http request    
     private async sentimentQuery(sentence){
         let result = await this.sentiment.getSentiment(sentence).toPromise()
-        console.log('SQ RESULT: ', result)
-        console.log('SQ SENTENCE: ', sentence)
         this.setSentimentResults(sentence, result)
     }
 
@@ -122,9 +135,6 @@ export class JournalComponent implements OnInit {
 
     // Set pos_sentences
     private setSentimentResults(sentence: string, result){
-        console.log('RES.SENT.SCORE: ', result.sentiment.score)
-        console.log('RESULTS SENTENCE: ', sentence)
-        console.log('POS_SENTENCES: ', this.pos_sentences)
         if(result.sentiment.score > 0){ this.pos_sentences.push(sentence) }
     }
 
@@ -134,12 +144,26 @@ export class JournalComponent implements OnInit {
         this.verbs = this.verbs.concat(result.verbs)
     }
 
+<<<<<<< HEAD
+=======
+    /*
+    // Will query location of user 
+    private async locationQuery(lat, lon) {
+    let result = await this.search.(lat, lon).toPromise()
+    this.setSyntaxResults(lat, lon)}
+
+>>>>>>> 75e26b410dfb7b5e3f4bb42940ec7b9bafd97f77
 
     // Will query Places http request
     private async searchQuery(lat, lon, noun_doc.noun){
         let result = await this.search.getPlacesFunct(lat, lon, noun_doc.noun).toPromise()
+<<<<<<< HEAD
         this.searchQuery(result)
 
+=======
+        this.setSyntaxResults(results)
+    */
+>>>>>>> 75e26b410dfb7b5e3f4bb42940ec7b9bafd97f77
         
 
 
