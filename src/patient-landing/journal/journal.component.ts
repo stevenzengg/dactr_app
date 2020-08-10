@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RouterExtensions } from '@nativescript/angular/router';
 import { getSentimentService } from "../../services/get-sentiment.service";
 import { getNounsVerbsService } from "../../services/get-nouns-verbs.service";
-
-import { getString, setString, } from "tns-core-modules/application-settings";
-
+//import * as GooglePlaces from 'nativescript-plugin-google-places';
+import { getString, setString, } from "tns-core-modules/application-settings"; 
 
 const firebase = require("nativescript-plugin-firebase/app");
 
@@ -33,7 +32,9 @@ export class JournalComponent implements OnInit {
     private verbs: string[]
     
     // private sentiment: getSentimentService, private syntax: getNounsVerbsService
-    constructor(private sentiment: getSentimentService, private syntax: getNounsVerbsService,private router: RouterExtensions){}
+    constructor(private sentiment: getSentimentService, private syntax: getNounsVerbsService,private router: RouterExtensions){
+        // GooglePlaces.init();
+    }
 
     ngOnInit() {}
 
@@ -85,11 +86,19 @@ export class JournalComponent implements OnInit {
     private async findLatestJournal(){
         const journal_entries = user.collection("journal_entry");
 
-        let doc = await journal_entries.orderBy('timestamp', 'desc').limit(1)
-	
-        console.log('findLatestJournal -> ', doc.journal)
+        let docSnapShot = await journal_entries.orderBy('timestamp', 'desc').limit(1).get()
+
+        console.log('doc: ', docSnapShot)
+
+        let journal: string;
+
+        docSnapShot.forEach(doc => {
+            journal = doc.journal;
+        });
         
-        return doc.journal;
+        console.log('findLatestJournal -> ', journal)
+
+        return journal;
     }
 
     
@@ -116,117 +125,22 @@ export class JournalComponent implements OnInit {
         this.verbs = this.verbs.concat(result.verbs)
     }
 
+    // // Set up Feeddback
+    // user.collection('activity_recommendation' --> each doc: "activity", fields: {frequency: 1, search_term: '', timestamp: firebase.firestore().FieldValue().serverTimestamp()})
+    // (Return 2 activities that have highest frequency and 2 latest added activities
+
+
+    // private getPlaces(this.nouns, this.verbs){
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-        
-        let pos_sentences: string[]
-        let nouns_verbs: undefined
-        
-        // Find positive sentences
-        pos_sentences = this.analyzeSentiment();
-
-        console.log('pos_sentences at end of sentiment analysis: ', pos_sentences)
-
-        // Obtain nouns and verbs as a JSON
-        // const nouns_verbs = this.nouns_verbs(pos_sentences);
-        // console.log('nouns_verbs at end of syntax analysis: ', nouns_verbs)
-    }
     
-    /**
-        Analyzes sentiment of each sentence in journal, returns list with all positively scored sentences
+        // //Comment code underneath to stop writing into database
+        // user.collection("journal_entry").add({
+        //     journal: this.journal,
+        //     timestamp: firebase.firestore().FieldValue().serverTimestamp()
+        // });
 
-        Args: journal input
 
-        Returns: list of all positively scored sentences in journal entry
-     */
     /*
-    private analyzeSentiment()
-    {
-        // List of positive sentences
-        const pos_sentence_list = [];
-
-        // Break journal into sentences
-        const sentences = this.journal.match(/[^.?!]+[.!?]+[\])'"`’”]*|.+/g); 
-
-        for (let sentence of sentences){            
-            // Obtain sentiment score
-            // If greater than 0, append to pos_sentence_list
-
-            this.sentiment.getSentiment(sentence).toPromise((result) =>{
-                this.setSentimentResults(result)
-            })
-            .then(_ => {
-                console.log("SCORE: ", this.sentimentScore)
-
-                if (this.sentimentScore > 0) {
-                    pos_sentence_list.push(sentence);
-                }
-
-                console.log("CURRENT STATE OF POS_SENTENCE_LIST: ", pos_sentence_list)
-                })
-            .catch(error => {
-                console.log(error)
-            })          
-            
-        }
-        
-        return pos_sentence_list;              
-    }
-    */
-   /*
-   private analyzeSentiment()
-   {
-       // List of positive sentences
-       const pos_sentence_list = [];
-
-       // Break journal into sentences
-       const sentences = this.journal.match(/[^.?!]+[.!?]+[\])'"`’”]*|.+/g); 
-
-       for (let sentence of sentences){            
-           // Obtain sentiment score
-           // If greater than 0, append to pos_sentence_list
-
-           this.sentiment.getSentiment(sentence).toPromise((result) =>{
-               this.setSentimentResults(result)
-           })
-           .then(_ => {
-               console.log("SCORE: ", this.sentimentScore)
-
-               if (this.sentimentScore > 0) {
-                   pos_sentence_list.push(sentence);
-               }
-
-               console.log("CURRENT STATE OF POS_SENTENCE_LIST: ", pos_sentence_list)
-               })
-           .catch(error => {
-               console.log(error)
-           })          
            
        }
        
@@ -312,5 +226,4 @@ export class JournalComponent implements OnInit {
         this.verbs = result.verbs
     }
     */
-
 }

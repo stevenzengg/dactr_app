@@ -10,4 +10,5 @@ import  { JournalRoutingModule} from './journal-routing.module';
     declarations: [JournalComponent],
     providers: [],
 })
-export class JournalModule { }
+export class JournalModule {} 
+
