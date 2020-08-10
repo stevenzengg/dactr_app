@@ -44,7 +44,7 @@ export class getLocationService {
                 });
             }
         }, error => {
-            console.dump(error);
+            console.log(error);
         }, { updateDistance: 1, minimumUpdateTime: 1000 });
     }
 
