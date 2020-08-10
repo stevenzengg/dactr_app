@@ -33,8 +33,10 @@ export class JournalComponent implements OnInit {
     
     // private sentiment: getSentimentService, private syntax: getNounsVerbsService
     constructor(private sentiment: getSentimentService, private syntax: getNounsVerbsService,private router: RouterExtensions){
-        // GooglePlaces.init();
-    }
+        this.pos_sentences = []
+        this.nouns = []
+        this.verbs = []
+     }
 
     ngOnInit() {}
 
@@ -59,11 +61,14 @@ export class JournalComponent implements OnInit {
     // ACTIVITY RECOMMENDER
     private async activity(){
         // Obtain latest journal entry
-        const journal = await this.findLatestJournal();
-        console.log("JOURNAL: ", journal)
+
+        // const journal = this.findLatestJournal();
+        // console.log("JOURNAL: ", journal)
+
+        //let journal = 'Get your glizzy gobblers today! I am swimming tomorrow, care to join?'
 
         // Break journal into sentences
-        const sentences = journal.match(/[^.?!]+[.!?]+[\])'"`’”]*|.+/g);
+        const sentences = this.journal.match(/[^.?!]+[.!?]+[\])'"`’”]*|.+/g);
         console.log("SENTENCES: ", sentences)
 
         // Loop through each sentence, find sentiment, and collect positive sentences
@@ -83,28 +88,35 @@ export class JournalComponent implements OnInit {
     }
 
     // Will find latest journal and return it
-    private async findLatestJournal(){
+    private findLatestJournal(): any{
         const journal_entries = user.collection("journal_entry");
 
-        let docSnapShot = await journal_entries.orderBy('timestamp', 'desc').limit(1).get()
+        let query = journal_entries.orderBy('timestamp', 'desc').limit(1)
 
-        console.log('doc: ', docSnapShot)
+        //console.log('query: ', query)
 
-        let journal: string;
-
-        docSnapShot.forEach(doc => {
-            journal = doc.journal;
-        });
-        
-        console.log('findLatestJournal -> ', journal)
-
-        return journal;
+        query.get()
+        .then(doc => {
+            if(!doc.exists){
+                console.log("Document doesn't exist");
+            }
+            else{
+                console.log('docs: ', doc.data().journal)
+                return doc.data().journal;
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })       
+        //console.log('findLatestJournal -> ', doc._docSnapshots.get('journal'))        
     }
 
     
     // Will query sentiment http request    
     private async sentimentQuery(sentence){
         let result = await this.sentiment.getSentiment(sentence).toPromise()
+        console.log('SQ RESULT: ', result)
+        console.log('SQ SENTENCE: ', sentence)
         this.setSentimentResults(sentence, result)
     }
 
@@ -116,6 +128,9 @@ export class JournalComponent implements OnInit {
 
     // Set pos_sentences
     private setSentimentResults(sentence: string, result){
+        console.log('RES.SENT.SCORE: ', result.sentiment.score)
+        console.log('RESULTS SENTENCE: ', sentence)
+        console.log('POS_SENTENCES: ', this.pos_sentences)
         if(result.sentiment.score > 0){ this.pos_sentences.push(sentence) }
     }
 
@@ -123,6 +138,7 @@ export class JournalComponent implements OnInit {
     private setSyntaxResults(result){
         this.nouns = this.nouns.concat(result.nouns)
         this.verbs = this.verbs.concat(result.verbs)
+
     }
 
     // // Set up Feeddback
