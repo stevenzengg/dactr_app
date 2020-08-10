@@ -36,7 +36,11 @@ export class JournalComponent implements OnInit {
     private mapsInputs: {}
     
     // private sentiment: getSentimentService, private syntax: getNounsVerbsService
-    constructor(private sentiment: getSentimentService, private syntax: getNounsVerbsService,private router: RouterExtensions, private search: getPlacesService){
+    constructor(private sentiment: getSentimentService, 
+                private syntax: getNounsVerbsService,
+                private router: RouterExtensions, 
+                private search: getPlacesService,
+                private location: getLocationService){
         this.pos_sentences = []
         this.nouns = []
         this.verbs = []
