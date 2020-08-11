@@ -37,7 +37,8 @@ export class JournalComponent implements OnInit {
     private verbs: string[]
     private mapsInputs: {}
 
-    public mapsResult: any[]
+    public mapsResult: any
+    public placeName;
 
     
     // private sentiment: getSentimentService, private syntax: getNounsVerbsService
@@ -48,7 +49,7 @@ export class JournalComponent implements OnInit {
         this.pos_sentences = []
         this.nouns = []
         this.verbs = []
-        this.mapsInputs = {}
+        this.mapsInputs = []
     }
 
     ngOnInit() {}
@@ -78,14 +79,23 @@ export class JournalComponent implements OnInit {
             timestamp: firebase.firestore().FieldValue().serverTimestamp()
         });
         
-        this.activity().then(() => console.log("LETS GOOOOOOOOOOOOO")).catch(error => console.log(error));
-        this.getPlaces().then(result => {
-            console.log("LETS GOOOOOOOOO")
+        this.activity().then(() => {
+            console.log("LETS GOOOOOOOOOOOOO")
 
-            this.mapsResult = result;
-            console.log(this.mapsResult[0][2]['name']);           
+            this.getPlaces().then(result => {
+                console.log("LETS GOOOOOOOOO")
+    
+                this.mapsResult = result;
+                
+                this.placeName = this.mapsResult.json_0.results[0].name;
 
+                console.log("Checking place name");
+                console.log(this.placeName);           
+    
+            }).catch(error => console.log(error));
+        
         }).catch(error => console.log(error));
+        
     }
 
     // Will query Places http request
@@ -93,7 +103,7 @@ export class JournalComponent implements OnInit {
         const actFeedCollection = user.collection("activity_feedback");
         let recent = []
         let mostFreq = []
-        let result = []
+        let result = {}
 
         // Query to find two most recent activites
         const query = actFeedCollection
@@ -145,12 +155,16 @@ export class JournalComponent implements OnInit {
         // For loop to call getPlacesFunction
         for(let x = 0; x < recent.length; x++)
         {
-            result = result.concat(['Recent Addition', recent[x].activity, await this.placesQuery(location[0], location[1], recent[x].searchTerm)])                        
+            result['type_' + x] = 'Recent Addition';
+            result['activity_' + x] = recent[x].activity;
+            result['json_' + x] = await this.placesQuery(location[0], location[1], recent[x].searchTerm)
         }
         console.log('RESULT LIST AFTER RECENT: ', result)
         for(let x = 0; x < mostFreq.length; x++)
-        {
-            result = result.concat(['Most Frequent', mostFreq[x].activity, await this.placesQuery(location[0], location[1], mostFreq[x].searchTerm)])                        
+        { 
+            result['type_' + x] = 'Most Frequent';
+            result['activity_' + x] = mostFreq[x].activity;
+            result['json_' + x] = await this.placesQuery(location[0], location[1], mostFreq[x].searchTerm)                        
         }
         console.log('RESULT LIST AFTER MOSTFREQ: ', result)
 
@@ -248,6 +262,7 @@ export class JournalComponent implements OnInit {
 
         // Connect to user's activities feedback collection
         const userActivities = user.collection("activity_feedback");
+
 
         // Go through MapsInput and add to activities feedback collection
         for (let activity in this.mapsInputs) {       
@@ -485,7 +500,7 @@ export class JournalComponent implements OnInit {
    /*
     private setSyntaxResults(result){
         this.nouns = result.nouns
-        this.verbs = result.verbs
+            this.verbs = result.verbs
     }
     */
 
