@@ -6,7 +6,9 @@ import { getNounsVerbsService } from "../../services/get-nouns-verbs.service";
 import { getString, setString, } from "tns-core-modules/application-settings";
 
 import{ getPlacesService } from "../../services/getPlacesAPI.service"
-import{ getLocationService } from "../../services/getLocation.service"
+//import{ getLocationService } from "../../services/getLocation.service"
+import * as geolocation from "nativescript-geolocation";
+import { Accuracy } from "tns-core-modules/ui/enums"; // used to describe at what accuracy the location should be get
 
 const firebase = require("nativescript-plugin-firebase/app");
 
@@ -17,7 +19,7 @@ const user = userCollection.doc(getString("email"));
 
 @Component({
     selector: 'journal',
-    providers: [getSentimentService, getNounsVerbsService, getPlacesService, getLocationService],
+    providers: [getSentimentService, getNounsVerbsService, getPlacesService],
     templateUrl: 'journal.component.html'    
 })
 
@@ -34,13 +36,14 @@ export class JournalComponent implements OnInit {
     private nouns: string[]
     private verbs: string[]
     private mapsInputs: {}
+
+    public mapsResult: any[]
     
     // private sentiment: getSentimentService, private syntax: getNounsVerbsService
     constructor(private sentiment: getSentimentService, 
                 private syntax: getNounsVerbsService,
                 private router: RouterExtensions, 
-                private search: getPlacesService,
-                private location: getLocationService){
+                private search: getPlacesService,){
         this.pos_sentences = []
         this.nouns = []
         this.verbs = []
@@ -61,11 +64,86 @@ export class JournalComponent implements OnInit {
             timestamp: firebase.firestore().FieldValue().serverTimestamp()
         });
         
-        
-        //this.router.navigate(['/feedback']);
-        
-        this.activity().then(() => console.log("WOOOOOOOOOOOO")).catch(error => console.log(error));
+        this.activity().then(() => console.log("LETS GOOOOOOOOOOOOO")).catch(error => console.log(error));
+        this.getPlaces().then(result => {
+            console.log("LETS GOOOOOOOOO")
+
+            this.mapsResult = result;
+            console.log(this.mapsResult[0][2]['name']);           
+
+        }).catch(error => console.log(error));
     }
+
+    // Will query Places http request
+    async getPlaces(){
+        const actFeedCollection = user.collection("activity_feedback");
+        let recent = []
+        let mostFreq = []
+        let result = []
+
+        // Query to find two most recent activites
+        const query = actFeedCollection
+            .orderBy("timestamp", "desc")
+            .limit(2);
+        
+        let querySnapshot = await query.get()
+
+        querySnapshot.forEach(doc => {
+            recent.push(doc.data())
+        });
+
+        console.log('RECENT QUERY LIST: ', recent)
+    
+        // Query to find two most popular activities
+        const query2 = actFeedCollection
+            .orderBy("frequency", "desc")
+            .limit(2);
+
+        querySnapshot = await query2.get()
+        
+        querySnapshot.forEach(doc => {
+            mostFreq.push(doc.data())
+        }); 
+        
+        console.log('MOST FREQ QUERY LIST: ', mostFreq)
+        
+        let location: any
+        try{
+            // getLatLot call -- obtain user location
+            //location = this.locationService.getLatLot();
+            await geolocation.enableLocationRequest();
+            if(geolocation.isEnabled){
+                let currentLocation = await geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high, maximumAge: 5000, timeout: 20000 });
+                location = [currentLocation.latitude, currentLocation.longitude]
+            }
+            else{
+                console.log('LOCATION NOT ENABLED')
+                location = [40.798214, -77.859909]
+            }
+
+        }catch(error){
+            console.log("THERE'S AN ERROR: ", error)
+            location = [40.798214, -77.859909]
+        }
+
+        console.log('LOCATION: ', location)
+
+        // For loop to call getPlacesFunction
+        for(let x = 0; x < recent.length; x++)
+        {
+            result = result.concat(['Recent Addition', recent[x].activity, await this.placesQuery(location[0], location[1], recent[x].searchTerm)])                        
+        }
+        console.log('RESULT LIST AFTER RECENT: ', result)
+        for(let x = 0; x < mostFreq.length; x++)
+        {
+            result = result.concat(['Most Frequent', mostFreq[x].activity, await this.placesQuery(location[0], location[1], mostFreq[x].searchTerm)])                        
+        }
+        console.log('RESULT LIST AFTER MOSTFREQ: ', result)
+
+        return result;
+
+        // result[0][2]['place']
+    } 
 
     // ACTIVITY RECOMMENDER
     private async activity(){
@@ -86,41 +164,15 @@ export class JournalComponent implements OnInit {
         }
         console.log("NOUNS AND VERBS: ", this.nouns, this.verbs)
 
+        // Compare nouns and verbs to those in activity_search and collect activities with their search term
         await this.mapsDatabaseQuery()
         console.log('MAPS INPUTS: ', this.mapsInputs)
+
+        // Push new activities to user activity database. If already present, update frequency
+        await this.pushActivities()
     }
 
-    private async mapsDatabaseQuery() {
-        // const noun_list = this.nouns;
-        // const verb_list = this.verbs;
-        const activitySearch = firebase.firestore().collection("activity_search");
-        const noun_doc = await activitySearch.doc("nouns").get()
-        const verb_doc = await activitySearch.doc("verbs").get()
-
-        const noun_JSON = noun_doc.data()
-        const verb_JSON = verb_doc.data()
-
-    
-        for (let noun of this.nouns) {
-            console.log('CURRENT NOUN: ', noun)
-            if (noun in noun_JSON) {
-                console.log(noun_JSON[noun])
-                this.mapsInputs[noun] = noun_JSON[noun]
-                console.log('INPUTTED NOUN: ', noun)
-            }
-        }
-    
-        for (let verb of this.verbs) {
-            console.log('CURRENT VERB: ', verb)
-            if (verb in verb_JSON) {
-                console.log(verb_JSON[verb])
-                this.mapsInputs[verb] = verb_JSON[verb]
-                console.log('INPUTTED VERB: ', verb)
-            }
-        }
-    }
-
-    
+        
     // Will query sentiment http request    
     private async sentimentQuery(sentence){
         let result = await this.sentiment.getSentiment(sentence).toPromise()
@@ -133,6 +185,12 @@ export class JournalComponent implements OnInit {
         this.setSyntaxResults(result)
     }
 
+    // Will query places request
+    private async placesQuery(lat, long, searchTerm){
+        let result = await this.search.getPlacesFunct(lat, long, searchTerm).toPromise()
+        return result;
+    }
+
     // Set pos_sentences
     private setSentimentResults(sentence: string, result){
         if(result.sentiment.score > 0){ this.pos_sentences.push(sentence) }
@@ -142,28 +200,83 @@ export class JournalComponent implements OnInit {
     private setSyntaxResults(result){
         this.nouns = this.nouns.concat(result.nouns)
         this.verbs = this.verbs.concat(result.verbs)
+    }    
+
+    // Will find nouns and verbs that are activities and return them with their search term
+    private async mapsDatabaseQuery() {
+        // const noun_list = this.nouns;
+        // const verb_list = this.verbs;
+        const activitySearch = firebase.firestore().collection("activity_search");
+        const noun_doc = await activitySearch.doc("nouns").get()
+        const verb_doc = await activitySearch.doc("verbs").get()
+
+        console.log("TYPE OF NOUN_DOC: ", typeof noun_doc)
+
+        const noun_JSON = noun_doc.data()
+        const verb_JSON = verb_doc.data()
+
+    
+        for (let noun of this.nouns) {
+            if (noun in noun_JSON) {
+                this.mapsInputs[noun] = noun_JSON[noun]
+            }
+        }
+    
+        for (let verb of this.verbs) {
+            if (verb in verb_JSON) {
+                this.mapsInputs[verb] = verb_JSON[verb]
+            }
+        }
     }
 
+    // Will push new activities to user activity collection, or update current activity frequency 
+    private async pushActivities(){
 
-    // Will query Places http request
-    private async searchQuery(){
-        // Connect to activities feedback database
-        const activitiesCollection = firebase.firestore().collection("activities_feedback");
+        // Connect to user's activities feedback collection
+        const userActivities = user.collection("activity_feedback");
+
         // Go through MapsInput and add to activities feedback collection
-        for x in activitiesCollection() {
-            
+        for (let activity in this.mapsInputs) {       
+
+            let snapshot = await userActivities.where('activity', '==', activity).get();
+            let recommendation: any;
+            let docID: any;
+            snapshot.forEach(doc => {
+                recommendation = doc.data();
+                docID = doc.id;
+            })
+
+            console.log("DOC ID: ", docID)
+
+            console.log("RECOMMENDATION: ", recommendation)
+
+            if(recommendation){
+                // Update frequency
+                let freq = recommendation.frequency
+
+                console.log('RECOMMENDATION EXISTS');
+
+                const rec_doc = await userActivities.doc(docID)
+                             
+                await rec_doc.update({
+                    frequency: freq + 1
+                })                
+            }
+            else {
+                userActivities.add({
+                    activity: activity,
+                    searchTerm: this.mapsInputs[activity],
+                    frequency: 1,
+                    timestamp: firebase.firestore().FieldValue().serverTimestamp()
+                })
+            }
         }
+    }
+    
 
-        }
-        
-        query
-            .get()
-            .then(querySnapshot => {
-              querySnapshot.forEach(doc => {
-                console.log(`Relatively small Californian city: ${doc.id} => ${JSON.stringify(doc.data())}`);
-              });
-            });
-        return 
+    
+
+    
 
         
 
@@ -191,7 +304,7 @@ export class JournalComponent implements OnInit {
 
 
 
-
+        
         /*
         
         let pos_sentences: string[]

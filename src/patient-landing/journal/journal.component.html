@@ -6,4 +6,6 @@
     fontSize="20" backgroundColor = "red"  class = "input" [(ngModel)] = "journal"></TextField>
 
     <Button text = "Enter Journal" (tap) = "submitJournal()"></Button>
+
+    <Label [text]="mapsResult[0][2]['name']"></Label>
 </StackLayout>

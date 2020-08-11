@@ -5,15 +5,36 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class getLocationService {
 
-    public latitude: number;
-    public longitude: number;
-    private watchId: number;
+    private latitude: number;
+    private longitude: number;
+    //private watchId: number;
 
-    public constructor(private zone: NgZone) {
+    constructor(private zone: NgZone) {
         this.latitude = 0;
         this.longitude = 0;
     }
 
+    public getLatLot(): any {
+        this.updateLocation()
+        .then(()=>{
+            console.log('getLatLot -> ', [this.latitude, this.longitude])
+            return [this.latitude, this.longitude]
+        })
+        .catch(error => {            
+            console.log(error)
+            return [40.798214, -77.859909]
+        })
+        
+    }
+
+    private async updateLocation() {
+        let location = await this.getDeviceLocation()
+        console.log('getLatLot -> ', [this.latitude, this.longitude])
+
+        this.latitude = location.latitude;
+        this.longitude = location.longitude;
+    }    
+    
     private getDeviceLocation(): Promise<any> {
         return new Promise((resolve, reject) => {
             Geolocation.enableLocationRequest().then(() => {
@@ -25,22 +46,9 @@ export class getLocationService {
             });
         });
     }
+    
 
-    private updateLocation() {
-        this.getDeviceLocation().then(result => {
-            this.latitude = result.latitude;
-            this.longitude = result.longitude;
-        }, error => {
-            console.error(error);
-        });
-    }
-
-    public getLatLot(): any {
-        this.updateLocation.then(result => {
-            return [this.latitude, this.longitude]
-        }).catch(e => console.log(e))
-    }
-
+    /*
     public startWatchingLocation() {
         this.watchId = Geolocation.watchLocation(location => {
             if(location) {
@@ -50,7 +58,7 @@ export class getLocationService {
                 });
             }
         }, error => {
-            console.dump(error);
+            console.log(error);
         }, { updateDistance: 1, minimumUpdateTime: 1000 });
     }
 
@@ -60,5 +68,6 @@ export class getLocationService {
             this.watchId = null;
         }
     }
+    */
 
 }

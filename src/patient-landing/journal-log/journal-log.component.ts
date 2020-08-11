@@ -19,31 +19,33 @@ const user = userCollection.doc(getString("email"));
 
 export class JournalLogComponent implements OnInit {
     
-    private journalLog = new Array<JournalEntry>();
+    public journalLog = new Array<String>();
     private journalEntry:JournalEntry;
     private journal:string;
 
     constructor() { }
 
     ngOnInit() { 
-        this.setJournalLog();
-        console.log(this.journalLog[0].journal);
+        this.setJournalLog().then(()=>{            
+            console.log(this.journalLog[0]);
+        })
+        .catch(e => console.log(e))
     }
 
-    setJournalLog()
+    async setJournalLog()
     {
-        user.collection("journal_entry").get({source: "server"}).then(querySnapshot => {
-            querySnapshot.forEach(doc => {
-                console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
+        let querySnapshot = await user.collection("journal_entry").get({source: "server"})
 
-                console.log(doc.data().journal);
+        querySnapshot.forEach(doc => {
+            // console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
 
-                /*this.journal = doc.data().journal;
-                this.journalEntry.journal = this.journal;
-                */
-                //This pushes journal entry into journal log array
-                this.journalLog.push(doc.data().journal);
-            });
-        });
+            // console.log(doc.data().journal);
+
+            /*this.journal = doc.data().journal;
+            this.journalEntry.journal = this.journal;
+            */
+            //This pushes journal entry into journal log array
+            this.journalLog.push(doc.data().journal);
+        });        
     }
 }
