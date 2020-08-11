@@ -1,8 +1,8 @@
 
-<StackLayout>
+ <StackLayout>
     <Label text = "Journal Log" class = "text"></Label> 
 
-    <ScrollView marginTop = "10%">
+    <ScrollView marginTop = "10%"> -->
         <ListView [items]="journalLog" height="300">
             <ng-template let-item = "item" let-i ="index">
                 <GridLayout height = "40">
@@ -10,6 +10,13 @@
                 </GridLayout>
             </ng-template>
         </ListView>
-
     </ScrollView>
 </StackLayout>
+
+<!--
+    
+
+        <StackLayout *ngFor="let journal of journalLog" class="list-group-item">
+            <Label [text]="journal"></Label>
+        </StackLayout>
+-->

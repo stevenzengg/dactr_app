@@ -26,7 +26,7 @@ export class JournalLogComponent implements OnInit {
     constructor() { }
 
     ngOnInit() { 
-        this.setJournalLog().then(()=>{            
+        this.setJournalLog().then(()=>{
             console.log(this.journalLog[0]);
         })
         .catch(e => console.log(e))
@@ -34,7 +34,7 @@ export class JournalLogComponent implements OnInit {
 
     async setJournalLog()
     {
-        let querySnapshot = await user.collection("journal_entry").get({source: "server"})
+        let querySnapshot = await user.collection("journal_entry").orderBy("timestamp", "desc").get({source: "server"})
 
         querySnapshot.forEach(doc => {
             // console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
