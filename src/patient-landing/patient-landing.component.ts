@@ -12,6 +12,7 @@ import * as appSettings from "tns-core-modules/application-settings";
 import * as TNSPhone from 'nativescript-phone';
 
 
+
 @Component({
     selector: 'patient-landing',
     moduleId: module.id,
@@ -32,6 +33,17 @@ export class PatientLandingComponent implements OnInit {
 
     ngOnInit() { }
 
+    getDate(){
+      let a = new Date();
+      return 1+a.getMonth() + "/" + a.getDate() + "/" + a.getFullYear;
+    }
+    getTime(){
+      let a = new Date();
+      if(1+a.getHours() >12){
+        return 1+a.getHours()-12 + ":" + a.getMinutes() + "PM"
+      }
+      return 1+a.getHours() + ":" + a.getMinutes() + "AM"
+    }
     logout() {
         this.firebaseService.logout();
         this.routerExtensions.navigate(["/login"], { clearHistory: true } );
@@ -70,6 +82,22 @@ export class PatientLandingComponent implements OnInit {
         context: {}
     };
     this.modalService.showModal(ModalOtherComponent, options);
+    }
+    
+    callContacts(){
+
+    }
+    callTherapist(){
+
+    }
+    callHotline(){
+      TNSPhone.dial("18002738255", true);
+
+    }
+    callPolice(){
+      TNSPhone.dial("911", true);
+
+      
     }
 
 }

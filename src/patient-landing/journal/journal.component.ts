@@ -25,7 +25,18 @@ export class JournalComponent implements OnInit {
     public journal  = "";    
     
     constructor(){}
-
+    getDate(){
+        let a = new Date();
+        return 1+a.getMonth() + "/" + a.getDate() + "/" + a.getFullYear();
+      }
+    getTime(){
+        let a = new Date();
+        if(1+a.getHours() >12){
+            console.log(1+a.getHours() + ":" + a.getMinutes() + "AM")
+            return 1+a.getHours()-12 + ":" + a.getMinutes() + "PM"
+        }
+        return 1+a.getHours() + ":" + a.getMinutes() + "AM"
+      }
     printJournal()
     {
         /* Uncomment to debug journal entry

@@ -6,19 +6,19 @@
     <TabStrip>
         <TabStripItem>
             <Label text="Home"></Label>
-            <Image src="font://&#xf015;" class="fas t-36"></Image>
+            <Image src="~/patient-landing/homeicon.png" class="fas t-36"></Image>
         </TabStripItem>
         <TabStripItem class="special" >
             <Label text="Activities"></Label>
-            <Image src="font://&#xf00e;" class="fas t-36"></Image>
+            <Image src="~/patient-landing/activityicon.png" class="fas t-36"></Image>
         </TabStripItem>
         <TabStripItem class="special">
             <Label text="Emergency"></Label>
-            <Image src="font://&#xf00e;" class="fas t-36"></Image>
+            <Image src="~/patient-landing/emergencyicon.png" class="fas t-36"></Image>
         </TabStripItem>
         <TabStripItem class="Account">
             <Label text="Account"></Label>
-            <Image src="font://&#xf00e;" class="fas t-36"></Image>
+            <Image src="~/patient-landing/accounticon.png" class="fas t-36"></Image>
         </TabStripItem>
     </TabStrip>
 
@@ -41,7 +41,7 @@
       <StackLayout orientation = "vertical">
         <Label fontSize = "40" textAlignment = "center" text = "What would you like to">
           </Label>
-          <Label fontSize = "41" text="do today?" textAlignment = "center"></Label>
+          <Label fontSize = "40" text="do today?" textAlignment = "center"></Label>
         <GridLayout rows = "*, *" columns = "*, *" height = "400" width = "100%">
           <Button text = "Art" row = "0" col = "0" backgroundColor = "white" (tap)="showArtDialog()"></Button>
           <Button text = "Exercise" row = "0" col = "1" backgroundColor = "white" (tap)="showExerciseDialog()"></Button>
@@ -55,10 +55,21 @@
 
 <!-- Emergency-->
     <TabContentItem>
-        <GridLayout>
-        <Label text="Emergency" class="h2 text-center"></Label>
-
-        </GridLayout>
+        <FlexboxLayout flexDirection = "column" style="background-color: white;">
+            <Label text = "Crisis Call" bottomBorderColor = "black" fontSize = "30" textAlignment = "center" height = "10%"></Label>
+            <WrapLayout opacity = ".8" height = "25%" orientation = "horizontal" backgroundColor = "blue" justifyContent = "center">
+                <Button height = 100% (tap) = "callContacts()" borderColor = "transparent" backgroundColor = "transparent" text="Call Contacts" fontSize = "30"  color = "black"></Button>
+            </WrapLayout>
+            <WrapLayout opacity = ".8" height = "25%" orientation = "horizontal" backgroundColor = "green" justifyContent = "center">
+                <Button height = 100% (tap) = "callTherapist()" borderColor = "transparent" backgroundColor = "transparent" text="Call Therapist" fontSize = "30"  color = "black"></Button>
+            </WrapLayout>
+            <WrapLayout opacity = ".8" height = "25%" orientation = "horizontal" backgroundColor = "orange" justifyContent = "center">
+                <Button height = 100% (tap) = "callHotline()" borderColor = "transparent" backgroundColor = "transparent" text="National Hotline" fontSize = "30"  color = "black"></Button>
+            </WrapLayout>
+            <WrapLayout opacity = ".8" height = "25%" orientation = "horizontal" backgroundColor = "red" justifyContent = "center">
+                <Button height = 100% (tap) = "callPolice()" borderColor = "transparent" backgroundColor = "transparent" text="Police Emergency" fontSize = "30"  color = "black"></Button>
+            </WrapLayout>
+        </FlexboxLayout>
     </TabContentItem>
 
 
