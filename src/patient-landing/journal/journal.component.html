@@ -10,6 +10,8 @@
         <TextField width="200" minHeight="350" hint="Start Journaling here..."
             fontSize="20" marginBottom = "-15%"  class = "input" [(ngModel)] = "journal"></TextField>
     </StackLayout>
-    <Button text = "Enter Journal" (tap) = "printJournal()"></Button>
+    <Button text = "Enter Journal" (tap) = "submitJournal()"></Button>
+
+    <Label [text] = "placeName"></Label>
 </StackLayout>
 </ScrollView>

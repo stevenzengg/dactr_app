@@ -72,6 +72,27 @@ export class RegisterComponent implements OnInit {
                     console.log(this.email + " added to user database");
                 })
 
+                userCollection.doc(User.getEmail()).collection("activity_feature").add({
+                    activity: "walk",
+                    searchTerm: "trails",
+                    frequency: 1,
+                    timestamp: firebase.firestore().FieldValue().serverTimestamp()
+                })
+
+                userCollection.doc(User.getEmail()).collection("activity_feature").add({
+                    activity: "read",
+                    searchTerm: "libraries",
+                    frequency: 1,
+                    timestamp: firebase.firestore().FieldValue().serverTimestamp()
+                })
+
+                userCollection.doc(User.getEmail()).collection("activity_feature").add({
+                    activity: "nature",
+                    searchTerm: "parks",
+                    frequency: 1,
+                    timestamp: firebase.firestore().FieldValue().serverTimestamp()
+                })
+
                 this.routerExtensions.navigate(['/login']);
             }
         })
