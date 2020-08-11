@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { RouterExtensions } from '@nativescript/angular/router';
 import { getSentimentService } from "../../services/get-sentiment.service";
 import { getNounsVerbsService } from "../../services/get-nouns-verbs.service";
-
+import { ModalDialogService, ModalDialogOptions } from "nativescript-angular/modal-dialog";
 import { getString, setString, } from "tns-core-modules/application-settings";
 
 import{ getPlacesService } from "../../services/getPlacesAPI.service"
 //import{ getLocationService } from "../../services/getLocation.service"
 import * as geolocation from "nativescript-geolocation";
 import { Accuracy } from "tns-core-modules/ui/enums"; // used to describe at what accuracy the location should be get
-
+import { ModalSuggestionComponent } from "../../modal/modalsuggestion.component";
 const firebase = require("nativescript-plugin-firebase/app");
 
 firebase.initializeApp({});
@@ -19,8 +19,9 @@ const user = userCollection.doc(getString("email"));
 
 @Component({
     selector: 'journal',
-    providers: [getSentimentService, getNounsVerbsService, getPlacesService],
-    templateUrl: 'journal.component.html'    
+    providers: [ModalDialogService, getSentimentService, getNounsVerbsService, getPlacesService],
+    templateUrl: 'journal.component.html',
+        
 })
 
 
@@ -45,7 +46,9 @@ export class JournalComponent implements OnInit {
     constructor(private sentiment: getSentimentService, 
                 private syntax: getNounsVerbsService,
                 private router: RouterExtensions, 
-                private search: getPlacesService,){
+                private search: getPlacesService, 
+                private modalService: ModalDialogService, 
+                private viewContainerRef: ViewContainerRef){
         this.pos_sentences = []
         this.nouns = []
         this.verbs = []
@@ -61,7 +64,6 @@ export class JournalComponent implements OnInit {
     getTime(){
         let a = new Date();
         if(1+a.getHours() >12){
-            console.log(1+a.getHours() + ":" + a.getMinutes() + "AM")
             return 1+a.getHours()-12 + ":" + a.getMinutes() + "PM"
         }
         return 1+a.getHours() + ":" + a.getMinutes() + "AM"
@@ -88,14 +90,22 @@ export class JournalComponent implements OnInit {
                 this.mapsResult = result;
                 
                 this.placeName = this.mapsResult.json_0.results[0].name;
-
                 console.log("Checking place name");
                 console.log(this.placeName);           
     
             }).catch(error => console.log(error));
         
         }).catch(error => console.log(error));
-        
+
+         
+    }
+    openModal(){
+        const options: ModalDialogOptions = {
+            viewContainerRef: this.viewContainerRef,
+            fullscreen: true, 
+            context: {}
+        };
+        this.modalService.showModal(ModalSuggestionComponent, options);
     }
 
     // Will query Places http request

@@ -39,14 +39,30 @@
 <!-- Activities -->
     <TabContentItem>
       <StackLayout orientation = "vertical">
-        <Label fontSize = "40" textAlignment = "center" text = "What would you like to">
+        <Label fontSize = "30" textAlignment = "center" text = "What would you like to">
           </Label>
-          <Label fontSize = "40" text="do today?" textAlignment = "center"></Label>
-        <GridLayout rows = "*, *" columns = "*, *" height = "400" width = "100%">
-          <Button text = "Art" row = "0" col = "0" backgroundColor = "white" (tap)="showArtDialog()"></Button>
-          <Button text = "Exercise" row = "0" col = "1" backgroundColor = "white" (tap)="showExerciseDialog()"></Button>
-          <Button text = "Entertainment" row = "1" col = "0" backgroundColor = "white" (tap)="showEntertainmentDialog()"></Button>
-          <Button text = "Other" row = "1" col = "1" backgroundColor = "white" (tap)="showOtherDialog()"></Button>
+          <Label fontSize = "30" text="do today?" textAlignment = "center" marginBottom = "15"></Label>
+        <GridLayout rows = "*, *" columns = "*, *" height = "600" width = "95%">
+            <StackLayout borderColor = "black" borderWidth = "1" borderRadius = "20"
+            row = "0" col = "0" class="btn-img"  orientation="vertical" padding="5" (tap)="showArtDialog()" >
+                <Image marginTop = "-10%" backgroundColor = "transparent" src="~/patient-landing/artlogo.png"  width="100%" height="90%"></Image>
+             </StackLayout>
+             <StackLayout borderColor = "black" borderWidth = "1" borderRadius = "20"
+            row = "0" col = "1" class="btn-img"  orientation="vertical" padding="5" (tap)="showExerciseDialog()" >
+                <Image marginTop = "-10%" backgroundColor = "transparent" src="~/patient-landing/exerciselogo.png"  width="110%" height="90%"></Image>
+             </StackLayout>
+             <StackLayout borderColor = "black" borderWidth = "1" borderRadius = "20"
+            row = "1" col = "0" class="btn-img"  orientation="vertical" padding="5" (tap)="showEntertainmentDialog()" >
+                <Image marginTop = "-10%" backgroundColor = "transparent" src="~/patient-landing/entertainmentlogo.png"  width="110%" height="90%"></Image>
+             </StackLayout>
+             <StackLayout borderColor = "black" borderWidth = "1" borderRadius = "20"
+            row = "1" col = "1" class="btn-img"  orientation="vertical" padding="5" (tap)="showOtherDialog()" >
+                <Image marginTop = "-10%" backgroundColor = "transparent" src="~/patient-landing/otherlogo.png"  width="100%" height="90%"></Image>
+             </StackLayout>
+          <Button text = "Art" row = "0" col = "0" marginTop = "40%" backgroundColor = "transparent" (tap)="showArtDialog()"></Button>
+          <Button text = "Exercise" row = "0" col = "1" marginTop = "40%" backgroundColor = "transparent" (tap)="showExerciseDialog()"></Button>
+          <Button text = "Entertainment" row = "1" col = "0" marginTop = "40%" backgroundColor = "transparent" (tap)="showEntertainmentDialog()"></Button>
+          <Button text = "Other" row = "1" col = "1" marginTop = "40%" backgroundColor = "transparent" (tap)="showOtherDialog()"></Button>
         </GridLayout>
         </StackLayout>
     </TabContentItem>

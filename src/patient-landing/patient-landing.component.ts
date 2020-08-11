@@ -26,24 +26,15 @@ export class PatientLandingComponent implements OnInit {
     firstName = appSettings.getString("firstName");
 
 
-    constructor(private firebaseService: FirebaseService, private routerExtensions: RouterExtensions, private modalService: ModalDialogService, private viewContainerRef: ViewContainerRef) { 
+    constructor(private firebaseService: FirebaseService, 
+      private routerExtensions: RouterExtensions, 
+      private modalService: ModalDialogService, 
+      private viewContainerRef: ViewContainerRef) { 
       console.log(appSettings.getString("firstName"));
       this.welcomeMessage = "Hello, " + this.firstName;
     }
 
     ngOnInit() { }
-
-    getDate(){
-      let a = new Date();
-      return 1+a.getMonth() + "/" + a.getDate() + "/" + a.getFullYear;
-    }
-    getTime(){
-      let a = new Date();
-      if(1+a.getHours() >12){
-        return 1+a.getHours()-12 + ":" + a.getMinutes() + "PM"
-      }
-      return 1+a.getHours() + ":" + a.getMinutes() + "AM"
-    }
     logout() {
         this.firebaseService.logout();
         this.routerExtensions.navigate(["/login"], { clearHistory: true } );
