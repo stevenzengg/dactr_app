@@ -32,7 +32,6 @@ export class JournalComponent implements OnInit {
     getTime(){
         let a = new Date();
         if(1+a.getHours() >12){
-            console.log(1+a.getHours() + ":" + a.getMinutes() + "AM")
             return 1+a.getHours()-12 + ":" + a.getMinutes() + "PM"
         }
         return 1+a.getHours() + ":" + a.getMinutes() + "AM"
