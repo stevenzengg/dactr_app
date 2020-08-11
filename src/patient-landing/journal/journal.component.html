@@ -1,5 +1,5 @@
 <ScrollView>
-    <StackLayout backgroundImage = "~/patient-landing/journal/leafbackground.jpg" style = "background-position: center; background-repeat: no-repeat; background-size: cover">
+    <StackLayout orientation = "vertical" backgroundImage = "~/patient-landing/journal/leafbackground.jpg" style = "background-position: center; background-repeat: repeat; background-size: cover">
     <Label color = "black" text = "What's on your mind?" fontSize = "40" textAlignment = "center"></Label>
     <WrapLayout height = "8%" orientation = "horizontal">
         <Label color = "black" text = {{getDate()}} fontSize = "30" marginRight = "30%"></Label>
@@ -10,8 +10,39 @@
         <TextField width="200" minHeight="350" hint="Start Journaling here..."
             fontSize="20" marginBottom = "-15%"  class = "input" [(ngModel)] = "journal"></TextField>
     </StackLayout>
-    <Button text = "Enter Journal" (tap) = "submitJournal()"></Button>
+    <Button text = "Enter Journal" (tap) = "submitJournal()" ></Button>
 
-    <Label [text] = "placeName"></Label>
-</StackLayout>
+ 
+
+
+        <Label fontSize = "40" text = {{mapsResult.activity_0}} textAlignment = "center"></Label>  
+        <Label text = {{mapsResult.json_0.results[0].name}} textAlignment = "center"></Label>
+        <Label text = {{mapsResult.json_0.results[0].vicinity}} textAlignment = "center"></Label>
+        <Label text = {{mapsResult.json_0.results[1].name}} textAlignment = "center"></Label>
+
+
+        <Label fontSize = "40" text = {{mapsResult.activity_1}} textAlignment = "center"></Label>
+        <Label text = {{mapsResult.json_1.results[0].name}} textAlignment = "center"></Label>
+        <Label text = {{mapsResult.json_1.results[0].vicinity}} textAlignment = "center"></Label>
+        <Label text = {{mapsResult.json_1.results[1].name}} textAlignment = "center"></Label>
+
+    
+
+        <Label fontSize = "40" text = {{mapsResult.activity_2}} textAlignment = "center"></Label>
+        <Label text = {{mapsResult.json_2.results[0].name}} textAlignment = "center"></Label>
+        <Label text = {{mapsResult.json_2.results[0].vicinity}} textAlignment = "center"></Label>
+
+        <Label text = {{mapsResult.json_2.results[1].name}} textAlignment = "center"></Label> 
+
+    
+
+        <Label fontSize = "40" text = {{mapsResult.activity_3}} textAlignment = "center"></Label>
+        <Label text = {{mapsResult.json_3.results[0].name}} textAlignment = "center"></Label>
+        <Label text = {{mapsResult.json_3.results[0].vicinity}} textAlignment = "center"></Label>
+
+        <Label text = {{mapsResult.json_3.results[1].name}} textAlignment = "center"></Label>
+
+
+
+    </StackLayout> 
 </ScrollView>

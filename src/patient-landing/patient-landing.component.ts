@@ -26,7 +26,10 @@ export class PatientLandingComponent implements OnInit {
     firstName = appSettings.getString("firstName");
 
 
-    constructor(private firebaseService: FirebaseService, private routerExtensions: RouterExtensions, private modalService: ModalDialogService, private viewContainerRef: ViewContainerRef) { 
+    constructor(private firebaseService: FirebaseService, 
+      private routerExtensions: RouterExtensions, 
+      private modalService: ModalDialogService, 
+      private viewContainerRef: ViewContainerRef) { 
       console.log(appSettings.getString("firstName"));
       this.welcomeMessage = "Hello, " + this.firstName;
     }
