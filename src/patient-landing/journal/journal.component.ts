@@ -149,6 +149,10 @@ export class JournalComponent implements OnInit {
             if(geolocation.isEnabled){
                 let currentLocation = await geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high, maximumAge: 5000, timeout: 20000 });
                 location = [currentLocation.latitude, currentLocation.longitude]
+
+                if(location.latitude == 0){
+                    location = [40.798214, -77.859909]
+                }
             }
             else{
                 console.log('LOCATION NOT ENABLED')
@@ -170,7 +174,7 @@ export class JournalComponent implements OnInit {
             result['json_' + x] = await this.placesQuery(location[0], location[1], recent[x].searchTerm)
         }
         console.log('RESULT LIST AFTER RECENT: ', result)
-        for(let x = 0; x < mostFreq.length; x++)
+        for(let x = 2; x < (mostFreq.length + 2); x++)
         { 
             result['type_' + x] = 'Most Frequent';
             result['activity_' + x] = mostFreq[x].activity;
