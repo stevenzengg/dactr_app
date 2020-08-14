@@ -16,6 +16,13 @@ import { RegisterModule} from "./register/register.module";
 import {ClinicianLoginModule} from './clinician-login/clinician-login.module';
 import {ClinicianLandingModule} from './clinician-landing/clinician-landing.module';
 
+//import * as platform from "platform";
+import * as platform from "tns-core-modules/platform";
+declare var GMSServices: any;
+
+if (platform.isIOS) { 
+    GMSServices.provideAPIKey("PUT_API_KEY_HERE");
+}
 
 
 

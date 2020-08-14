@@ -5,6 +5,10 @@ import { getNounsVerbsService } from '../../../services/get-nouns-verbs.service'
 
 import { getString, setString, } from "tns-core-modules/application-settings";
 
+//These two lines initialize Google Maps Map View
+import {registerElement} from "@nativescript/angular/element-registry";
+registerElement("MapView", () => require("nativescript-google-maps-sdk").MapView);
+
 const firebase = require("nativescript-plugin-firebase/app");
 
 firebase.initializeApp({});
