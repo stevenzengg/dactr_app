@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { RouterExtensions } from '@nativescript/angular/router';
 import { getSentimentService } from "../../services/get-sentiment.service";
 import { getNounsVerbsService } from "../../services/get-nouns-verbs.service";
 import { ModalDialogService, ModalDialogOptions } from "nativescript-angular/modal-dialog";
 import { getString, setString, } from "tns-core-modules/application-settings";
 
 import{ getPlacesService } from "../../services/getPlacesAPI.service"
-//import{ getLocationService } from "../../services/getLocation.service"
-import * as geolocation from "nativescript-geolocation";
-import { Accuracy } from "tns-core-modules/ui/enums"; // used to describe at what accuracy the location should be get
+import{ getLocationService } from "../../services/getLocation.service"
+//import * as geolocation from "nativescript-geolocation";
+//import { Accuracy } from "tns-core-modules/ui/enums"; // used to describe at what accuracy the location should be get
 import { ModalSuggestionComponent } from "../../modal/modalsuggestion.component";
+import { analytics } from 'nativescript-plugin-firebase';
 const firebase = require("nativescript-plugin-firebase/app");
 
 firebase.initializeApp({});
@@ -19,9 +19,8 @@ const user = userCollection.doc(getString("email"));
 
 @Component({
     selector: 'journal',
-    providers: [ModalDialogService, getSentimentService, getNounsVerbsService, getPlacesService],
-    templateUrl: 'journal.component.html',
-        
+    providers: [ModalDialogService, getSentimentService, getNounsVerbsService, getPlacesService, getLocationService],
+    templateUrl: 'journal.component.html',        
 })
 
 
@@ -37,16 +36,15 @@ export class JournalComponent implements OnInit {
     private nouns: string[]
     private verbs: string[]
     private mapsInputs: {}
-
     public mapsResult: any
     public placeName;
 
     
     // private sentiment: getSentimentService, private syntax: getNounsVerbsService
     constructor(private sentiment: getSentimentService, 
-                private syntax: getNounsVerbsService,
-                private router: RouterExtensions, 
-                private search: getPlacesService, 
+                private syntax: getNounsVerbsService, 
+                private search: getPlacesService,
+                private loc: getLocationService, 
                 private modalService: ModalDialogService, 
                 private viewContainerRef: ViewContainerRef){
         this.pos_sentences = []
@@ -81,24 +79,42 @@ export class JournalComponent implements OnInit {
             timestamp: firebase.firestore().FieldValue().serverTimestamp()
         });
         
+        // Start activity search
         this.activity().then(() => {
             console.log("LETS GOOOOOOOOOOOOO")
+            
+            // Clear these class variables
+            this.pos_sentences = []
+            this.nouns = []
+            this.verbs = []
+            if(!this.mapsResult === undefined){
+                this.mapsResult = undefined;
+            }
+
 
             this.getPlaces().then(result => {
                 console.log("LETS GOOOOOOOOO")
-    
+
+                //Clear class variable
+                this.mapsInputs = []
+                
                 this.mapsResult = result;
                 
                 this.placeName = this.mapsResult.json_0.results[0].name;
                 console.log("Checking place name");
-                console.log(this.placeName);           
+                console.log(this.placeName);
+                
+                
     
-            }).catch(error => console.log(error));
+            }).catch(error => console.log('PLACES METHOD ERROR: ', error));
         
-        }).catch(error => console.log(error));
+        }).catch(error => {
+            console.log('ACTIVITY METHOD ERROR: ', error)
+        });
 
          
     }
+    /*
     openModal(){
         const options: ModalDialogOptions = {
             viewContainerRef: this.viewContainerRef,
@@ -107,6 +123,7 @@ export class JournalComponent implements OnInit {
         };
         this.modalService.showModal(ModalSuggestionComponent, options);
     }
+    */
 
     // Will query Places http request
     async getPlaces(){
@@ -116,9 +133,7 @@ export class JournalComponent implements OnInit {
         let result = {}
 
         // Query to find two most recent activites
-        const query = actFeedCollection
-            .orderBy("timestamp", "desc")
-            .limit(2);
+        const query = actFeedCollection.orderBy("timestamp", "desc").limit(2);
         
         let querySnapshot = await query.get()
 
@@ -129,9 +144,7 @@ export class JournalComponent implements OnInit {
         console.log('RECENT QUERY LIST: ', recent)
     
         // Query to find two most popular activities
-        const query2 = actFeedCollection
-            .orderBy("frequency", "desc")
-            .limit(2);
+        const query2 = actFeedCollection.orderBy("frequency", "desc").limit(2);
 
         querySnapshot = await query2.get()
         
@@ -141,29 +154,14 @@ export class JournalComponent implements OnInit {
         
         console.log('MOST FREQ QUERY LIST: ', mostFreq)
         
+        // Obtain user location
         let location: any
         try{
-            // getLatLot call -- obtain user location
-            //location = this.locationService.getLatLot();
-            await geolocation.enableLocationRequest();
-            if(geolocation.isEnabled){
-                let currentLocation = await geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high, maximumAge: 5000, timeout: 20000 });
-                location = [currentLocation.latitude, currentLocation.longitude]
-
-                if(location.latitude == 0){
-                    location = [40.798214, -77.859909]
-                }
-            }
-            else{
-                console.log('LOCATION NOT ENABLED')
-                location = [40.798214, -77.859909]
-            }
-
+            location = await this.loc.getLocation()
         }catch(error){
-            console.log("THERE'S AN ERROR: ", error)
-            location = [40.798214, -77.859909]
+            console.log("THERE WAS AN ERROR WITH LOCATION SERVICE: ", error)
+            location = [40.798214, -77.859909] // Penn State
         }
-
         console.log('LOCATION: ', location)
 
         // For loop to call getPlacesFunction
@@ -174,17 +172,16 @@ export class JournalComponent implements OnInit {
             result['json_' + x] = await this.placesQuery(location[0], location[1], recent[x].searchTerm)
         }
         console.log('RESULT LIST AFTER RECENT: ', result)
+
         for(let x = 2; x < (mostFreq.length + 2); x++)
         { 
             result['type_' + x] = 'Most Frequent';
-            result['activity_' + x] = mostFreq[x].activity;
-            result['json_' + x] = await this.placesQuery(location[0], location[1], mostFreq[x].searchTerm)                        
+            result['activity_' + x] = mostFreq[x - 2].activity;
+            result['json_' + x] = await this.placesQuery(location[0], location[1], mostFreq[x - 2].searchTerm)                        
         }
         console.log('RESULT LIST AFTER MOSTFREQ: ', result)
 
         return result;
-
-        // result[0][2]['place']
     } 
 
     // ACTIVITY RECOMMENDER
@@ -252,8 +249,6 @@ export class JournalComponent implements OnInit {
         const noun_doc = await activitySearch.doc("nouns").get()
         const verb_doc = await activitySearch.doc("verbs").get()
 
-        console.log("TYPE OF NOUN_DOC: ", typeof noun_doc)
-
         const noun_JSON = noun_doc.data()
         const verb_JSON = verb_doc.data()
 
@@ -289,9 +284,7 @@ export class JournalComponent implements OnInit {
                 docID = doc.id;
             })
 
-            console.log("DOC ID: ", docID)
-
-            console.log("RECOMMENDATION: ", recommendation)
+            console.log("RECOMMENDATION FOUND: ", recommendation)
 
             if(recommendation){
                 // Update frequency
@@ -302,10 +295,14 @@ export class JournalComponent implements OnInit {
                 const rec_doc = await userActivities.doc(docID)
                              
                 await rec_doc.update({
-                    frequency: freq + 1
+                    frequency: freq + 1,
+                    timestamp: firebase.firestore().FieldValue().serverTimestamp()
                 })                
             }
             else {
+
+                console.log("RECOMMENDATION DOESN'T EXIST");
+
                 userActivities.add({
                     activity: activity,
                     searchTerm: this.mapsInputs[activity],
