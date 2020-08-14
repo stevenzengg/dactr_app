@@ -1,13 +1,10 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { getSentimentService } from "../../services/get-sentiment.service";
 import { getNounsVerbsService } from "../../services/get-nouns-verbs.service";
-import { ModalDialogService, ModalDialogOptions } from "nativescript-angular/modal-dialog";
 import { getString, setString, } from "tns-core-modules/application-settings";
 
 import{ getPlacesService } from "../../services/getPlacesAPI.service"
 import{ getLocationService } from "../../services/getLocation.service"
-//import * as geolocation from "nativescript-geolocation";
-//import { Accuracy } from "tns-core-modules/ui/enums"; // used to describe at what accuracy the location should be get
 import { ModalSuggestionComponent } from "../../modal/modalsuggestion.component";
 import { analytics } from 'nativescript-plugin-firebase';
 const firebase = require("nativescript-plugin-firebase/app");
@@ -19,7 +16,7 @@ const user = userCollection.doc(getString("email"));
 
 @Component({
     selector: 'journal',
-    providers: [ModalDialogService, getSentimentService, getNounsVerbsService, getPlacesService, getLocationService],
+    providers: [getSentimentService, getNounsVerbsService, getPlacesService, getLocationService],
     templateUrl: 'journal.component.html',        
 })
 
@@ -114,16 +111,6 @@ export class JournalComponent implements OnInit {
 
          
     }
-    /*
-    openModal(){
-        const options: ModalDialogOptions = {
-            viewContainerRef: this.viewContainerRef,
-            fullscreen: true, 
-            context: {}
-        };
-        this.modalService.showModal(ModalSuggestionComponent, options);
-    }
-    */
 
     // Will query Places http request
     async getPlaces(){
