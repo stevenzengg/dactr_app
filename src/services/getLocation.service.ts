@@ -9,11 +9,12 @@ export class getLocationService {
     private longitude: number;
     //private watchId: number;
 
-    constructor(private zone: NgZone) {
+    constructor() {
         this.latitude = 0;
         this.longitude = 0;
     }
-
+    
+    /*
     public getLatLot(): any {
         this.updateLocation()
         .then(()=>{
@@ -27,6 +28,7 @@ export class getLocationService {
         
     }
 
+    
     private async updateLocation() {
         let location = await this.getDeviceLocation()
         console.log('getLatLot -> ', [this.latitude, this.longitude])
