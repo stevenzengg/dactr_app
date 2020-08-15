@@ -195,8 +195,8 @@ export class JournalComponent implements OnInit {
         }
         console.log("NOUNS AND VERBS: ", this.nouns, this.verbs)
 
-        // Compare nouns and verbs to those in activity_search and collect activities with their search term
-        await this.mapsDatabaseQuery()
+        // Compare nouns and verbs to those in activity_database and collect activities with their search term
+        await this.activitiesDatabaseQuery()
         console.log('MAPS INPUTS: ', this.mapsInputs)
 
         // Push new activities to user activity database. If already present, update frequency
@@ -234,28 +234,29 @@ export class JournalComponent implements OnInit {
     }    
 
     // Will find nouns and verbs that are activities and return them with their search term
-    private async mapsDatabaseQuery() {
-        // const noun_list = this.nouns;
-        // const verb_list = this.verbs;
-        const activitySearch = firebase.firestore().collection("activity_search");
-        const noun_doc = await activitySearch.doc("nouns").get()
-        const verb_doc = await activitySearch.doc("verbs").get()
+    private async activitiesDatabaseQuery() {
 
-        const noun_JSON = noun_doc.data()
-        const verb_JSON = verb_doc.data()
+        // Connect to activity database and combine nouns and verbs
+        const activityDB = firebase.firestore().collection("activity_database");
 
-    
-        for (let noun of this.nouns) {
-            if (noun in noun_JSON) {
-                this.mapsInputs[noun] = noun_JSON[noun]
-            }
+        let keywords = []
+        keywords = keywords.concat(this.nouns, this.verbs)
+
+        console.log('KEYWORDS: ', keywords)
+        
+        for (let word of keywords) {
+            // Search for noun in collection's keywords            
+            const query = await activityDB.where("keywords", 'array-contains', word).get()
+
+            query.forEach(doc => {
+                if(doc.exists){
+                    let data = doc.data()     
+                    this.mapsInputs[doc.id] = data.search_term;
+                    console.log('ACTIVITY EXISTS: ', doc.id, ' ', data.search_term);
+                }
+            });
         }
-    
-        for (let verb of this.verbs) {
-            if (verb in verb_JSON) {
-                this.mapsInputs[verb] = verb_JSON[verb]
-            }
-        }
+        
     }
 
     // Will push new activities to user activity collection, or update current activity frequency 
@@ -263,7 +264,6 @@ export class JournalComponent implements OnInit {
 
         // Connect to user's activities feedback collection
         const userActivities = user.collection("activity_feedback");
-
 
         // Go through MapsInput and add to activities feedback collection
         for (let activity in this.mapsInputs) {       
@@ -304,207 +304,5 @@ export class JournalComponent implements OnInit {
             }
         }
     }
-    
-
-    
-
-    
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        /*
-        
-        let pos_sentences: string[]
-        let nouns_verbs: undefined
-        
-        // Find positive sentences
-        pos_sentences = this.analyzeSentiment();
-
-        console.log('pos_sentences at end of sentiment analysis: ', pos_sentences)
-
-        // Obtain nouns and verbs as a JSON
-        // const nouns_verbs = this.nouns_verbs(pos_sentences);
-        // console.log('nouns_verbs at end of syntax analysis: ', nouns_verbs)
-    }
-    
-    /**
-        Analyzes sentiment of each sentence in journal, returns list with all positively scored sentences
-
-        Args: journal input
-
-        Returns: list of all positively scored sentences in journal entry
-     */
-    /*
-    private analyzeSentiment()
-    {
-        // List of positive sentences
-        const pos_sentence_list = [];
-
-        // Break journal into sentences
-        const sentences = this.journal.match(/[^.?!]+[.!?]+[\])'"`’”]*|.+/g); 
-
-        for (let sentence of sentences){            
-            // Obtain sentiment score
-            // If greater than 0, append to pos_sentence_list
-
-            this.sentiment.getSentiment(sentence).toPromise((result) =>{
-                this.setSentimentResults(result)
-            })
-            .then(_ => {
-                console.log("SCORE: ", this.sentimentScore)
-
-                if (this.sentimentScore > 0) {
-                    pos_sentence_list.push(sentence);
-                }
-
-                console.log("CURRENT STATE OF POS_SENTENCE_LIST: ", pos_sentence_list)
-                })
-            .catch(error => {
-                console.log(error)
-            })          
-            
-        }
-        
-        return pos_sentence_list;              
-    }
-    */
-   /*
-   private analyzeSentiment()
-   {
-       // List of positive sentences
-       const pos_sentence_list = [];
-
-       // Break journal into sentences
-       const sentences = this.journal.match(/[^.?!]+[.!?]+[\])'"`’”]*|.+/g); 
-
-       for (let sentence of sentences){            
-           // Obtain sentiment score
-           // If greater than 0, append to pos_sentence_list
-
-           this.sentiment.getSentiment(sentence).toPromise((result) =>{
-               this.setSentimentResults(result)
-           })
-           .then(_ => {
-               console.log("SCORE: ", this.sentimentScore)
-
-               if (this.sentimentScore > 0) {
-                   pos_sentence_list.push(sentence);
-               }
-
-               console.log("CURRENT STATE OF POS_SENTENCE_LIST: ", pos_sentence_list)
-               })
-           .catch(error => {
-               console.log(error)
-           })          
-           
-       }
-       
-       return pos_sentence_list;              
-   }
-   */
-
-
-    /**
-     *  Obtains nouns and verbs of entered list of positive sentences
-
-        Args: positive sentence list
-
-        Returns: dictionary with nouns and verbs of sentences
-     */
-    /*
-    private nouns_verbs(pos_sentence_list){
-
-        const nouns_verbs = {
-            nouns: [],
-            verbs: [],
-        };
-
-        for (const sentence of pos_sentence_list)  {
-            // Obtain nouns and verbs of positive sentences
-            this.syntaxQuery(sentence)
-            
-            nouns_verbs.nouns = this.nouns
-            nouns_verbs.verbs = this.verbs
-        }
-    
-        return nouns_verbs
-    }
-
-    /*
-    // Will query sentiment http request
-    
-    private sentimentQuery(sentence){        
-        this.sentiment.getSentiment(sentence)
-        .subscribe((result) => {
-
-            this.setSentimentResults(result)
-        
-        }, (error) => {
-            
-            console.log(error)
-        
-        });
-    }
-    */
-    
-    // Will query nouns and verbs http request
-    /*
-   private syntaxQuery(sentence){
-        this.syntax.getNounsVerbs(sentence)
-            .subscribe((result) => {
-                this.setSyntaxResults(result)
-            }, (error) => {
-                console.log(error)
-            });
-    }
-    
-
-    /*
-        Will extract data for sentiment http request
-    
-    private async setSentimentResults(sentence: string){
-        let result = this.sentiment.sentimentQuery(sentence)
-        Promise.resolve(this.sentimentScore = result.sentiment.score)
-    }
-    */
-    /*
-    private setSentimentResults(result){
-        this.sentimentScore = result.sentiment.score;
-    }
-
-    /*
-        Will extract data for nouns and verbs http request
-    */
-   /*
-    private setSyntaxResults(result){
-        this.nouns = result.nouns
-            this.verbs = result.verbs
-    }
-    */
 
 }
