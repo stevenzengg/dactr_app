@@ -25,10 +25,6 @@ const user = userCollection.doc(getString("email"));
 // We would need to access Firebase Fire DataStore as well
 export class JournalComponent implements OnInit {
     public journal  = "";
-    //sentimentScore: Number;
-    //nouns: Array<string>;
-    //verbs: Array<string>;
-
     private pos_sentences: string[]
     private nouns: string[]
     private verbs: string[]
@@ -74,7 +70,9 @@ export class JournalComponent implements OnInit {
             journal: this.journal,
             timestamp: firebase.firestore().FieldValue().serverTimestamp()
         });
+
         
+        /*
         // Start activity search
         this.activity().then(() => {
             console.log("LETS GOOOOOOOOOOOOO")
@@ -107,10 +105,10 @@ export class JournalComponent implements OnInit {
         }).catch(error => {
             console.log('ACTIVITY METHOD ERROR: ', error)
         });
-
+        */
          
     }
-
+    /*
     // Will query Places http request
     async getPlaces(){
         const actFeedCollection = user.collection("activity_feedback");
@@ -298,5 +296,5 @@ export class JournalComponent implements OnInit {
             }
         }
     }
-
+    */
 }
