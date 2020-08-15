@@ -30,11 +30,12 @@ export class PatientLandingComponent implements OnInit {
       private routerExtensions: RouterExtensions, 
       private modalService: ModalDialogService, 
       private viewContainerRef: ViewContainerRef) { 
+    }
+
+    ngOnInit() { 
       console.log(appSettings.getString("firstName"));
       this.welcomeMessage = "Hello, " + this.firstName;
     }
-
-    ngOnInit() { }
     logout() {
         this.firebaseService.logout();
         this.routerExtensions.navigate(["/login"], { clearHistory: true } );

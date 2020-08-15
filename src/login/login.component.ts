@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit {
             
             if(message != null)
             {
-                userCollection.doc(this.username).get()
+                userCollection.doc(this.username.toLowerCase()).get()
                 .then((doc) => {
 
                     //If user document doesn't exists in database
@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit {
                         remove("firstName");
                         //Sets application settings so we can access these values
                         //in other components
-                        setString("email", User.getEmail());
+                        setString("email", User.getEmail().toLowerCase());
                         setString("firstName", User.getFirstName());
                         
                     }
