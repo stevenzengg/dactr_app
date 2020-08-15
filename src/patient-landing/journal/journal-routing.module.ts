@@ -3,11 +3,11 @@ import { Routes, RouterModule } from "@angular/router";
 import { NativeScriptRouterModule } from "@nativescript/angular/router";
 
 import { JournalComponent } from "./journal.component";
-import { FeedbackModule } from "./feedback/feedback.module"
+import { FeedbackComponent } from "./feedback/feedback.component";
 
 const routes: Routes = [
     { path: "journal", component: JournalComponent },
-    { path: "feedback", component: FeedbackModule }
+    { path: "feedback", component: FeedbackComponent }
 ];
 
 @NgModule({

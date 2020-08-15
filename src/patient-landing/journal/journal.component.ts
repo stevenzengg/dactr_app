@@ -3,6 +3,7 @@ import { getSentimentService } from "../../services/get-sentiment.service";
 import { getNounsVerbsService } from "../../services/get-nouns-verbs.service";
 import { getString, setString, } from "tns-core-modules/application-settings";
 
+import { RouterExtensions} from '@nativescript/angular/router';
 import{ getPlacesService } from "../../services/getPlacesAPI.service"
 import{ getLocationService } from "../../services/getLocation.service"
 import { ModalSuggestionComponent } from "../../modal/modalsuggestion.component";
@@ -37,8 +38,9 @@ export class JournalComponent implements OnInit {
     constructor(private sentiment: getSentimentService, 
                 private syntax: getNounsVerbsService, 
                 private search: getPlacesService,
-                private loc: getLocationService, 
-                private viewContainerRef: ViewContainerRef){
+                private loc: getLocationService,  
+                private viewContainerRef: ViewContainerRef,
+                private routerExtension: RouterExtensions){
         this.pos_sentences = []
         this.nouns = []
         this.verbs = []
@@ -71,6 +73,9 @@ export class JournalComponent implements OnInit {
             timestamp: firebase.firestore().FieldValue().serverTimestamp()
         });
 
+        console.log("Route to feedback page");
+        //This navigates to feedback component after submitting journal
+        this.routerExtension.navigate(['/feedback']);
         
         /*
         // Start activity search

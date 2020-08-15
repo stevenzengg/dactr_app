@@ -63,7 +63,7 @@ export class RegisterComponent implements OnInit {
         .then((message) => {
             if(message != null)
             {
-                userCollection.doc(User.getEmail()).set({
+                userCollection.doc(User.getEmail().toLowerCase()).set({
                     email: User.getEmail(),
                     firstName: User.getFirstName(),
                     lastName: User.getLastName()
