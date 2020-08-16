@@ -63,7 +63,7 @@ export class RegisterComponent implements OnInit {
         .then((message) => {
             if(message != null)
             {
-                userCollection.doc(User.getEmail()).set({
+                userCollection.doc(User.getEmail().toLowerCase()).set({
                     email: User.getEmail(),
                     firstName: User.getFirstName(),
                     lastName: User.getLastName()
@@ -72,23 +72,23 @@ export class RegisterComponent implements OnInit {
                     console.log(this.email + " added to user database");
                 })
 
-                userCollection.doc(User.getEmail()).collection("activity_feature").add({
-                    activity: "walk",
+                userCollection.doc(User.getEmail()).collection("activity_feedback").add({
+                    activity: "Walking",
                     searchTerm: "trails",
                     frequency: 1,
                     timestamp: firebase.firestore().FieldValue().serverTimestamp()
                 })
 
                 userCollection.doc(User.getEmail()).collection("activity_feature").add({
-                    activity: "read",
+                    activity: "Reading",
                     searchTerm: "libraries",
                     frequency: 1,
                     timestamp: firebase.firestore().FieldValue().serverTimestamp()
                 })
 
                 userCollection.doc(User.getEmail()).collection("activity_feature").add({
-                    activity: "nature",
-                    searchTerm: "parks",
+                    activity: "Capturing Scenery",
+                    searchTerm: "scenic spots",
                     frequency: 1,
                     timestamp: firebase.firestore().FieldValue().serverTimestamp()
                 })
