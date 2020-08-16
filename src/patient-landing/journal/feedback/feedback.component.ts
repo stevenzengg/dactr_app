@@ -223,9 +223,12 @@ export class FeedbackComponent implements OnInit {
         this.setSyntaxResults(result)
     }
 
+    
     // Will query places request
     private async placesQuery(lat, long, searchTerm){
-        let result = await this.search.getPlacesFunct(lat, long, searchTerm).toPromise()
+        let result = await this.search.getPlacesFunct(lat, long, searchTerm)//.toPromise()
+        console.log('PLACE RETRIEVED')
+        console.log('PLACE RESULT: ', typeof result)        
         return result;
     }
 
