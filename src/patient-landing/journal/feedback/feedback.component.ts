@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { getSentimentService } from "../../services/get-sentiment.service";
-import { getNounsVerbsService } from "../../services/get-nouns-verbs.service";
+import { getSentimentService } from "../../../services/get-sentiment.service";
+import { getNounsVerbsService } from "../../../services/get-nouns-verbs.service";
 import { getString, setString, } from "tns-core-modules/application-settings";
 
-import{ getPlacesService } from "../../services/getPlacesAPI.service"
-import{ getLocationService } from "../../services/getLocation.service"
-import { ModalSuggestionComponent } from "../../modal/modalsuggestion.component";
+import{ getPlacesService } from "../../../services/getPlacesAPI.service"
+import{ getLocationService } from "../../../services/getLocation.service"
+import { ModalSuggestionComponent } from "../../../modal/modalsuggestion.component";
 import { analytics } from 'nativescript-plugin-firebase';
 const firebase = require("nativescript-plugin-firebase/app");
 
