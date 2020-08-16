@@ -157,22 +157,28 @@ export class FeedbackComponent implements OnInit {
         }
         console.log('LOCATION: ', location)
 
-        // For loop to call getPlacesFunction
-        for(let x = 0; x < recent.length; x++)
-        {
-            result['type_' + x] = 'Recent Addition';
-            result['activity_' + x] = recent[x].activity;
-            result['json_' + x] = await this.placesQuery(location[0], location[1], recent[x].searchTerm)
-        }
-        console.log('RESULT LIST AFTER RECENT: ', result)
+        try{
+            // For loop to call getPlacesFunction
+            for(let x = 0; x < recent.length; x++)
+            {
+                result['type_' + x] = 'Recent Addition';
+                result['activity_' + x] = recent[x].activity;
+                result['json_' + x] = await this.placesQuery(location[0], location[1], recent[x].searchTerm)
+            }
+            console.log('RESULT LIST AFTER RECENT: ', result)
 
-        for(let x = 2; x < (mostFreq.length + 2); x++)
-        { 
-            result['type_' + x] = 'Most Frequent';
-            result['activity_' + x] = mostFreq[x - 2].activity;
-            result['json_' + x] = await this.placesQuery(location[0], location[1], mostFreq[x - 2].searchTerm)                        
+            for(let x = 2; x < (mostFreq.length + 2); x++)
+            { 
+                result['type_' + x] = 'Most Frequent';
+                result['activity_' + x] = mostFreq[x - 2].activity;
+                result['json_' + x] = await this.placesQuery(location[0], location[1], mostFreq[x - 2].searchTerm)                        
+            }
+            console.log('RESULT LIST AFTER MOSTFREQ: ', result)
         }
-        console.log('RESULT LIST AFTER MOSTFREQ: ', result)
+        catch(error){
+            console.log('ERROR WITH GET REQUEST: ', error)
+        }
+        
 
         return result;
     } 
