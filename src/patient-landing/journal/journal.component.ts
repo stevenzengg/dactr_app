@@ -1,13 +1,8 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { getSentimentService } from "../../services/get-sentiment.service";
-import { getNounsVerbsService } from "../../services/get-nouns-verbs.service";
 import { getString, setString, } from "tns-core-modules/application-settings";
 
-import { RouterExtensions} from '@nativescript/angular/router';
-import{ getPlacesService } from "../../services/getPlacesAPI.service"
-import{ getLocationService } from "../../services/getLocation.service"
-import { ModalSuggestionComponent } from "../../modal/modalsuggestion.component";
-import { analytics } from 'nativescript-plugin-firebase';
+import { RouterExtensions } from '@nativescript/angular/router';
+
 const firebase = require("nativescript-plugin-firebase/app");
 
 firebase.initializeApp({});
@@ -17,7 +12,7 @@ const user = userCollection.doc(getString("email"));
 
 @Component({
     selector: 'journal',
-    providers: [getSentimentService, getNounsVerbsService, getPlacesService, getLocationService],
+    providers: [],
     templateUrl: 'journal.component.html',        
 })
 
@@ -25,27 +20,11 @@ const user = userCollection.doc(getString("email"));
 // We would import apis for Natural Language (Sentiment and Syntax) as well Places
 // We would need to access Firebase Fire DataStore as well
 export class JournalComponent implements OnInit {
-    public journal  = "";
-    private pos_sentences: string[]
-    private nouns: string[]
-    private verbs: string[]
-    private mapsInputs: {}
-    public mapsResult: any
-    public placeName;
 
+    public journal  = "";
     
     // private sentiment: getSentimentService, private syntax: getNounsVerbsService
-    constructor(private sentiment: getSentimentService, 
-                private syntax: getNounsVerbsService, 
-                private search: getPlacesService,
-                private loc: getLocationService,  
-                private viewContainerRef: ViewContainerRef,
-                private routerExtension: RouterExtensions){
-        this.pos_sentences = []
-        this.nouns = []
-        this.verbs = []
-        this.mapsInputs = []
-    }
+    constructor(private routerExtension: RouterExtensions){}
 
     ngOnInit() {}
 
@@ -62,16 +41,16 @@ export class JournalComponent implements OnInit {
       }
 
      
-    // Master function for all processes
-    submitJournal(){
-
-        console.log(this.journal);
+    // Submit journal and reroute to Feedback Component
+    submitJournal(){        
         
         //Comment code underneath to stop writing into database
         user.collection("journal_entry").add({
             journal: this.journal,
             timestamp: firebase.firestore().FieldValue().serverTimestamp()
         });
+
+        console.log('JOURNAL SUBMITTED: ', this.journal);
 
         console.log("Route to feedback page");
         //This navigates to feedback component after submitting journal

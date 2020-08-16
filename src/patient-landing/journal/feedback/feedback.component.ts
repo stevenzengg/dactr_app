@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild, ElementRef } from '@angular/core';
 import { getSentimentService } from "../../../services/get-sentiment.service";
 import { getNounsVerbsService } from "../../../services/get-nouns-verbs.service";
 import { getString, setString, } from "tns-core-modules/application-settings";
 
 import{ getPlacesService } from "../../../services/getPlacesAPI.service"
 import{ getLocationService } from "../../../services/getLocation.service"
-import { ModalSuggestionComponent } from "../../../modal/modalsuggestion.component";
-import { analytics } from 'nativescript-plugin-firebase';
+
+const mapsModule = require("nativescript-google-maps-sdk");
 const firebase = require("nativescript-plugin-firebase/app");
 
 //These two lines initialize Google Maps Map View
@@ -30,44 +30,91 @@ export class FeedbackComponent implements OnInit {
     public htmlString: string
     
     public journal  = "";
-    public mapsResult: any
-    public placeName;
+    public mapsResult: any;
+    public placeName = [];
 
-    private pos_sentences: string[]
-    private nouns: string[]
-    private verbs: string[]
-    private mapsInputs: {}    
-    
+    //Google Map Variable Initialization
+    public markerList =[];
+    public marker;
+    public userLat="40.798214";
+    public userLng=" -77.859909";
+    public zoom = 8;
+
+    //Activity List Initialization
+    public activityList=[];
+
+    private pos_sentences: string[];
+    private nouns: string[];
+    private verbs: string[];
+    private mapsInputs: {};
+
+    @ViewChild("MapView") mapView: ElementRef;
     
     constructor(private sentiment: getSentimentService, 
         private syntax: getNounsVerbsService, 
         private search: getPlacesService,
-        private loc: getLocationService) { 
+        private loc: getLocationService) {
 
-        this.htmlString = `<span>
-                            <h1>HtmlView demo in <font color="blue">NativeScript</font> App</h1>
-                        </span>`;
-                        
+            this.htmlString = `<span>
+                                <h1>HtmlView demo in <font color="blue">NativeScript</font> App</h1>
+                            </span>`;
+
+            this.pos_sentences = []
+            this.nouns = []
+            this.verbs = []      
+            this.mapsInputs = {}
         }
 
     ngOnInit() {
+        //this.feedback();
+    }
+
+    //Once Map Loads on HTML this function gets called
+    onMapReady = (event) => {
+        //This function needs to wait for the function to end before continuing
         this.feedback();
+
+        //Grabs the HTML's google map view
+        let mapView = event.object;
+        
+        //Loops through all the places and creates a marker for them
+        for(var i = 0; i < this.placeName.length; i++)
+        {
+            this.marker = mapsModule.Marker();
+            this.marker.position = mapsModule.Position.positionFromLatLng(this.placeName[i].geometry.location.lat, this.placeName[i].geometry.location.lng);
+            this.marker.title = this.placeName[i].name;
+
+            mapView.addMarker(this.marker);
+        }
+
+        //Loops through all the activities
+        //this.activityList.push(this.mapsResult.activity_0);
+        
+
+
+        console.log("Feedback Component: onMapReady: Marker Created");
+
     }
 
     // Master function for all processes
     feedback(){
 
         // Obtain most recent journal
-        user.journal_entries.orderBy('timestamp', 'desc').limit(1).get()
-        .then( journalSnapshot => {
+        let recentJournalQuery = user.collection('journal_entry').orderBy('timestamp', 'desc').limit(1);
 
-            this.journal = journalSnapshot.data().journal;
+        recentJournalQuery.get()
+        .then( journalSnapshots => {
+            
+            journalSnapshots.forEach(doc => {
+                this.journal = doc.data().journal;
+                console.log('DATTTAAAA: ', doc.data())
+            })
 
-            if (this.journal === undefined){
+            if (this.journal === undefined || this.journal === null){
                 console.log('JOURNAL IS UNDEFINED!!!! NOOOOOOOOO! ')
             }
 
-            console.log(this.journal);
+            console.log('JOURNAL: ', this.journal);
               
             // Start activity search
             this.activity().then(() => {
@@ -90,10 +137,25 @@ export class FeedbackComponent implements OnInit {
                     
                     this.mapsResult = result;
                     
-                    this.placeName = this.mapsResult.json_0.results[0].name;
+                    for(var i = 0; i < this.mapsResult.json_0.results.length; i++)
+                    {
+                        this.placeName.push(this.mapsResult.json_0.results[i]);
+                        //To access activities this.mapsResult.json_0.results[i].name
+                    }
+
+                    /*
                     console.log("Checking place name");
-                    console.log(this.placeName);
-                    
+                    console.log(this.placeName[0].name);
+
+                    this.marker = mapsModule.Marker();
+                    this.marker.position = mapsModule.Position.positionFromLatLng(this.placeName[0].geometry.location.lat, this.placeName[0].geometry.location.lng);
+                    this.marker.title = this.placeName[0].name;
+
+
+                    console.log("Feedback Component: feedback(): Marker created");
+                   // this.placeName[0].geometery.location.lat; --Latiude
+                   // this.placeName[0].geometery.location.lng; --Longitude
+                    */
                     
         
                 }).catch(error => console.log('PLACES METHOD ERROR: ', error));
@@ -149,7 +211,8 @@ export class FeedbackComponent implements OnInit {
             location = [40.798214, -77.859909] // Penn State
         }
         console.log('LOCATION: ', location)
-
+        this.userLat = location[0];
+        this.userLng = location[1];
         // For loop to call getPlacesFunction
         for(let x = 0; x < recent.length; x++)
         {
