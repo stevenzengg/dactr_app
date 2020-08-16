@@ -211,24 +211,29 @@ export class FeedbackComponent implements OnInit {
             location = [40.798214, -77.859909] // Penn State
         }
         console.log('LOCATION: ', location)
-        this.userLat = location[0];
-        this.userLng = location[1];
-        // For loop to call getPlacesFunction
-        for(let x = 0; x < recent.length; x++)
-        {
-            result['type_' + x] = 'Recent Addition';
-            result['activity_' + x] = recent[x].activity;
-            result['json_' + x] = await this.placesQuery(location[0], location[1], recent[x].searchTerm)
-        }
-        console.log('RESULT LIST AFTER RECENT: ', result)
 
-        for(let x = 2; x < (mostFreq.length + 2); x++)
-        { 
-            result['type_' + x] = 'Most Frequent';
-            result['activity_' + x] = mostFreq[x - 2].activity;
-            result['json_' + x] = await this.placesQuery(location[0], location[1], mostFreq[x - 2].searchTerm)                        
+        try{
+            // For loop to call getPlacesFunction
+            for(let x = 0; x < recent.length; x++)
+            {
+                result['type_' + x] = 'Recent Addition';
+                result['activity_' + x] = recent[x].activity;
+                result['json_' + x] = await this.placesQuery(location[0], location[1], recent[x].searchTerm)
+            }
+            console.log('RESULT LIST AFTER RECENT: ', result)
+
+            for(let x = 2; x < (mostFreq.length + 2); x++)
+            { 
+                result['type_' + x] = 'Most Frequent';
+                result['activity_' + x] = mostFreq[x - 2].activity;
+                result['json_' + x] = await this.placesQuery(location[0], location[1], mostFreq[x - 2].searchTerm)                        
+            }
+            console.log('RESULT LIST AFTER MOSTFREQ: ', result)
         }
-        console.log('RESULT LIST AFTER MOSTFREQ: ', result)
+        catch(error){
+            console.log('ERROR WITH GET REQUEST: ', error)
+        }
+        
 
         return result;
     } 
@@ -273,9 +278,12 @@ export class FeedbackComponent implements OnInit {
         this.setSyntaxResults(result)
     }
 
+    
     // Will query places request
     private async placesQuery(lat, long, searchTerm){
-        let result = await this.search.getPlacesFunct(lat, long, searchTerm).toPromise()
+        let result = await this.search.getPlacesFunct(lat, long, searchTerm)//.toPromise()
+        console.log('PLACE RETRIEVED')
+        console.log('PLACE RESULT: ', typeof result)        
         return result;
     }
 
