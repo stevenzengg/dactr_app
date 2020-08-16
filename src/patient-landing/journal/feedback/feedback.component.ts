@@ -1,12 +1,10 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { getSentimentService } from "../../services/get-sentiment.service";
-import { getNounsVerbsService } from "../../services/get-nouns-verbs.service";
+import { getSentimentService } from "../../../services/get-sentiment.service";
+import { getNounsVerbsService } from "../../../services/get-nouns-verbs.service";
 import { getString, setString, } from "tns-core-modules/application-settings";
 
-import{ getPlacesService } from "../../services/getPlacesAPI.service"
-import{ getLocationService } from "../../services/getLocation.service"
-import { ModalSuggestionComponent } from "../../modal/modalsuggestion.component";
-import { analytics } from 'nativescript-plugin-firebase';
+import{ getPlacesService } from "../../../services/getPlacesAPI.service"
+import{ getLocationService } from "../../../services/getLocation.service"
 const firebase = require("nativescript-plugin-firebase/app");
 
 //These two lines initialize Google Maps Map View
@@ -42,12 +40,16 @@ export class FeedbackComponent implements OnInit {
     constructor(private sentiment: getSentimentService, 
         private syntax: getNounsVerbsService, 
         private search: getPlacesService,
-        private loc: getLocationService) { 
+        private loc: getLocationService) {
 
-        this.htmlString = `<span>
-                            <h1>HtmlView demo in <font color="blue">NativeScript</font> App</h1>
-                        </span>`;
-                        
+            this.htmlString = `<span>
+                                <h1>HtmlView demo in <font color="blue">NativeScript</font> App</h1>
+                            </span>`;
+
+            this.pos_sentences = []
+            this.nouns = []
+            this.verbs = []      
+            this.mapsInputs = {}
         }
 
     ngOnInit() {
@@ -58,16 +60,21 @@ export class FeedbackComponent implements OnInit {
     feedback(){
 
         // Obtain most recent journal
-        user.journal_entries.orderBy('timestamp', 'desc').limit(1).get()
-        .then( journalSnapshot => {
+        let recentJournalQuery = user.collection('journal_entry').orderBy('timestamp', 'desc').limit(1);
 
-            this.journal = journalSnapshot.data().journal;
+        recentJournalQuery.get()
+        .then( journalSnapshots => {
+            
+            journalSnapshots.forEach(doc => {
+                this.journal = doc.data().journal;
+                console.log('DATTTAAAA: ', doc.data())
+            })
 
-            if (this.journal === undefined){
+            if (this.journal === undefined || this.journal === null){
                 console.log('JOURNAL IS UNDEFINED!!!! NOOOOOOOOO! ')
             }
 
-            console.log(this.journal);
+            console.log('JOURNAL: ', this.journal);
               
             // Start activity search
             this.activity().then(() => {
