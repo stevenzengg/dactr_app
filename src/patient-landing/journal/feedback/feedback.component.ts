@@ -146,7 +146,7 @@ export class FeedbackComponent implements OnInit {
         */
 
 
-
+    /*
     markerAdder(mapViewer)
     {
      //This function needs to wait for the function to end before continuing
@@ -188,6 +188,57 @@ export class FeedbackComponent implements OnInit {
             console.log('ERROR WITH MARKER ADDER: ', error)
         });
 
+        
+    }
+    */
+
+    
+    // Emergency alerter
+    emergencyAlert(){
+        // Turn journals into lowercase words
+        let words = this.journal.toLowerCase().split(' ');
+
+        // List of dangerous words
+        let extreme = ['suicide', 'depression', 'depressed', 'kill', 'killed', 'killing', 'die', 'died', 'death', 'strangle', 'strangling', 'strangled', 'hang', 
+        'hanging', 'hung', 'drown', 'drowning', 'drowned', 'suffer', 'suffering', 'suffered']
+        let drugs = ['drug', 'drugs', 'dui',  'vape', 'vaping', 'juul', 'juuling', 'marijuana', 'meth', 'nicotine', 'heroine', 'morphine', 'lsd', 'acid']
+
+        let extremeWords: string[]
+        let drugsWords: string[]
+
+        // See if journal contains a dangerous word
+        for(let word in words){
+            
+            const extremeWord = extreme.find(badWord => badWord == word)
+            const drugWord = drugs.find(badWord => badWord == word)
+
+            if(extremeWord){
+                extremeWords.push(extremeWord)
+            }
+            if(drugWord){
+                drugsWords.push(drugWord)
+            }            
+        }
+
+        // If journal has a dangerous word, let the user know
+        if(extremeWords){
+            // ngif something
+
+            console.log('We noticed you mentioned certain words like: ')
+            for(const element in extremeWords){
+                console.log(element)
+            }
+            console.log('If you need support, please refer to the Emergencies page.')            
+        }
+        if(drugsWords){
+            // ngif something
+
+            console.log('We noticed you mentioned certain words like: ')
+            for(const element in extremeWords){
+                console.log(element)
+            }
+            console.log('Please refrain from taking drugs to or other harmful substances as a coping mechanism. If you need support, please refer to the Emergencies page.')            
+        }        
         
     }
 
