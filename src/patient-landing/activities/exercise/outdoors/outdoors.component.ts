@@ -10,12 +10,12 @@ import {registerElement} from "@nativescript/angular/element-registry";
 registerElement("MapView", () => require("nativescript-google-maps-sdk").MapView);
 
 @Component({
-    selector: 'other-component',
+    selector: 'outdoors-component',
     providers: [getPlacesService, getLocationService],
-    templateUrl: 'other.component.html'
+    templateUrl: 'outdoors.component.html'
 })
 
-export class OtherComponent implements OnInit {
+export class OutdoorsComponent implements OnInit {
     public placeName = []
     public valid : boolean
     constructor(
