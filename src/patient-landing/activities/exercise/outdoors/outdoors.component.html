@@ -23,8 +23,8 @@
             <StackLayout>
           <Label text = "Running" fontSize = "25" fontAttributes= "Bold">
             <Button text = "Find me gyms" (tap) = "getSearch('gyms')"></Button>
-            <Button text = "Find running paths near me"></Button>
-            <Button text = "Read more about running benefits"></Button>
+            <Button text = "Find running paths near me" (tap) = "getSearch('running paths')"></Button>
+            <Button text = "Read more about running benefits" ></Button>
         </StackLayout>
         <Image src="~/outdoors/runicon.png" class="fas t-36"></Image>
 
@@ -33,9 +33,9 @@
             <StackLayout orientaion = "horizontal">
                 <StackLayout> 
         <Label text = "Hiking" fontSize = "25" fontAttributes= "Bold">
-            <Button text = "Find me gyms"></Button>
-            <Button text = "Find hiking paths near me"></Button> 
-            <Button text = "Read more about hiking benefits"></Button>
+            <Button text = "Find me gyms" (tap) = "getSearch('gyms')"></Button>
+            <Button text = "Find hiking paths near me" (tap) = "getSearch('hiking')"></Button> 
+            <Button text = "Read more about hiking benefits" ></Button>
         </StackLayout>
         <Image src="~/outdoors/hikelogo.png" class="fas t-36"></Image>
 
@@ -46,8 +46,8 @@
             <StackLayout orientaion = "horizontal">
                 <StackLayout>  
         <Label text = "Swimming" fontSize = "25" fontAttributes= "Bold">
-            <Button text = "Find me nearby pools"></Button>
-            <Button text = "Find swim stores near me"></Button> 
+            <Button text = "Find me nearby pools"(tap) = "getSearch('pools')"></Button>
+            <Button text = "Find swim stores near me" (tap) = "getSearch('swim gear')"></Button> 
             <Button text = "Read more about swimming benefits"></Button>
         </StackLayout>
         <Image src="~/outdoors/swimlogo.png" class="fas t-36"></Image>
