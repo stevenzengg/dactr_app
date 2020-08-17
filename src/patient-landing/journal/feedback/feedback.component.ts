@@ -35,7 +35,7 @@ export class FeedbackComponent implements OnInit {
 
     //Google Map Variable Initialization
     public markerList =[];
-    public marker;
+    //public marker;
     public userLat="40.798214";
     public userLng=" -77.859909";
     public zoom = 8;
@@ -71,40 +71,61 @@ export class FeedbackComponent implements OnInit {
 
     //Once Map Loads on HTML this function gets called
     onMapReady = (event) => {
-        //This function needs to wait for the function to end before continuing
-        this.feedback();
+        this.markerAdder(event.object);
+    }
 
-        //Grabs the HTML's google map view
-        let mapView = event.object;
-        
+
+    markerAdder(mapViewer)
+    {
+     //This function needs to wait for the function to end before continuing
+     this.feedback().then(() => {
+        for(var i = 0; i < this.mapsResult.json_0.results.length; i++)
+        {
+            this.placeName.push(this.mapsResult.json_0.results[i]);
+            //To access activities this.mapsResult.json_0.results[i].name
+        }
+
         //Loops through all the places and creates a marker for them
         for(var i = 0; i < this.placeName.length; i++)
         {
-            this.marker = mapsModule.Marker();
-            this.marker.position = mapsModule.Position.positionFromLatLng(this.placeName[i].geometry.location.lat, this.placeName[i].geometry.location.lng);
-            this.marker.title = this.placeName[i].name;
+            var marker = mapsModule.Marker();
+            console.log("Latitude of Place " , typeof this.placeName[i].geometry.location.lat);
+            console.log("Longitude of Place " + this.placeName[i].geometry.location.lng);
+            marker.position.positionFromLatLng(-33.86, 151.20);
+            //marker.position = {lat: this.placeName[i].geometry.location.lat, lng: this.placeName[i].geometry.location.lng};
+            // mapsModule.Position.positionFromLatLng();
+            console.log('Type of marker.position: ', typeof marker.position);
+            console.log('marker.position: ', marker.position);
 
-            mapView.addMarker(this.marker);
+            marker.title = this.placeName[i].name;
+            marker.userData = {index: 1};
+
+            console.log('Marker: ', marker);
+
+            mapViewer.addMarker(marker);
         }
+
+        console.log("Feedback Component: markerAdder(): Markers are all added");
 
         //Loops through all the activities
         //this.activityList.push(this.mapsResult.activity_0);
+
+        })
+        .catch(error => {
+            console.log('ERROR WITH MARKER ADDER: ', error)
+        });
+
         
-
-
-        console.log("Feedback Component: onMapReady: Marker Created");
-
     }
 
     // Master function for all processes
-    feedback(){
+    async feedback(){
+        try{
+            // Obtain most recent journal
+            let recentJournalQuery = user.collection('journal_entry').orderBy('timestamp', 'desc').limit(1);
 
-        // Obtain most recent journal
-        let recentJournalQuery = user.collection('journal_entry').orderBy('timestamp', 'desc').limit(1);
-
-        recentJournalQuery.get()
-        .then( journalSnapshots => {
-            
+            let journalSnapshots = await recentJournalQuery.get()
+                
             journalSnapshots.forEach(doc => {
                 this.journal = doc.data().journal;
                 console.log('DATTTAAAA: ', doc.data())
@@ -115,62 +136,41 @@ export class FeedbackComponent implements OnInit {
             }
 
             console.log('JOURNAL: ', this.journal);
-              
-            // Start activity search
-            this.activity().then(() => {
-                console.log("LETS GOOOOOOOOOOOOO")
-                
-                // Clear these class variables
-                this.pos_sentences = []
-                this.nouns = []
-                this.verbs = []
-                if(!this.mapsResult === undefined){
-                    this.mapsResult = undefined;
-                }
 
-
-                this.getPlaces().then(result => {
-                    console.log("LETS GOOOOOOOOO")
-
-                    //Clear class variable
-                    this.mapsInputs = []
-                    
-                    this.mapsResult = result;
-                    
-                    for(var i = 0; i < this.mapsResult.json_0.results.length; i++)
-                    {
-                        this.placeName.push(this.mapsResult.json_0.results[i]);
-                        //To access activities this.mapsResult.json_0.results[i].name
-                    }
-
-                    /*
-                    console.log("Checking place name");
-                    console.log(this.placeName[0].name);
-
-                    this.marker = mapsModule.Marker();
-                    this.marker.position = mapsModule.Position.positionFromLatLng(this.placeName[0].geometry.location.lat, this.placeName[0].geometry.location.lng);
-                    this.marker.title = this.placeName[0].name;
-
-
-                    console.log("Feedback Component: feedback(): Marker created");
-                   // this.placeName[0].geometery.location.lat; --Latiude
-                   // this.placeName[0].geometery.location.lng; --Longitude
-                    */
-                    
+        } catch(error) {
+            console.log('ERROR WITH FEEDBACK() -> OBTAINING RECENT JOURNAL: ', error)
+        }
         
-                }).catch(error => console.log('PLACES METHOD ERROR: ', error));
+        try{
+            // Await activity search
+            await this.activity();
             
-            }).catch(error => {
-                console.log('ACTIVITY METHOD ERROR: ', error)
-            });
+            console.log("FeedbackComponent: feedback(): this.activity returned")        
             
-        }).catch(error => {
-            console.log('SOMETHING WENT WRONG COLLECTING MOST RECENT JOURNAL: ', error)
-        })
+            // Clear these class variables
+            this.pos_sentences = []
+            this.nouns = []
+            this.verbs = []
 
-        
+        } catch(error) {
+            console.log('ERROR WITH FEEDBACK() -> ACTIVITY SEARCH: ', error)
+        }
 
-         
+        try{
+            // Await getPlaces function
+            let result = await this.getPlaces()
+            console.log("FeedbackComponent: feedback(): this.getPlaces returned");
+
+            //Clear class variable
+            this.mapsInputs = []
+
+            this.mapsResult = result;
+
+            return Promise.resolve();
+
+        } catch(error) {
+            console.log('ERROR WITH FEEDBACK() -> GETTING PLACES: ', error)
+        }                  
     }
 
     // Will query Places http request
