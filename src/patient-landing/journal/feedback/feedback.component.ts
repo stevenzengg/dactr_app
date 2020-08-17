@@ -44,6 +44,7 @@ export class FeedbackComponent implements OnInit {
 
     //Activity List Initialization
     public activityList=[];
+    public activityLoaded = false;
 
     private pos_sentences: string[];
     private nouns: string[];
@@ -129,7 +130,13 @@ export class FeedbackComponent implements OnInit {
             console.log("Feedback Component: markerAdder(): Markers are all added");
     
             //Loops through all the activities
-            //this.activityList.push(this.mapsResult.activity_0);
+            console.log("Activity 1", this.mapsResult.activity_0);
+            this.activityList.push(this.mapsResult.activity_0);
+            this.activityList.push(this.mapsResult.activity_1);
+            this.activityList.push(this.mapsResult.activity_2);
+            this.activityList.push(this.mapsResult.activity_3);
+            
+            this.activityLoaded = true;
     
             })
             .catch(error => {
