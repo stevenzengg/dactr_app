@@ -6,7 +6,8 @@ import { getString, setString, } from "tns-core-modules/application-settings";
 import{ getPlacesService } from "../../../services/getPlacesAPI.service"
 import{ getLocationService } from "../../../services/getLocation.service"
 
-import {Position, Marker, MapView} from "nativescript-google-maps-sdk";
+import { Position, Marker, MapView } from "nativescript-google-maps-sdk";
+import{ ImageSource, fromFile } from "tns-core-modules/image-source"
 
 const mapsModule = require("nativescript-google-maps-sdk");
 const firebase = require("nativescript-plugin-firebase/app");
@@ -30,10 +31,9 @@ const user = userCollection.doc(getString("email"));
 export class FeedbackComponent implements OnInit {
     
     public htmlString: string
-    
+    public icons: any[]
     public journal  = "";
     public mapsResult: any;
-    public placeName = [];
 
     //Google Map Variable Initialization
     public markerList =[];
@@ -96,54 +96,63 @@ export class FeedbackComponent implements OnInit {
             marker.title = "Sydney";
             marker.snippet = "Australia";
             marker.userData = { index : 1};
+            marker.icon = //some image
             this.mapView.addMarker(marker);
             */
 
-           this.feedback().then(() => {
-            for(var i = 0; i < this.mapsResult.json_0.results.length; i++)
-            {
-                this.placeName.push(this.mapsResult.json_0.results[i]);
-                //To access activities this.mapsResult.json_0.results[i].name
-            }
-    
-            //Loops through all the places and creates a marker for them
-            for(var i = 0; i < this.placeName.length; i++)
-            {
-                var marker = new Marker();
-                console.log("Latitude of Place " , typeof this.placeName[i].geometry.location.lat);
-                console.log("Longitude of Place " + this.placeName[i].geometry.location.lng);
-                marker.position = Position.positionFromLatLng(this.placeName[i].geometry.location.lat, this.placeName[i].geometry.location.lng);
-                //marker.position = {lat: this.placeName[i].geometry.location.lat, lng: this.placeName[i].geometry.location.lng};
-                // mapsModule.Position.positionFromLatLng();
-                console.log('Type of marker.position: ', typeof marker.position);
-                console.log('marker.position: ', marker.position);
-                console.log("MapsModule Position: ", mapsModule.Position.positionFromLatLng(-33.86, 151.20));
-    
-                marker.title = this.placeName[i].name;
-                marker.userData = {index: 1};
-    
-                console.log('Marker: ', marker);
-    
-                this.mapView.addMarker(marker);
-            }
-    
-            console.log("Feedback Component: markerAdder(): Markers are all added");
-    
-            //Loops through all the activities
-            console.log("Activity 1", this.mapsResult.activity_0);
-            this.activityList.push(this.mapsResult.activity_0);
-            this.activityList.push(this.mapsResult.activity_1);
-            this.activityList.push(this.mapsResult.activity_2);
-            this.activityList.push(this.mapsResult.activity_3);
+            // Go through each recommended activity and provide its places markers
+            let iconCounter = 0;
+
+            this.feedback().then(() => {
+
+                this.mapsResult.forEach(activity =>{
+                    let places = []        
+                    for(var i = 0; i < activity.json.results.length; i++)
+                    {
+                        places.push(activity.json.results[i]);
+                        //To access activities this.mapsResult.json_0.results[i].name
+                    }
             
-            this.activityLoaded = true;
-    
+                    //Loops through all the places and creates a marker for them
+                    for(var i = 0; i < places.length; i++)
+                    {
+                        var marker = new Marker();
+                        //console.log("Latitude of Place " , typeof places[i].geometry.location.lat);
+                        //console.log("Longitude of Place " + places[i].geometry.location.lng);
+                        marker.position = Position.positionFromLatLng(places[i].geometry.location.lat, places[i].geometry.location.lng);
+                        //marker.position = {lat: this.placeName[i].geometry.location.lat, lng: this.placeName[i].geometry.location.lng};
+                        // mapsModule.Position.positionFromLatLng();
+                        //console.log('Type of marker.position: ', typeof marker.position);
+                        //console.log('marker.position: ', marker.position);
+                        //console.log("MapsModule Position: ", mapsModule.Position.positionFromLatLng(-33.86, 151.20));
+                        marker.icon = this.icons[iconCounter];
+                        marker.title = places[i].name;
+                        marker.snippet = activity.activity
+                        marker.userData = {index: 1};
+            
+                        //console.log('Marker: ', marker);
+            
+                        this.mapView.addMarker(marker);
+                    }
+
+                    iconCounter++;
+            
+                    console.log("Feedback Component: markerAdder(): Markers are all added");
+            
+                    //Loops through all the activities
+                    
+                    console.log("ACTIVITY: ", activity.activity)
+                    this.activityList.push(activity.activity)                  
+                    
+                });
+
+                this.activityLoaded = true;
+            
             })
             .catch(error => {
                 console.log('ERROR WITH MARKER ADDER: ', error)
             });
-    
-            
+
         }
 
         /*
@@ -271,9 +280,30 @@ export class FeedbackComponent implements OnInit {
         } catch(error) {
             console.log('ERROR WITH FEEDBACK() -> OBTAINING RECENT JOURNAL: ', error)
         }
+
         
         try{
-            // Await activity search
+            // Find and collect marker images
+            // Preset 4, add more if more activity results               
+            let icon1 = await ImageSource.fromResourceSync("maps_icons/red-dot.png")
+            let icon2 = await ImageSource.fromResourceSync("maps_icons/blue-dot.png")
+            let icon3 = await ImageSource.fromResourceSync("maps_icons/green-dot.png")
+            let icon4 = await ImageSource.fromResourceSync("maps_icons/orange-dot.png")
+            this.icons.push(icon1)
+            this.icons.push(icon2)
+            this.icons.push(icon3)
+            this.icons.push(icon4)
+
+            console.log('ICONS: ', this.icons)            
+
+        } catch(error) {
+            console.log('ERROR WITH LOADING MARKER ICONS: ', error);
+            throw Error('ERROR WITH LOADING MARKER ICONS');
+        }
+        
+        
+        try{
+            // Await activity search with user journal
             await this.activity();
             
             console.log("FeedbackComponent: feedback(): this.activity returned")        
@@ -288,7 +318,7 @@ export class FeedbackComponent implements OnInit {
         }
 
         try{
-            // Await getPlaces function
+            // Await getPlaces function with 2 most recent and 2 most frequent activities
             let result = await this.getPlaces()
             console.log("FeedbackComponent: feedback(): this.getPlaces returned");
 
@@ -297,11 +327,14 @@ export class FeedbackComponent implements OnInit {
 
             this.mapsResult = result;
 
-            return Promise.resolve();
+            console.log('LENGTH OF mapsResult: ', this.mapsResult.length)
+
+            return Promise.resolve();                      
 
         } catch(error) {
             console.log('ERROR WITH FEEDBACK() -> GETTING PLACES: ', error)
-        }                  
+        }
+
     }
 
     // Will query Places http request
@@ -309,7 +342,7 @@ export class FeedbackComponent implements OnInit {
         const actFeedCollection = user.collection("activity_feedback");
         let recent = []
         let mostFreq = []
-        let result = {}
+        let result = [{}, {}, {}, {}]  // Add another json for more results
 
         // Query to find two most recent activites
         const query = actFeedCollection.orderBy("timestamp", "desc").limit(2);
@@ -350,17 +383,17 @@ export class FeedbackComponent implements OnInit {
             // For loop to call getPlacesFunction
             for(let x = 0; x < recent.length; x++)
             {
-                result['type_' + x] = 'Recent Addition';
-                result['activity_' + x] = recent[x].activity;
-                result['json_' + x] = await this.placesQuery(location[0], location[1], recent[x].searchTerm)
+                result[x]['type'] = 'Recent Addition';
+                result[x]['activity'] = recent[x].activity;
+                result[x]['json'] = await this.placesQuery(location[0], location[1], recent[x].searchTerm)
             }
             console.log('RESULT LIST AFTER RECENT: ', result)
 
             for(let x = 2; x < (mostFreq.length + 2); x++)
             { 
-                result['type_' + x] = 'Most Frequent';
-                result['activity_' + x] = mostFreq[x - 2].activity;
-                result['json_' + x] = await this.placesQuery(location[0], location[1], mostFreq[x - 2].searchTerm)                        
+                result[x]['type'] = 'Most Frequent';
+                result[x]['activity'] = mostFreq[x - 2].activity;
+                result[x]['json'] = await this.placesQuery(location[0], location[1], mostFreq[x - 2].searchTerm)                        
             }
             console.log('RESULT LIST AFTER MOSTFREQ: ', result)
         }
