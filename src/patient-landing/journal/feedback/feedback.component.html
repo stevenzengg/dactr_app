@@ -2,15 +2,16 @@
 <StackLayout>
     <Label text = "Activity Locator:"></Label>
 
-    <GridLayout>
+    <GridLayout height = "200">
         <MapView
             [latitude]="userLat"
             [longitude]="userLng"
+            [zoom]="zoom"
             (mapReady)="onMapReady($event)"
         ></MapView>
     </GridLayout>
     
-    <!--
+    
     <Label text = "Activity List"></Label>
 
     <StackLayout>
@@ -21,5 +22,5 @@
                 </GridLayout>
             </ng-template>
         </ListView>
-    </StackLayout> -->
+    </StackLayout> 
 </StackLayout>

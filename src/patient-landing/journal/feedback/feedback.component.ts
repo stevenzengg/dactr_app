@@ -6,6 +6,8 @@ import { getString, setString, } from "tns-core-modules/application-settings";
 import{ getPlacesService } from "../../../services/getPlacesAPI.service"
 import{ getLocationService } from "../../../services/getLocation.service"
 
+import {Position, Marker, MapView} from "nativescript-google-maps-sdk";
+
 const mapsModule = require("nativescript-google-maps-sdk");
 const firebase = require("nativescript-plugin-firebase/app");
 
@@ -48,7 +50,7 @@ export class FeedbackComponent implements OnInit {
     private verbs: string[];
     private mapsInputs: {};
 
-    @ViewChild("MapView") mapView: ElementRef;
+    //@ViewChild("MapView") mapView: ElementRef;
     
     constructor(private sentiment: getSentimentService, 
         private syntax: getNounsVerbsService, 
@@ -69,10 +71,80 @@ export class FeedbackComponent implements OnInit {
         //this.feedback();
     }
 
-    //Once Map Loads on HTML this function gets called
+   /* //Once Map Loads on HTML this function gets called
     onMapReady = (event) => {
+        console.log("Event: ", event);
+        console.log("Event obj: ", event.object);
         this.markerAdder(event.object);
     }
+*/
+    
+
+        private mapView: MapView;
+
+        private onMapReady(args): void {
+            this.mapView = args.object;
+
+            this.addMarker();
+        }
+
+        private addMarker(): void {
+           /* console.log("Setting a marker...");
+            var marker = new Marker();
+            marker.position = Position.positionFromLatLng(-33.86, 151.20);
+            marker.title = "Sydney";
+            marker.snippet = "Australia";
+            marker.userData = { index : 1};
+            this.mapView.addMarker(marker);
+            */
+
+           this.feedback().then(() => {
+            for(var i = 0; i < this.mapsResult.json_0.results.length; i++)
+            {
+                this.placeName.push(this.mapsResult.json_0.results[i]);
+                //To access activities this.mapsResult.json_0.results[i].name
+            }
+    
+            //Loops through all the places and creates a marker for them
+            for(var i = 0; i < this.placeName.length; i++)
+            {
+                var marker = new Marker();
+                console.log("Latitude of Place " , typeof this.placeName[i].geometry.location.lat);
+                console.log("Longitude of Place " + this.placeName[i].geometry.location.lng);
+                marker.position = Position.positionFromLatLng(this.placeName[i].geometry.location.lat, this.placeName[i].geometry.location.lng);
+                //marker.position = {lat: this.placeName[i].geometry.location.lat, lng: this.placeName[i].geometry.location.lng};
+                // mapsModule.Position.positionFromLatLng();
+                console.log('Type of marker.position: ', typeof marker.position);
+                console.log('marker.position: ', marker.position);
+                console.log("MapsModule Position: ", mapsModule.Position.positionFromLatLng(-33.86, 151.20));
+    
+                marker.title = this.placeName[i].name;
+                marker.userData = {index: 1};
+    
+                console.log('Marker: ', marker);
+    
+                this.mapView.addMarker(marker);
+            }
+    
+            console.log("Feedback Component: markerAdder(): Markers are all added");
+    
+            //Loops through all the activities
+            //this.activityList.push(this.mapsResult.activity_0);
+    
+            })
+            .catch(error => {
+                console.log('ERROR WITH MARKER ADDER: ', error)
+            });
+    
+            
+        }
+
+        /*
+            <GridLayout>
+                <MapView (mapReady)="onMapReady($event)"></MapView>
+            </GridLayout>
+        */
+
 
 
     markerAdder(mapViewer)
@@ -88,21 +160,22 @@ export class FeedbackComponent implements OnInit {
         //Loops through all the places and creates a marker for them
         for(var i = 0; i < this.placeName.length; i++)
         {
-            var marker = mapsModule.Marker();
+            var marker = new Marker();
             console.log("Latitude of Place " , typeof this.placeName[i].geometry.location.lat);
             console.log("Longitude of Place " + this.placeName[i].geometry.location.lng);
-            marker.position.positionFromLatLng(-33.86, 151.20);
+            marker.position = Position.positionFromLatLng(-33.86, 151.20);
             //marker.position = {lat: this.placeName[i].geometry.location.lat, lng: this.placeName[i].geometry.location.lng};
             // mapsModule.Position.positionFromLatLng();
             console.log('Type of marker.position: ', typeof marker.position);
             console.log('marker.position: ', marker.position);
+            console.log("MapsModule Position: ", mapsModule.Position.positionFromLatLng(-33.86, 151.20));
 
             marker.title = this.placeName[i].name;
             marker.userData = {index: 1};
 
             console.log('Marker: ', marker);
 
-            mapViewer.addMarker(marker);
+            this.mapView.addMarker(marker);
         }
 
         console.log("Feedback Component: markerAdder(): Markers are all added");
@@ -210,7 +283,10 @@ export class FeedbackComponent implements OnInit {
             console.log("THERE WAS AN ERROR WITH LOCATION SERVICE: ", error)
             location = [40.798214, -77.859909] // Penn State
         }
-        console.log('LOCATION: ', location)
+        console.log('LOCATION: ', location);
+        //Updates the latitude and longitude values in the map view for HTML
+        this.userLat = location[0];
+        this.userLng = location[1];
 
         try{
             // For loop to call getPlacesFunction
