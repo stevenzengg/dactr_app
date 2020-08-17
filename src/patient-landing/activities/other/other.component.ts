@@ -4,7 +4,7 @@ import{ getLocationService } from "../../../services/getLocation.service"
 
 @Component({
     selector: 'other-component',
-    providers: [getPlacesService, getLocationService]
+    providers: [getPlacesService, getLocationService],
     templateUrl: 'other.component.html'
 })
 
