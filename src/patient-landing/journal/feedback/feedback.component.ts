@@ -7,7 +7,9 @@ import{ getPlacesService } from "../../../services/getPlacesAPI.service"
 import{ getLocationService } from "../../../services/getLocation.service"
 
 import { Position, Marker, MapView } from "nativescript-google-maps-sdk";
-import{ ImageSource, fromFile } from "tns-core-modules/image-source"
+
+import {Image} from "tns-core-modules/ui/image";
+import{ ImageSource, fromFile } from "tns-core-modules/image-source";
 
 const mapsModule = require("nativescript-google-maps-sdk");
 const firebase = require("nativescript-plugin-firebase/app");
@@ -40,7 +42,8 @@ export class FeedbackComponent implements OnInit {
     //public marker;
     public userLat="40.798214";
     public userLng=" -77.859909";
-    public zoom = 8;
+    public zoom = 10;
+    public colorList = ["red", "blue", "green", "orange"];
 
     //Activity List Initialization
     public activityList=[];
@@ -112,6 +115,41 @@ export class FeedbackComponent implements OnInit {
                         places.push(activity.json.results[i]);
                         //To access activities this.mapsResult.json_0.results[i].name
                     }
+
+                    /*try{
+                        // Find and collect marker images
+                        // Preset 4, add more if more activity results               
+                        let icon1 = ImageSource.fromFileSync("~/patient-landing/journal/feedback/maps_icons/red-dot.png");
+                        let icon2 = ImageSource.fromFileSync("~/patient-landing/journal/feedback/maps_icons/blue-dot.png");
+                        let icon3 = ImageSource.fromFileSync("~/patient-landing/journal/feedback/maps_icons/green-dot.png");
+                        let icon4 = ImageSource.fromFileSync("~/patient-landing/journal/feedback/maps_icons/orange-dot.png");
+
+                        let icon1 = ImageSource.fromResourceSync("red-dot");
+                        let icon2 = ImageSource.fromResourceSync("blue-dot");
+                        let icon3 = ImageSource.fromResourceSync("green-dot");
+                        let icon4 = ImageSource.fromResourceSync("orange-dot");
+
+                        let image1 = new Image();
+                        let image2 = new Image();
+                        let image3 = new Image();
+                        let image4 = new Image();
+
+                        image1.imageSource = icon1;
+                        image2.imageSource = icon2;
+                        image3.imageSource = icon3;
+                        image4.imageSource = icon4;
+
+                        this.icons.push(image1)
+                        this.icons.push(image2)
+                        this.icons.push(image3)
+                        this.icons.push(image4)
+            
+                        console.log('ICONS: ', this.icons)            
+            
+                    } catch(error) {
+                        console.log('ERROR WITH LOADING MARKER ICONS: ', error);
+                        throw Error('ERROR WITH LOADING MARKER ICONS');
+                    }*/
             
                     //Loops through all the places and creates a marker for them
                     for(var i = 0; i < places.length; i++)
@@ -125,12 +163,19 @@ export class FeedbackComponent implements OnInit {
                         //console.log('Type of marker.position: ', typeof marker.position);
                         //console.log('marker.position: ', marker.position);
                         //console.log("MapsModule Position: ", mapsModule.Position.positionFromLatLng(-33.86, 151.20));
-                        marker.icon = this.icons[iconCounter];
+                        let icon2 = ImageSource.fromResourceSync("blue-dot");
+                        let image1 = new Image();
+                        image1.imageSource = icon2;
+
+                        console.log("Image: ", image1);
+
+                        marker.color = this.colorList[iconCounter];
                         marker.title = places[i].name;
                         marker.snippet = activity.activity
                         marker.userData = {index: 1};
+
             
-                        //console.log('Marker: ', marker);
+                        console.log('Marker Title: ', marker.title);
             
                         this.mapView.addMarker(marker);
                     }
@@ -281,25 +326,6 @@ export class FeedbackComponent implements OnInit {
             console.log('ERROR WITH FEEDBACK() -> OBTAINING RECENT JOURNAL: ', error)
         }
 
-        
-        try{
-            // Find and collect marker images
-            // Preset 4, add more if more activity results               
-            let icon1 = await ImageSource.fromResourceSync("maps_icons/red-dot.png")
-            let icon2 = await ImageSource.fromResourceSync("maps_icons/blue-dot.png")
-            let icon3 = await ImageSource.fromResourceSync("maps_icons/green-dot.png")
-            let icon4 = await ImageSource.fromResourceSync("maps_icons/orange-dot.png")
-            this.icons.push(icon1)
-            this.icons.push(icon2)
-            this.icons.push(icon3)
-            this.icons.push(icon4)
-
-            console.log('ICONS: ', this.icons)            
-
-        } catch(error) {
-            console.log('ERROR WITH LOADING MARKER ICONS: ', error);
-            throw Error('ERROR WITH LOADING MARKER ICONS');
-        }
         
         
         try{

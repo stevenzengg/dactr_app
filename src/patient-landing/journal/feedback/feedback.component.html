@@ -2,6 +2,8 @@
 <StackLayout>
     <Label text = "Activity Locator:"></Label>
 
+  <!--  <Image src="~/patient-landing/journal/feedback/maps_icons/blue-dot.png"></Image> -->
+
     <GridLayout height = "200">
         <MapView
             [latitude]="userLat"
@@ -15,10 +17,11 @@
     <Label text = "Activity List"></Label>
 
     <StackLayout [visibility]="activityLoaded ? 'visible' : 'collapsed'">
-        <ListView [items]="activityList">
+        <ListView [items]="activityList" height="200">
             <ng-template let-item = "item" let-i ="index">
-                <GridLayout>
-                    <Label  *ngIf = "activityLoaded" [text] = "item"></Label>
+                <GridLayout columns = "auto, 5, auto">
+                    <Label col = "0" [text] = "item"></Label>
+                    <Label col = "2" backgroundColor = "red"></Label>
                 </GridLayout>
             </ng-template>
         </ListView>
