@@ -1,17 +1,15 @@
-import { Component, OnInit, ViewContainerRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
 import { getSentimentService } from "../../../services/get-sentiment.service";
 import { getNounsVerbsService } from "../../../services/get-nouns-verbs.service";
-import { getString, setString, } from "tns-core-modules/application-settings";
-
 import{ getPlacesService } from "../../../services/getPlacesAPI.service"
 import{ getLocationService } from "../../../services/getLocation.service"
 
+import { getString } from "tns-core-modules/application-settings";
+import {SetupItemViewArgs} from "@nativescript/angular/directives/templated-items-comp";
+
 import { Position, Marker, MapView } from "nativescript-google-maps-sdk";
 
-import {Image} from "tns-core-modules/ui/image";
-import{ ImageSource, fromFile } from "tns-core-modules/image-source";
-
-const mapsModule = require("nativescript-google-maps-sdk");
 const firebase = require("nativescript-plugin-firebase/app");
 
 //These two lines initialize Google Maps Map View
@@ -71,188 +69,84 @@ export class FeedbackComponent implements OnInit {
             this.mapsInputs = {}
         }
 
-    ngOnInit() {
-        //this.feedback();
-    }
-
-   /* //Once Map Loads on HTML this function gets called
-    onMapReady = (event) => {
-        console.log("Event: ", event);
-        console.log("Event obj: ", event.object);
-        this.markerAdder(event.object);
-    }
-*/
+    ngOnInit() {}    
     
+    // Maps and marker functions
+    private mapView: MapView;
 
-        private mapView: MapView;
+    private onMapReady(args): void {
+        this.mapView = args.object;
 
-        private onMapReady(args): void {
-            this.mapView = args.object;
+        this.addMarker();
+    }
 
-            this.addMarker();
-        }
-
-        private addMarker(): void {
-           /* console.log("Setting a marker...");
-            var marker = new Marker();
-            marker.position = Position.positionFromLatLng(-33.86, 151.20);
-            marker.title = "Sydney";
-            marker.snippet = "Australia";
-            marker.userData = { index : 1};
-            marker.icon = //some image
-            this.mapView.addMarker(marker);
-            */
-
-            // Go through each recommended activity and provide its places markers
-            let iconCounter = 0;
-
-            this.feedback().then(() => {
-
-                this.mapsResult.forEach(activity =>{
-                    let places = []        
-                    for(var i = 0; i < activity.json.results.length; i++)
-                    {
-                        places.push(activity.json.results[i]);
-                        //To access activities this.mapsResult.json_0.results[i].name
-                    }
-
-                    /*try{
-                        // Find and collect marker images
-                        // Preset 4, add more if more activity results               
-                        let icon1 = ImageSource.fromFileSync("~/patient-landing/journal/feedback/maps_icons/red-dot.png");
-                        let icon2 = ImageSource.fromFileSync("~/patient-landing/journal/feedback/maps_icons/blue-dot.png");
-                        let icon3 = ImageSource.fromFileSync("~/patient-landing/journal/feedback/maps_icons/green-dot.png");
-                        let icon4 = ImageSource.fromFileSync("~/patient-landing/journal/feedback/maps_icons/orange-dot.png");
-
-                        let icon1 = ImageSource.fromResourceSync("red-dot");
-                        let icon2 = ImageSource.fromResourceSync("blue-dot");
-                        let icon3 = ImageSource.fromResourceSync("green-dot");
-                        let icon4 = ImageSource.fromResourceSync("orange-dot");
-
-                        let image1 = new Image();
-                        let image2 = new Image();
-                        let image3 = new Image();
-                        let image4 = new Image();
-
-                        image1.imageSource = icon1;
-                        image2.imageSource = icon2;
-                        image3.imageSource = icon3;
-                        image4.imageSource = icon4;
-
-                        this.icons.push(image1)
-                        this.icons.push(image2)
-                        this.icons.push(image3)
-                        this.icons.push(image4)
-            
-                        console.log('ICONS: ', this.icons)            
-            
-                    } catch(error) {
-                        console.log('ERROR WITH LOADING MARKER ICONS: ', error);
-                        throw Error('ERROR WITH LOADING MARKER ICONS');
-                    }*/
-            
-                    //Loops through all the places and creates a marker for them
-                    for(var i = 0; i < places.length; i++)
-                    {
-                        var marker = new Marker();
-                        //console.log("Latitude of Place " , typeof places[i].geometry.location.lat);
-                        //console.log("Longitude of Place " + places[i].geometry.location.lng);
-                        marker.position = Position.positionFromLatLng(places[i].geometry.location.lat, places[i].geometry.location.lng);
-                        //marker.position = {lat: this.placeName[i].geometry.location.lat, lng: this.placeName[i].geometry.location.lng};
-                        // mapsModule.Position.positionFromLatLng();
-                        //console.log('Type of marker.position: ', typeof marker.position);
-                        //console.log('marker.position: ', marker.position);
-                        //console.log("MapsModule Position: ", mapsModule.Position.positionFromLatLng(-33.86, 151.20));
-                        let icon2 = ImageSource.fromResourceSync("blue-dot");
-                        let image1 = new Image();
-                        image1.imageSource = icon2;
-
-                        console.log("Image: ", image1);
-
-                        marker.color = this.colorList[iconCounter];
-                        marker.title = places[i].name;
-                        marker.snippet = activity.activity
-                        marker.userData = {index: 1};
-
-            
-                        console.log('Marker Title: ', marker.title);
-            
-                        this.mapView.addMarker(marker);
-                    }
-
-                    iconCounter++;
-            
-                    console.log("Feedback Component: markerAdder(): Markers are all added");
-            
-                    //Loops through all the activities
-                    
-                    console.log("ACTIVITY: ", activity.activity)
-                    this.activityList.push(activity.activity)                  
-                    
-                });
-
-                this.activityLoaded = true;
-            
-            })
-            .catch(error => {
-                console.log('ERROR WITH MARKER ADDER: ', error)
-            });
-
-        }
-
-        /*
-            <GridLayout>
-                <MapView (mapReady)="onMapReady($event)"></MapView>
-            </GridLayout>
+    private addMarker(): void {
+        /* console.log("Setting a marker...");
+        var marker = new Marker();
+        marker.position = Position.positionFromLatLng(-33.86, 151.20);
+        marker.title = "Sydney";
+        marker.snippet = "Australia";
+        marker.userData = { index : 1};
+        marker.icon = //some image
+        this.mapView.addMarker(marker);
         */
 
+        // Go through each recommended activity and provide its places markers
+        let iconCounter = 0;
 
-    /*
-    markerAdder(mapViewer)
-    {
-     //This function needs to wait for the function to end before continuing
-     this.feedback().then(() => {
-        for(var i = 0; i < this.mapsResult.json_0.results.length; i++)
-        {
-            this.placeName.push(this.mapsResult.json_0.results[i]);
-            //To access activities this.mapsResult.json_0.results[i].name
-        }
+        this.feedback().then(() => {
 
-        //Loops through all the places and creates a marker for them
-        for(var i = 0; i < this.placeName.length; i++)
-        {
-            var marker = new Marker();
-            console.log("Latitude of Place " , typeof this.placeName[i].geometry.location.lat);
-            console.log("Longitude of Place " + this.placeName[i].geometry.location.lng);
-            marker.position = Position.positionFromLatLng(-33.86, 151.20);
-            //marker.position = {lat: this.placeName[i].geometry.location.lat, lng: this.placeName[i].geometry.location.lng};
-            // mapsModule.Position.positionFromLatLng();
-            console.log('Type of marker.position: ', typeof marker.position);
-            console.log('marker.position: ', marker.position);
-            console.log("MapsModule Position: ", mapsModule.Position.positionFromLatLng(-33.86, 151.20));
+            this.mapsResult.forEach(activity =>{
+                let places = []
 
-            marker.title = this.placeName[i].name;
-            marker.userData = {index: 1};
+                console.log("ACTIVITY: ", activity.activity)
+                console.log("# OF PLACES: ", activity.json.results.length)
+                
+                for(var i = 0; i < activity.json.results.length; i++)
+                {
+                    places.push(activity.json.results[i]);
+                    //To access activities this.mapsResult.json_0.results[i].name
+                }
 
-            console.log('Marker: ', marker);
+                console.log('PLACES ARRAY: ', places.length,' PLACES / 2: ', Math.floor(places.length/2))
+        
+                //Loops through all the places and creates a marker for them
+                for(var i = 0; i < Math.floor(places.length/2) ; i++)
+                {
+                    var marker = new Marker();
 
-            this.mapView.addMarker(marker);
-        }
+                    marker.position = Position.positionFromLatLng(places[i].geometry.location.lat, places[i].geometry.location.lng);
+                    marker.color = this.colorList[iconCounter];
+                    marker.title = places[i].name;
+                    marker.snippet = activity.activity
+                    marker.userData = {index: 1};
+        
+                    console.log('Marker Title: ', marker.title);
+        
+                    this.mapView.addMarker(marker);
+                }
 
-        console.log("Feedback Component: markerAdder(): Markers are all added");
+                iconCounter++;
+        
+                console.log("Feedback Component: markerAdder(): Markers are all added");
+        
+                // Push activities to ListView
+                if( places.length == 0 ){
+                    this.activityList.push(activity.activity + ' (no locations nearby)' )
+                } else {
+                    this.activityList.push(activity.activity)
+                }                
+                
+            });
 
-        //Loops through all the activities
-        //this.activityList.push(this.mapsResult.activity_0);
-
+            this.activityLoaded = true;
+        
         })
         .catch(error => {
             console.log('ERROR WITH MARKER ADDER: ', error)
         });
 
-        
     }
-    */
-
     
     // Emergency alerter
     emergencyAlert(){
