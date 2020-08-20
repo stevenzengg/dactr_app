@@ -18,9 +18,9 @@
 
     <StackLayout [visibility]="activityLoaded ? 'visible' : 'collapsed'">
         <ListView [items]="activityList" height="200">
-            <ng-template let-item = "item" let-i ="index" let-odd="odd" let-even="even">
+            <ng-template let-item = "item" backgroundColor = "green" let-i ="index">
                 <GridLayout columns = "auto, 5, auto">
-                    <Label col = "0" [class.odd] = "odd" [class.even] = "even" [text] = "item"></Label>
+                    <Label col = "0" [text] = "item"></Label>
                 </GridLayout>
             </ng-template>
         </ListView>

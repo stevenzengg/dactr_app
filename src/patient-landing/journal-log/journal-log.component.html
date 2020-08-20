@@ -1,8 +1,22 @@
 
- <StackLayout>
+ <StackLayout [visibility]="journalsLoaded ? 'visible' : 'collapsed'">
     <Label text = "Journal Log" class = "text"></Label> 
+        
+    <ListView [items]="tempItems" class='list-group' textWrap = true height="500">
+        <ng-template let-item = "item" let-i ="index">
+            <StackLayout>
+                <Label textWrap= 'true' lineHeight='200' [text] = "item.fruit" [backgroundColor]='item.color'></Label>
+            </StackLayout>
+        </ng-template>
+    </ListView>
 
-    <!--<ScrollView marginTop = "10%">-->
+</StackLayout>
+
+
+
+
+<!--<ScrollView marginTop = "10%">-->
+    <!--
         <ListView [items]="journalLog" height="300">
             <ng-template let-item = "item" let-i ="index">
                 <GridLayout>
@@ -10,11 +24,15 @@
                 </GridLayout>
             </ng-template>
         </ListView>
-
+    -->
     <!--</ScrollView>-->
-</StackLayout>
-
+    
 <!--
+    
+
+    <GridLayout columns = "auto, 5, auto">
+                <Label class='label1' col = "0" [text] = "item"></Label>
+    </GridLayout>
     
 
         <StackLayout *ngFor="let journal of journalLog" class="list-group-item">

@@ -14,22 +14,39 @@ const user = userCollection.doc(getString("email"));
 
 @Component({
     selector: 'journal-log',
-    templateUrl: 'journal-log.component.html'
+    templateUrl: 'journal-log.component.html',
+    styleUrls: ['journal-log.component.css']
 })
 
 export class JournalLogComponent implements OnInit {
     
     public journalLog = new Array<String>();
+    public tempItems: any[] 
+    public journalsLoaded = false;
     private journalEntry:JournalEntry;
     private journal:string;
 
-    constructor() { }
+    constructor() {
+        this.tempItems = [
+            {fruit: 'apple', color: 'red'},
+            {fruit: 'pear', color: 'green'},
+            {fruit: 'blueberry', color: 'blue'},
+            {fruit: 'banana', color: 'yellow'},
+        ];
+     }
 
     ngOnInit() { 
+        console.log(this.tempItems[0].fruit)
+        console.log(this.tempItems[0].color)
+        this.journalsLoaded = true;
+        
+        /*
         this.setJournalLog().then(()=>{
             console.log(this.journalLog[0]);
+            this.journalsLoaded = true;
         })
-        .catch(e => console.log(e))
+        .catch(e => console.log(e))    
+         */
     }
 
     async setJournalLog()
