@@ -6,7 +6,6 @@ import{ getPlacesService } from "../../../services/getPlacesAPI.service"
 import{ getLocationService } from "../../../services/getLocation.service"
 
 import { getString } from "tns-core-modules/application-settings";
-import {SetupItemViewArgs} from "@nativescript/angular/directives/templated-items-comp";
 
 import { Position, Marker, MapView } from "nativescript-google-maps-sdk";
 
@@ -25,7 +24,8 @@ const user = userCollection.doc(getString("email"));
 @Component({
     selector: 'feedback',
     providers: [getSentimentService, getNounsVerbsService, getPlacesService, getLocationService],
-    templateUrl: 'feedback.component.html'
+    templateUrl: 'feedback.component.html',
+    styleUrls: ['feedback.component.css']
 })
 
 export class FeedbackComponent implements OnInit {
@@ -37,7 +37,6 @@ export class FeedbackComponent implements OnInit {
 
     //Google Map Variable Initialization
     public markerList =[];
-    //public marker;
     public userLat="40.798214";
     public userLng=" -77.859909";
     public zoom = 10;
@@ -47,12 +46,14 @@ export class FeedbackComponent implements OnInit {
     public activityList=[];
     public activityLoaded = false;
 
+    //Warning detector
+    public extremeWordAlert = false;
+    public drugWordAlert = false;
+
     private pos_sentences: string[];
     private nouns: string[];
     private verbs: string[];
     private mapsInputs: {};
-
-    //@ViewChild("MapView") mapView: ElementRef;
     
     constructor(private sentiment: getSentimentService, 
         private syntax: getNounsVerbsService, 
@@ -81,15 +82,6 @@ export class FeedbackComponent implements OnInit {
     }
 
     private addMarker(): void {
-        /* console.log("Setting a marker...");
-        var marker = new Marker();
-        marker.position = Position.positionFromLatLng(-33.86, 151.20);
-        marker.title = "Sydney";
-        marker.snippet = "Australia";
-        marker.userData = { index : 1};
-        marker.icon = //some image
-        this.mapView.addMarker(marker);
-        */
 
         // Go through each recommended activity and provide its places markers
         let iconCounter = 0;
@@ -139,63 +131,15 @@ export class FeedbackComponent implements OnInit {
                 
             });
 
-            this.activityLoaded = true;
+            this.activityLoaded = true;            
         
         })
         .catch(error => {
             console.log('ERROR WITH MARKER ADDER: ', error)
         });
 
-    }
+    }  
     
-    // Emergency alerter
-    emergencyAlert(){
-        // Turn journals into lowercase words
-        let words = this.journal.toLowerCase().split(' ');
-
-        // List of dangerous words
-        let extreme = ['suicide', 'depression', 'depressed', 'kill', 'killed', 'killing', 'die', 'died', 'death', 'strangle', 'strangling', 'strangled', 'hang', 
-        'hanging', 'hung', 'drown', 'drowning', 'drowned', 'suffer', 'suffering', 'suffered']
-        let drugs = ['drug', 'drugs', 'dui',  'vape', 'vaping', 'juul', 'juuling', 'marijuana', 'meth', 'nicotine', 'heroine', 'morphine', 'lsd', 'acid']
-
-        let extremeWords: string[]
-        let drugsWords: string[]
-
-        // See if journal contains a dangerous word
-        for(let word in words){
-            
-            const extremeWord = extreme.find(badWord => badWord == word)
-            const drugWord = drugs.find(badWord => badWord == word)
-
-            if(extremeWord){
-                extremeWords.push(extremeWord)
-            }
-            if(drugWord){
-                drugsWords.push(drugWord)
-            }            
-        }
-
-        // If journal has a dangerous word, let the user know
-        if(extremeWords){
-            // ngif something
-
-            console.log('We noticed you mentioned certain words like: ')
-            for(const element in extremeWords){
-                console.log(element)
-            }
-            console.log('If you need support, please refer to the Emergencies page.')            
-        }
-        if(drugsWords){
-            // ngif something
-
-            console.log('We noticed you mentioned certain words like: ')
-            for(const element in extremeWords){
-                console.log(element)
-            }
-            console.log('Please refrain from taking drugs to or other harmful substances as a coping mechanism. If you need support, please refer to the Emergencies page.')            
-        }        
-        
-    }
 
     // Master function for all processes
     async feedback(){
@@ -216,11 +160,12 @@ export class FeedbackComponent implements OnInit {
 
             console.log('JOURNAL: ', this.journal);
 
+            // Search for emergency words
+            this.emergencyAlert();
+
         } catch(error) {
             console.log('ERROR WITH FEEDBACK() -> OBTAINING RECENT JOURNAL: ', error)
         }
-
-        
         
         try{
             // Await activity search with user journal
@@ -255,6 +200,79 @@ export class FeedbackComponent implements OnInit {
             console.log('ERROR WITH FEEDBACK() -> GETTING PLACES: ', error)
         }
 
+    }
+
+    // Emergency alerter
+    private emergencyAlert(){
+        // Turn journals into lowercase words without punctuation
+        let journal = this.journal
+        .replace(/[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~]/g, '')
+        .replace(/\s+/g, ' ');
+
+        let words = journal.toLowerCase().split(' ');
+
+
+        // List of dangerous words
+        let extreme = ['suicide', 'depression', 'depressed', 'kill', 'killed', 'killing', 'die', 'died', 'death', 'strangle', 'strangling', 'strangled', 'hang', 
+         'hanging', 'hung', 'drown', 'drowning', 'drowned', 'suffer', 'suffering', 'suffered']
+        let drugs = ['drug', 'drugs', 'dui',  'vape', 'vaping', 'juul', 'juuling', 'marijuana', 'meth', 'nicotine', 'heroine', 'morphine', 'cocaine', 'lsd', 'acid',
+         'weed', 'bud', 'smoke', 'smoked']
+
+        let extremeWords = []
+        let drugsWords = []
+
+        // See if journal contains a dangerous word
+        words.forEach(word =>{
+            
+            extreme.forEach(badWord => {
+                if(badWord === word){
+                    extremeWords.push(badWord)
+                }                
+            });
+
+            drugs.forEach(badWord => {
+                if(badWord === word){
+                    drugsWords.push(badWord)
+                }                
+            });
+        });
+
+        // If journal has a dangerous word, let the user know
+        if(extremeWords.length > 0){
+            this.extremeWordAlert = true;
+            console.log('BAD WORDS: ', extremeWords)          
+        }
+        if(drugsWords.length > 0){
+            this.drugWordAlert = true;
+            console.log('BAD WORDS: ', drugsWords)               
+        }  
+    }
+
+    // ACTIVITY RECOMMENDER
+    private async activity(){
+
+        // Break journal into sentences
+        const sentences = this.journal.match(/[^.?!]+[.!?]+[\])'"`’”]*|.+/g);
+        console.log("SENTENCES: ", sentences)
+
+        // Loop through each sentence, find sentiment, and collect positive sentences
+        for(let sentence of sentences){
+            await this.sentimentQuery(sentence)
+        }        
+        console.log("POS_SENTENCES: ", this.pos_sentences)
+
+        // Loop through each positive sentence and collect nouns and verbs
+        for(let sentence of this.pos_sentences){
+            await this.syntaxQuery(sentence)            
+        }
+        console.log("NOUNS AND VERBS: ", this.nouns, this.verbs)
+
+        // Compare nouns and verbs to those in activity_database and collect activities with their search term
+        await this.activitiesDatabaseQuery()
+        console.log('MAPS INPUTS: ', this.mapsInputs)
+
+        // Push new activities to user activity database. If already present, update frequency
+        await this.pushActivities()
     }
 
     // Will query Places http request
@@ -323,35 +341,7 @@ export class FeedbackComponent implements OnInit {
         
 
         return result;
-    } 
-
-    // ACTIVITY RECOMMENDER
-    private async activity(){
-
-        // Break journal into sentences
-        const sentences = this.journal.match(/[^.?!]+[.!?]+[\])'"`’”]*|.+/g);
-        console.log("SENTENCES: ", sentences)
-
-        // Loop through each sentence, find sentiment, and collect positive sentences
-        for(let sentence of sentences){
-            await this.sentimentQuery(sentence)
-        }        
-        console.log("POS_SENTENCES: ", this.pos_sentences)
-
-        // Loop through each positive sentence and collect nouns and verbs
-        for(let sentence of this.pos_sentences){
-            await this.syntaxQuery(sentence)            
-        }
-        console.log("NOUNS AND VERBS: ", this.nouns, this.verbs)
-
-        // Compare nouns and verbs to those in activity_database and collect activities with their search term
-        await this.activitiesDatabaseQuery()
-        console.log('MAPS INPUTS: ', this.mapsInputs)
-
-        // Push new activities to user activity database. If already present, update frequency
-        await this.pushActivities()
     }
-
         
     // Will query sentiment http request    
     private async sentimentQuery(sentence){

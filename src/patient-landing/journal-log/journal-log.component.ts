@@ -20,33 +20,28 @@ const user = userCollection.doc(getString("email"));
 
 export class JournalLogComponent implements OnInit {
     
-    public journalLog = new Array<String>();
-    public tempItems: any[] 
+    //public tempItems: any[] 
+    //public tempWarning = 'I would like to put you on notice that your action are being watched, and that any further violations of the companies employee policy may result in your termination. Please be extra careful in the way you conduct yourself from now on.'
+
+    public journalLog = new Array<String>();    
     public journalsLoaded = false;
     private journalEntry:JournalEntry;
     private journal:string;
 
     constructor() {
-        this.tempItems = [
-            {fruit: 'apple', color: 'red'},
-            {fruit: 'pear', color: 'green'},
-            {fruit: 'blueberry', color: 'blue'},
-            {fruit: 'banana', color: 'yellow'},
-        ];
+        //this.tempItems = ['apple', 'pear', 'blueberry', 'banana']
      }
 
     ngOnInit() { 
-        console.log(this.tempItems[0].fruit)
-        console.log(this.tempItems[0].color)
-        this.journalsLoaded = true;
+        //this.journalsLoaded = true;
         
-        /*
+        
         this.setJournalLog().then(()=>{
             console.log(this.journalLog[0]);
             this.journalsLoaded = true;
         })
         .catch(e => console.log(e))    
-         */
+        
     }
 
     async setJournalLog()

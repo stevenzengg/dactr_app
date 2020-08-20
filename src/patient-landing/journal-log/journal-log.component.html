@@ -1,15 +1,17 @@
 
- <StackLayout [visibility]="journalsLoaded ? 'visible' : 'collapsed'">
-    <Label text = "Journal Log" class = "text"></Label> 
-        
-    <ListView [items]="tempItems" class='list-group' textWrap = true height="500">
+ <StackLayout class='component' [visibility]="journalsLoaded ? 'visible' : 'collapsed'">
+    <Label text = "Journal Log" style='padding: 10' class = "h2"></Label> 
+    
+    
+    <ListView [items]="journalLog" class='list-group' textWrap = true height="500">
         <ng-template let-item = "item" let-i ="index">
             <StackLayout>
-                <Label textWrap= 'true' lineHeight='200' [text] = "item.fruit" [backgroundColor]='item.color'></Label>
+                <Label textWrap= 'true' lineHeight='200' [text] = "item"></Label>
             </StackLayout>
         </ng-template>
-    </ListView>
+    </ListView>   
 
+    
 </StackLayout>
 
 

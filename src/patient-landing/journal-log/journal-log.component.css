@@ -1,22 +1,14 @@
-
-/*
-.list-group{
-    background-color: #eb97ac;
-    color: #D61D4E;
-    text-align: center;
-}
-*/
 .list-group StackLayout {
     background-color: #FFDEE6;
     color: #D61D4E;
 }
 
-/*
-.list-group-item Label{
-    background-color: #C6C6C6;
-    color: #bc7474; 
-    font-size: 72;
-    padding:10;
-    
+
+
+
+
+/* Styles for feedback component testing */
+
+.component{
+    font-family: "Font Awesome 5 Free", "fa-solid-900";
 }
-*/

@@ -1,10 +1,10 @@
 <!--Map View XML Template-->
-<StackLayout>
-    <Label text = "Activity Locator:"></Label>
+<StackLayout class='component'>
+    <Label class='h2' text = "Activity Locator:"></Label>
 
   <!--  <Image src="~/patient-landing/journal/feedback/maps_icons/blue-dot.png"></Image> -->
 
-    <GridLayout height = "200">
+    <GridLayout height = "250">
         <MapView
             [latitude]="userLat"
             [longitude]="userLng"
@@ -14,8 +14,9 @@
     </GridLayout>
     
     
-    <Label text = "Activity List"></Label>
+    <Label class='h2' text = "Activity List:"></Label>
 
+    <!--
     <StackLayout [visibility]="activityLoaded ? 'visible' : 'collapsed'">
         <ListView [items]="activityList" height="200">
             <ng-template let-item = "item" backgroundColor = "green" let-i ="index">
@@ -25,4 +26,25 @@
             </ng-template>
         </ListView>
     </StackLayout> 
+-->
+
+    <!-- Outputted Activities -->
+    <StackLayout class='component activity' [visibility]="activityLoaded ? 'visible' : 'collapsed'" height=200>
+        <Label color='red' [text]='activityList[0]'></Label>
+        <Label color='blue' [text]='activityList[1]'></Label>
+        <Label color='green' [text]='activityList[2]'></Label>
+        <Label color='orange' [text]='activityList[3]'></Label>
+    </StackLayout>    
+
+    <!-- Concerning Alerts -->
+    <StackLayout class='component emergency' [visibility]="extremeWordAlert ? 'visible' : 'collapsed'">
+        <Label textWrap='true' text='alert for extreme words'></Label>
+    </StackLayout>
+
+    <StackLayout class='component emergency' [visibility]="drugWordAlert ? 'visible' : 'collapsed'">
+        <Label textWrap='true' text='alert for drug words'></Label>
+    </StackLayout>
+
+    
+
 </StackLayout>
