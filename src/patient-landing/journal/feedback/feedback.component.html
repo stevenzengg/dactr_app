@@ -1,6 +1,6 @@
 <!--Map View XML Template-->
 <StackLayout class='component'>
-    <Label class='h2' text = "Activity Locator:"></Label>
+    <Label horizontalAlignment='center' class='h2' text = "Activity Locator:"></Label>
 
   <!--  <Image src="~/patient-landing/journal/feedback/maps_icons/blue-dot.png"></Image> -->
 
@@ -11,12 +11,32 @@
             [zoom]="zoom"
             (mapReady)="onMapReady($event)"
         ></MapView>
-    </GridLayout>
+    </GridLayout>    
     
-    
-    <Label class='h2' text = "Activity List:"></Label>
+    <Label horizontalAlignment='center' class='h2' text = "Activity List:"></Label>    
 
-    <!--
+    <!-- Outputted Activities -->
+    <StackLayout horizontalAlignment='center' class='component activity' [visibility]="activityLoaded ? 'visible' : 'collapsed'" height=200>
+        <Label color='red' [text]='activityList[0]'></Label>
+        <Label color='blue' [text]='activityList[1]'></Label>
+        <Label color='green' [text]='activityList[2]'></Label>
+        <Label color='orange' [text]='activityList[3]'></Label>
+    </StackLayout>    
+
+    <!-- Concerning Alerts -->
+    <StackLayout horizontalAlignment='center' class='component emergency' [visibility]="extremeWordAlert ? 'visible' : 'collapsed'">
+        <Label textWrap='true' text='alert for extreme words'></Label>
+    </StackLayout>
+
+    <StackLayout horizontalAlignment='center' class='component emergency' [visibility]="drugWordAlert ? 'visible' : 'collapsed'">
+        <Label textWrap='true' text='alert for drug words'></Label>
+    </StackLayout>
+    
+
+</StackLayout>
+
+
+<!--
     <StackLayout [visibility]="activityLoaded ? 'visible' : 'collapsed'">
         <ListView [items]="activityList" height="200">
             <ng-template let-item = "item" backgroundColor = "green" let-i ="index">
@@ -27,24 +47,3 @@
         </ListView>
     </StackLayout> 
 -->
-
-    <!-- Outputted Activities -->
-    <StackLayout class='component activity' [visibility]="activityLoaded ? 'visible' : 'collapsed'" height=200>
-        <Label color='red' [text]='activityList[0]'></Label>
-        <Label color='blue' [text]='activityList[1]'></Label>
-        <Label color='green' [text]='activityList[2]'></Label>
-        <Label color='orange' [text]='activityList[3]'></Label>
-    </StackLayout>    
-
-    <!-- Concerning Alerts -->
-    <StackLayout class='component emergency' [visibility]="extremeWordAlert ? 'visible' : 'collapsed'">
-        <Label textWrap='true' text='alert for extreme words'></Label>
-    </StackLayout>
-
-    <StackLayout class='component emergency' [visibility]="drugWordAlert ? 'visible' : 'collapsed'">
-        <Label textWrap='true' text='alert for drug words'></Label>
-    </StackLayout>
-
-    
-
-</StackLayout>
