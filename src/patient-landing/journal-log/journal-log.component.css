@@ -1,0 +1,14 @@
+.list-group StackLayout {
+    background-color: #FFDEE6;
+    color: #D61D4E;
+}
+
+
+
+
+
+/* Styles for feedback component testing */
+
+.component{
+    font-family: "Font Awesome 5 Free", "fa-solid-900";
+}

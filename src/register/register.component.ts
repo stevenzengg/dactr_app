@@ -9,9 +9,11 @@ const firebase = require("nativescript-plugin-firebase/app");
 firebase.initializeApp({});
 
 const userCollection = firebase.firestore().collection("user_database");
+const activityCollection = firebase.firestore().collection("activity_database")
 
 import {RouterExtensions} from '@nativescript/angular/router';
 import { registerElement } from '@nativescript/angular';
+import { async } from 'rxjs/internal/scheduler/async';
 
 
 @Component({
@@ -72,28 +74,65 @@ export class RegisterComponent implements OnInit {
                     console.log(this.email + " added to user database");
                 })
 
-                userCollection.doc(User.getEmail()).collection("activity_feedback").add({
-                    activity: "Walking",
-                    searchTerm: "trails",
-                    frequency: 1,
-                    timestamp: firebase.firestore().FieldValue().serverTimestamp()
-                })
+                // List of basic activities
+                const basics = ['Walking', 'Reading', 'Capturing Scenery', 'Movie Watching'];
 
-                userCollection.doc(User.getEmail()).collection("activity_feature").add({
-                    activity: "Reading",
-                    searchTerm: "libraries",
-                    frequency: 1,
-                    timestamp: firebase.firestore().FieldValue().serverTimestamp()
-                })
+                // Find data of each activity
+                (async () =>{                    
+                    let basicsData = [];
 
-                userCollection.doc(User.getEmail()).collection("activity_feature").add({
-                    activity: "Capturing Scenery",
-                    searchTerm: "scenic spots",
-                    frequency: 1,
-                    timestamp: firebase.firestore().FieldValue().serverTimestamp()
-                })
+                    let walking = await activityCollection.doc(basics[0]).get()
+                    basicsData.push(walking.data())
 
-                this.routerExtensions.navigate(['/login']);
+                    let reading = await activityCollection.doc(basics[1]).get()
+                    basicsData.push(reading.data())
+
+                    let scenery = await activityCollection.doc(basics[2]).get()
+                    basicsData.push(scenery.data())
+
+                    let movies = await activityCollection.doc(basics[3]).get()
+                    basicsData.push(movies.data())
+
+                    return basicsData;
+
+                })()
+                .then(basicsData => {
+                    userCollection.doc(User.getEmail()).collection("activity_feedback").add({
+                        activity: "Walking",
+                        searchTerm: "trails",
+                        feedback: basicsData[0].feedback,
+                        frequency: 1,
+                        timestamp: firebase.firestore().FieldValue().serverTimestamp()
+                    })
+    
+                    userCollection.doc(User.getEmail()).collection("activity_feedback").add({
+                        activity: "Reading",
+                        searchTerm: "libraries",
+                        feedback: basicsData[1].feedback,
+                        frequency: 1,
+                        timestamp: firebase.firestore().FieldValue().serverTimestamp()
+                    })
+    
+                    userCollection.doc(User.getEmail()).collection("activity_feedback").add({
+                        activity: "Capturing Scenery",
+                        searchTerm: "scenic spots",
+                        feedback: basicsData[2].feedback,
+                        frequency: 1,
+                        timestamp: firebase.firestore().FieldValue().serverTimestamp()
+                    })
+
+                    userCollection.doc(User.getEmail()).collection("activity_feedback").add({
+                        activity: "Movie Watching",
+                        searchTerm: "theaters",
+                        feedback: basicsData[3].feedback,
+                        frequency: 1,
+                        timestamp: firebase.firestore().FieldValue().serverTimestamp()
+                    })
+    
+                    this.routerExtensions.navigate(['/login']);
+
+                })
+                .catch(error => console.log('Account creation error, unable to find basic activities: ', error))
             }
         })
         .catch(error => {
