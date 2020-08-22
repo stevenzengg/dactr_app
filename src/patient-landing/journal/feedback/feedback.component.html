@@ -13,11 +13,19 @@
         ></MapView>
     </GridLayout>    
     
-    <Label horizontalAlignment='center' class='h2' text = "Activity List:"></Label>    
+    <Label horizontalAlignment='center' class='h2' text = "Activities:"></Label> 
+    
+    <!-- Concerning Alerts -->
+    <StackLayout horizontalAlignment='center' class='component emergency' [visibility]="extremeWordAlert ? 'visible' : 'collapsed'">
+        <Label textWrap='true' text='alert for extreme words'></Label>
+    </StackLayout>
+    <StackLayout horizontalAlignment='center' class='component emergency' [visibility]="drugWordAlert ? 'visible' : 'collapsed'">
+        <Label textWrap='true' text='alert for drug words'></Label>
+    </StackLayout>
 
     <!-- Outputted Activities -->
-    <ScrollView orientation='vertical'>
-        <GridLayout columns='*,*' rows='*,*' class='component grid' horizontalAlignment='center' [visibility]="activityLoaded ? 'visible' : 'collapsed'" minHeight=300>
+    <ScrollView orientation='vertical' height='300'>        
+        <GridLayout columns='*,*' rows='*,*' class='component grid' horizontalAlignment='center' [visibility]="activityLoaded ? 'visible' : 'collapsed'">
 
             <StackLayout col='0' row='0'>
                 <Label class='component descriptor' text='Recently Found Activity Recommendation' textWrap=true></Label>
@@ -43,17 +51,10 @@
                 <Label class='component feedback' [text]='feedbackList[3]' textWrap=true></Label>
             </StackLayout>      
             
-        </GridLayout>    
+        </GridLayout>            
     </ScrollView>
 
-    <!-- Concerning Alerts -->
-    <StackLayout horizontalAlignment='center' class='component emergency' [visibility]="extremeWordAlert ? 'visible' : 'collapsed'">
-        <Label textWrap='true' text='alert for extreme words'></Label>
-    </StackLayout>
-
-    <StackLayout horizontalAlignment='center' class='component emergency' [visibility]="drugWordAlert ? 'visible' : 'collapsed'">
-        <Label textWrap='true' text='alert for drug words'></Label>
-    </StackLayout>
+    
     
 </StackLayout>
 
