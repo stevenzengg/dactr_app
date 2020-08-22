@@ -8,14 +8,34 @@
     text-align: center;
 }
 
+.component .grid StackLayout{
+    padding: 5;    
+}
 
-.component .activity Label{
-    font-size: 20;    
+.component .descriptor{
+    font-size: 10;    
+    text-align: center;
+    font-weight: bold;
+    color: black;
+    padding-top: 5;
+    horizontal-align: center;
+}
+
+.component .activity{
+    font-size: 15;    
     font-weight: bold;
     text-align: center;
     padding: 10;
     horizontal-align: center;
     /* ^^ that exists, but vs code is dumb*/
+}
+
+.component .feedback{
+    font-size: 10;    
+    text-justify: auto;
+    color: darkslategray;
+    padding: 5;
+    horizontal-align: center;
 }
 
 .component .emergency Label{

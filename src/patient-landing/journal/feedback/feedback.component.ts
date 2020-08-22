@@ -30,7 +30,6 @@ const user = userCollection.doc(getString("email"));
 
 export class FeedbackComponent implements OnInit {
     
-    public htmlString: string
     public icons: any[]
     public journal  = "";
     public mapsResult: any;
@@ -44,6 +43,7 @@ export class FeedbackComponent implements OnInit {
 
     //Activity List Initialization
     public activityList=[];
+    public feedbackList = [];
     public activityLoaded = false;
 
     //Warning detector
@@ -59,11 +59,6 @@ export class FeedbackComponent implements OnInit {
         private syntax: getNounsVerbsService, 
         private search: getPlacesService,
         private loc: getLocationService) {
-
-            this.htmlString = `<span>
-                                <h1>HtmlView demo in <font color="blue">NativeScript</font> App</h1>
-                            </span>`;
-
             this.pos_sentences = []
             this.nouns = []
             this.verbs = []      
@@ -124,10 +119,11 @@ export class FeedbackComponent implements OnInit {
         
                 // Push activities to ListView
                 if( places.length == 0 ){
-                    this.activityList.push(activity.activity + ' (no locations nearby)' )
+                    this.activityList.push(activity.activity + ' (no locations nearby)' )                    
                 } else {
                     this.activityList.push(activity.activity)
-                }                
+                }
+                this.feedbackList.push(activity.feedback)
                 
             });
 
@@ -193,6 +189,10 @@ export class FeedbackComponent implements OnInit {
             this.mapsResult = result;
 
             console.log('LENGTH OF mapsResult: ', this.mapsResult.length)
+            console.log('ACTIVITIES IN mapsResult: ', this.mapsResult[0].activity, ' :: ', this.mapsResult[0].feedback)
+            console.log('ACTIVITIES IN mapsResult: ', this.mapsResult[1].activity, ' :: ', this.mapsResult[1].feedback)
+            console.log('ACTIVITIES IN mapsResult: ', this.mapsResult[2].activity, ' :: ', this.mapsResult[2].feedback)
+            console.log('ACTIVITIES IN mapsResult: ', this.mapsResult[3].activity, ' :: ', this.mapsResult[3].feedback)
 
             return Promise.resolve();                      
 
@@ -291,7 +291,7 @@ export class FeedbackComponent implements OnInit {
             recent.push(doc.data())
         });
 
-        console.log('RECENT QUERY LIST: ', recent)
+        console.log('RECENT QUERY LIST: ', recent[0].activity, recent[1].activity)
     
         // Query to find two most popular activities
         const query2 = actFeedCollection.orderBy("frequency", "desc").limit(2);
@@ -302,7 +302,7 @@ export class FeedbackComponent implements OnInit {
             mostFreq.push(doc.data())
         }); 
         
-        console.log('MOST FREQ QUERY LIST: ', mostFreq)
+        console.log('MOST FREQ QUERY LIST: ', mostFreq[0].activity, mostFreq[1].activity)
         
         // Obtain user location
         let location: any
@@ -323,6 +323,7 @@ export class FeedbackComponent implements OnInit {
             {
                 result[x]['type'] = 'Recent Addition';
                 result[x]['activity'] = recent[x].activity;
+                result[x]['feedback'] = recent[x].feedback;
                 result[x]['json'] = await this.placesQuery(location[0], location[1], recent[x].searchTerm)
             }
             console.log('RESULT LIST AFTER RECENT: ', result)
@@ -330,7 +331,8 @@ export class FeedbackComponent implements OnInit {
             for(let x = 2; x < (mostFreq.length + 2); x++)
             { 
                 result[x]['type'] = 'Most Frequent';
-                result[x]['activity'] = mostFreq[x - 2].activity;
+                result[x]['activity'] = mostFreq[x-2].activity;
+                result[x]['feedback'] = mostFreq[x-2].feedback;
                 result[x]['json'] = await this.placesQuery(location[0], location[1], mostFreq[x - 2].searchTerm)                        
             }
             console.log('RESULT LIST AFTER MOSTFREQ: ', result)
@@ -393,7 +395,7 @@ export class FeedbackComponent implements OnInit {
             query.forEach(doc => {
                 if(doc.exists){
                     let data = doc.data()     
-                    this.mapsInputs[doc.id] = data.search_term;
+                    this.mapsInputs[doc.id] = [data.search_term, data.feedback];
                     console.log('ACTIVITY EXISTS: ', doc.id, ' ', data.search_term);
                 }
             });
@@ -439,7 +441,8 @@ export class FeedbackComponent implements OnInit {
 
                 userActivities.add({
                     activity: activity,
-                    searchTerm: this.mapsInputs[activity],
+                    searchTerm: this.mapsInputs[activity][0],
+                    feedback: this.mapsInputs[activity][1],
                     frequency: 1,
                     timestamp: firebase.firestore().FieldValue().serverTimestamp()
                 })
