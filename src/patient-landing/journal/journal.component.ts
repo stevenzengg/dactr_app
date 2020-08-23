@@ -70,16 +70,15 @@ export class JournalComponent implements OnInit {
      
     // Submit journal and reroute to Feedback Component
     submitJournal(){        
-        // Combine journals into 1
-        const journal = this.journal1 + ' ' + this.journal2 + ' ' + this.journal3;
 
         //Comment code underneath to stop writing into database
         user.collection("journal_entry").add({
-            journal: journal,
+            questions: [this.question1, this.question2, this.question3],
+            answers: [this.journal1, this.journal2, this.journal3],
             timestamp: firebase.firestore().FieldValue().serverTimestamp()
         });
 
-        console.log('JOURNAL SUBMITTED: ', journal);
+        console.log(getString('email') + "'s JOURNAL SUBMITTED: " + this.journal1 + ' ' + this.journal2 + ' ' + this.journal3);
 
         console.log("Route to feedback page");
         //This navigates to feedback component after submitting journal

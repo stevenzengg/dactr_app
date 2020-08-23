@@ -3,18 +3,32 @@
     <Label text = "Journal Log" style='padding: 10' class = "h2"></Label> 
     
     
-    <ListView [items]="journalLog" class='list-group' textWrap = true height="500">
+    <ListView [items]="journalLog" class='list-group' height="700">
         <ng-template let-item = "item" let-i ="index">
-            <StackLayout>
-                <Label textWrap= 'true' lineHeight='200' [text] = "item"></Label>
-            </StackLayout>
+            <!-- <StackLayout horizontalAlignment='center' minHeight = "500" borderWidth = "2" borderRadius = "10" width = "300" borderColor = "gray">
+                
+                <Label class='component question' textWrap= 'true' [text] = "questionsLog[index][0]"></Label>
+                <Label class='component answer' textWrap= 'true' [text] = "item[0]"></Label>
+                
+
+                <Label class='component question' textWrap= 'true' [text] = "questionsLog[index][1]"></Label>
+                <Label class='component answer' textWrap= 'true' [text] = "item[1]"></Label>
+
+                <Label class='component question' textWrap= 'true' [text] = "questionsLog[index][2]"></Label>
+                <Label class='component answer' textWrap= 'true' [text] = "item[2]"></Label>
+
+                <Label class='component timestamp' [text] = 'timestamps[index]'></Label>
+
+            </StackLayout> -->
         </ng-template>
-    </ListView>   
+    </ListView>
 
     
 </StackLayout>
 
 
+
+<!-- <Label class='component answer' textWrap= 'true' [text] = "index"></Label> -->
 
 
 <!--<ScrollView marginTop = "10%">-->

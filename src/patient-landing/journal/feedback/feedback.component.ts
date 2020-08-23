@@ -146,8 +146,10 @@ export class FeedbackComponent implements OnInit {
             let journalSnapshots = await recentJournalQuery.get()
                 
             journalSnapshots.forEach(doc => {
-                this.journal = doc.data().journal;
                 console.log('DATTTAAAA: ', doc.data())
+                let entry = doc.data()
+
+                this.journal = entry.answers[0] + ' ' + entry.answers[1] + ' ' + entry.answers[2]
             })
 
             if (this.journal === undefined || this.journal === null){
