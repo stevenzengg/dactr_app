@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { getString, setString, } from "tns-core-modules/application-settings";
+import * as appSettings from "tns-core-modules/application-settings";
 
 import { RouterExtensions } from '@nativescript/angular/router';
 
@@ -8,7 +8,7 @@ const firebase = require("nativescript-plugin-firebase/app");
 firebase.initializeApp({});
 
 const userCollection = firebase.firestore().collection("user_database");
-const user = userCollection.doc(getString("email"));
+const user = userCollection.doc(appSettings.getString("email"));
 
 @Component({
     selector: 'journal',
@@ -78,7 +78,7 @@ export class JournalComponent implements OnInit {
             timestamp: firebase.firestore().FieldValue().serverTimestamp()
         });
 
-        console.log(getString('email') + "'s JOURNAL SUBMITTED: " + this.journal1 + ' ' + this.journal2 + ' ' + this.journal3);
+        console.log(appSettings.getString('email') + "'s JOURNAL SUBMITTED: " + this.journal1 + ' ' + this.journal2 + ' ' + this.journal3);
 
         console.log("Route to feedback page");
         //This navigates to feedback component after submitting journal

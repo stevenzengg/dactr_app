@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {JournalEntry} from '../../models/journal-entry.model';
-import { getString } from "tns-core-modules/application-settings";
+import * as appSettings from "tns-core-modules/application-settings";
 
 
 const firebase = require("nativescript-plugin-firebase/app");
@@ -8,7 +8,7 @@ const firebase = require("nativescript-plugin-firebase/app");
 firebase.initializeApp({});
 
 const userCollection = firebase.firestore().collection("user_database");
-const user = userCollection.doc(getString("email"));
+const user = userCollection.doc(appSettings.getString("email"));
 
 @Component({
     selector: 'journal-log',
@@ -41,6 +41,8 @@ export class JournalLogComponent implements OnInit {
 
     async setJournalLog()
     {
+        console.log(appSettings.getString("email"));
+
         let querySnapshot = await user.collection("journal_entry").orderBy("timestamp", "desc").get({source: "server"})
 
         querySnapshot.forEach(doc => {

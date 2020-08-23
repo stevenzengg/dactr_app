@@ -12,11 +12,7 @@ firebase.initializeApp({});
 
 const userCollection = firebase.firestore().collection("user_database");
 
-import {
-    getString,
-    setString,
-    remove
-} from "tns-core-modules/application-settings";
+import * as appSettings from "tns-core-modules/application-settings";
 
 import * as viewModule from "@nativescript/core/ui/core/view";
 import { EmailValidator } from '@angular/forms';
@@ -69,6 +65,11 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
+        //Clears app settings
+        appSettings.remove("email");
+        appSettings.remove("firstName");
+        appSettings.clear();
+
         this.isLoading = true;
         console.log(this.username);
         console.log(this.password);
@@ -99,14 +100,16 @@ export class LoginComponent implements OnInit {
                         User.setFirstName(doc.data().firstName);
                         User.setLastName(doc.data().lastName);
 
-                        //Clears app settings
-                        remove("email");
-                        remove("firstName");
+                        
                         //Sets application settings so we can access these values
                         //in other components
-                        setString("email", User.getEmail().toLowerCase());
-                        setString("firstName", User.getFirstName());
+                        appSettings.setString("email", User.getEmail().toLowerCase());
+                        appSettings.setString("firstName", User.getFirstName());
                         
+                        console.log("Login Email: ", appSettings.getString("email"));
+                        console.log("Login First Name: ", appSettings.getString("firstName"));
+
+                        this.routerExtensions.navigate(['/patient-landing']);
                     }
 
                 })
@@ -114,7 +117,7 @@ export class LoginComponent implements OnInit {
                     console.log("Error getting doc");
                 })
 
-                this.routerExtensions.navigate(['/patient-landing']);
+                
             }
         }
         )

@@ -33,7 +33,8 @@ export class PatientLandingComponent implements OnInit {
     }
 
     ngOnInit() { 
-      console.log(appSettings.getString("firstName"));
+      console.log("Patient Landing First Name: ", appSettings.getString("firstName"));
+      console.log("Patient Landing Email: ", appSettings.getString("email"));
       this.welcomeMessage = "Hello, " + this.firstName;
     }
     logout() {
