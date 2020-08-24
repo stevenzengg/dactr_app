@@ -8,6 +8,8 @@ import { ModalOtherComponent } from "../modal/modalother.component";
 import { ModalEntertainmentComponent } from "../modal/modalentertainment.component";
 import { ModalArtComponent } from "../modal/modalart.component";
 
+
+import * as utils from "tns-core-modules/utils/utils";
 import * as appSettings from "tns-core-modules/application-settings";
 import * as TNSPhone from 'nativescript-phone';
 
@@ -77,12 +79,17 @@ export class PatientLandingComponent implements OnInit {
     this.modalService.showModal(ModalOtherComponent, options);
     }
     
-    callContacts(){
-
+    pAttackLink(){
+      utils.openUrl('https://www.healthline.com/health/how-to-stop-a-panic-attack')
     }
-    callTherapist(){
-
+    suicideTxt(){
+      utils.openUrl('https://suicidepreventionlifeline.org/chat/')
+      // TNSPhone.sms(['1-800-273-8255'], '')
+      // .then((result) => {
+      //   console.log(result);
+      // })
     }
+
     callHotline(){
       TNSPhone.dial("18002738255", true);
 
