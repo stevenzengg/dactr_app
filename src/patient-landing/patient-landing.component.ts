@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { ModalDialogService, ModalDialogOptions } from "nativescript-angular/modal-dialog";
+import { ModalDialogService, ModalDialogOptions } from "@nativescript/angular/modal-dialog";
 import { FirebaseService } from '../services/firebase.service';
 import { RouterExtensions} from '@nativescript/angular/router';
 import { User } from '../models/user.model';
@@ -84,10 +84,10 @@ export class PatientLandingComponent implements OnInit {
     }
     suicideTxt(){
       utils.openUrl('https://suicidepreventionlifeline.org/chat/')
-      // TNSPhone.sms(['1-800-273-8255'], '')
-      // .then((result) => {
-      //   console.log(result);
-      // })
+        TNSPhone.sms(['1-800-273-8255'], '')
+       .then((result) => {
+          console.log(result);
+        })
     }
 
     callHotline(){
