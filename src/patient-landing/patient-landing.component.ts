@@ -82,6 +82,7 @@ export class PatientLandingComponent implements OnInit {
     pAttackLink(){
       utils.openUrl('https://www.healthline.com/health/how-to-stop-a-panic-attack')
     }
+    
     suicideTxt(){
       utils.openUrl('https://suicidepreventionlifeline.org/chat/')
         TNSPhone.sms(['1-800-273-8255'], '')
