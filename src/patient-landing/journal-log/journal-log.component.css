@@ -9,12 +9,18 @@
     font-family: "Font Awesome 5 Free", "fa-solid-900";
 }
 
+.component .journal{
+    border-bottom-width: 2;
+    border-bottom-color: gray;
+    width: 350;
+}
+
 .component .question{
     font-size: 10;   
     text-align: center;
     font-weight: bold;
     color: black;
-    padding-top: 5;
+    padding: 5;
     horizontal-align: center;
 }
 
@@ -22,7 +28,7 @@
     font-size: 10;
     text-align: center;
     color: black;
-    padding-top: 5;
+    padding: 5;
     horizontal-align: center;
 }
 
@@ -31,6 +37,6 @@
     text-align: center;
     font-style: italic;
     color: black;
-    padding-top: 5;
+    padding-top: 15;
     horizontal-align: center;
 }
