@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import{ getPlacesService } from "../../../services/getPlacesAPI.service"
-import{ getLocationService } from "../../../services/getLocation.service"
+import{ getPlacesService } from "../../../../services/getPlacesAPI.service"
+import{ getLocationService } from "../../../../services/getLocation.service"
 import {Position, Marker, MapView} from "nativescript-google-maps-sdk";
 
 const mapsModule = require("nativescript-google-maps-sdk");
@@ -10,7 +10,7 @@ import {registerElement} from "@nativescript/angular/element-registry";
 registerElement("MapView", () => require("nativescript-google-maps-sdk").MapView);
 
 @Component({
-    selector: 'outdoors-component',
+    selector: 'outdoors',
     providers: [getPlacesService, getLocationService],
     templateUrl: 'outdoors.component.html'
 })

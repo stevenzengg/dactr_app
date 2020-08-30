@@ -10,7 +10,7 @@ import {registerElement} from "@nativescript/angular/element-registry";
 registerElement("MapView", () => require("nativescript-google-maps-sdk").MapView);
 
 @Component({
-    selector: 'other-component',
+    selector: 'other',
     providers: [getPlacesService, getLocationService],
     templateUrl: 'other.component.html'
 })

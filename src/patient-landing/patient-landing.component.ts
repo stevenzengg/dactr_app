@@ -6,7 +6,7 @@ import { User } from '../models/user.model';
 import { ModalComponent } from "../modal/modal.component";
 import { ModalOtherComponent } from "../modal/modalother.component";
 import { ModalEntertainmentComponent } from "../modal/modalentertainment.component";
-import { ModalArtComponent } from "../modal/modalart.component";
+import { ModalArtComponent } from "../modal/art/modalart.component";
 
 import * as appSettings from "tns-core-modules/application-settings";
 import * as TNSPhone from 'nativescript-phone';
@@ -41,39 +41,45 @@ export class PatientLandingComponent implements OnInit {
         this.routerExtensions.navigate(["/login"], { clearHistory: true } );
       }
     showExerciseDialog() {
-      const options: ModalDialogOptions = {
+      /*const options: ModalDialogOptions = {
         viewContainerRef: this.viewContainerRef,
         fullscreen: false,
         context: {}
     };
-    this.modalService.showModal(ModalComponent, options);
+    this.modalService.showModal(ModalComponent, options);*/
+    this.routerExtensions.navigate(['/outdoors']);
+
     }
 
     showArtDialog() {
-      const options: ModalDialogOptions = {
+      /*const options: ModalDialogOptions = {
         viewContainerRef: this.viewContainerRef,
         fullscreen: false,
         context: {}
     };
-    this.modalService.showModal(ModalArtComponent, options);
+    this.modalService.showModal(ModalArtComponent, options); */
+    this.routerExtensions.navigate(['art']);
+
     }
 
     showEntertainmentDialog() {
-      const options: ModalDialogOptions = {
+      /*const options: ModalDialogOptions = {
         viewContainerRef: this.viewContainerRef,
         fullscreen: false,
         context: {}
     };
-    this.modalService.showModal(ModalEntertainmentComponent, options);
+    this.modalService.showModal(ModalEntertainmentComponent, options);*/
+    this.routerExtensions.navigate(['/entertainment']);
     }
 
     showOtherDialog() {
-      const options: ModalDialogOptions = {
+      /*const options: ModalDialogOptions = {
         viewContainerRef: this.viewContainerRef,
         fullscreen: false,
         context: {}
     };
-    this.modalService.showModal(ModalOtherComponent, options);
+    this.modalService.showModal(ModalOtherComponent, options);*/
+    this.routerExtensions.navigate(['/other']);
     }
     
     callContacts(){

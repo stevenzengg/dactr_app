@@ -10,7 +10,7 @@ import {JournalModule} from './journal/journal.module';
 import { ModalComponent } from "../modal/modal.component";
 import { ModalOtherComponent } from "../modal/modalother.component";
 import { ModalEntertainmentComponent } from "../modal/modalentertainment.component";
-import { ModalArtComponent } from "../modal/modalart.component";
+import { ModalArtComponent } from "../modal/art/modalart.component";
 
 @NgModule({
     imports: [

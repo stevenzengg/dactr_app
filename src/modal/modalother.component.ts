@@ -5,7 +5,7 @@ import { ModalDialogParams } from "nativescript-angular/modal-dialog";
     selector: "modalother",
     template: `
 		<StackLayout class="p-20">
-            <Label class="h2 text-center" text="This is a modal page." textWrap="true"></Label>
+            <Label class="h2 text-center" text="Other Options" textWrap="true"></Label>
             <Button class="btn btn-outline" text="Close Modal" (tap)="close()"></Button>
         </StackLayout>
 	`
