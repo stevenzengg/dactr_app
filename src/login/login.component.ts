@@ -105,6 +105,7 @@ export class LoginComponent implements OnInit {
                         //in other components
                         appSettings.setString("email", User.getEmail().toLowerCase());
                         appSettings.setString("firstName", User.getFirstName());
+                        appSettings.setString("lastName", User.getLastName());
                         
                         console.log("Login Email: ", appSettings.getString("email"));
                         console.log("Login First Name: ", appSettings.getString("firstName"));

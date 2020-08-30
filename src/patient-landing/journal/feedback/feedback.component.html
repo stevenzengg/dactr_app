@@ -15,14 +15,7 @@
     
     <Label horizontalAlignment='center' class='h2' text = "Activities:"></Label> 
     
-    <!-- Concerning Alerts -->
-    <StackLayout horizontalAlignment='center' class='component emergency' [visibility]="extremeWordAlert ? 'visible' : 'collapsed'">
-        <Label textWrap='true' text='alert for extreme words'></Label>
-    </StackLayout>
-    <StackLayout horizontalAlignment='center' class='component emergency' [visibility]="drugWordAlert ? 'visible' : 'collapsed'">
-        <Label textWrap='true' text='alert for drug words'></Label>
-    </StackLayout>
-
+    
     <!-- Outputted Activities -->
     <ScrollView orientation='vertical' height='300'>        
         <GridLayout columns='*,*' rows='*,*' class='component grid' horizontalAlignment='center' [visibility]="activityLoaded ? 'visible' : 'collapsed'">

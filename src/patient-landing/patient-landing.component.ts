@@ -7,12 +7,17 @@ import { ModalComponent } from "../modal/modal.component";
 import { ModalOtherComponent } from "../modal/modalother.component";
 import { ModalEntertainmentComponent } from "../modal/modalentertainment.component";
 import { ModalArtComponent } from "../modal/modalart.component";
+import { getString } from "tns-core-modules/application-settings";
 
 
 import * as utils from "tns-core-modules/utils/utils";
 import * as appSettings from "tns-core-modules/application-settings";
 import * as TNSPhone from 'nativescript-phone';
 
+const firebase = require("nativescript-plugin-firebase/app");
+
+firebase.initializeApp({});
+const userCollection = firebase.firestore().collection("user_database");
 
 
 @Component({
@@ -26,7 +31,12 @@ import * as TNSPhone from 'nativescript-phone';
 export class PatientLandingComponent implements OnInit {
     welcomeMessage: string;
     firstName = appSettings.getString("firstName");
+    lastName = appSettings.getString("lastName");
+    email = appSettings.getString("email");
 
+  //public first_name = userCollection.doc(getString("firstName"))
+  //public last_name = userCollection.doc(getString("lastName"))
+  //public email = userCollection.doc(getString("email"))
 
     constructor(private firebaseService: FirebaseService, 
       private routerExtensions: RouterExtensions, 
@@ -96,9 +106,7 @@ export class PatientLandingComponent implements OnInit {
 
     }
     callPolice(){
-      TNSPhone.dial("911", true);
-
-      
+      TNSPhone.dial("911", true);      
     }
 
 }

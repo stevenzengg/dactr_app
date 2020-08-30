@@ -6,6 +6,7 @@ import{ getPlacesService } from "../../../services/getPlacesAPI.service"
 import{ getLocationService } from "../../../services/getLocation.service"
 
 import { getString } from "tns-core-modules/application-settings";
+import * as dialogs from "tns-core-modules/ui/dialogs";
 
 import { Position, Marker, MapView } from "nativescript-google-maps-sdk";
 
@@ -158,8 +159,23 @@ export class FeedbackComponent implements OnInit {
 
             console.log('JOURNAL: ', this.journal);
 
-            // Search for emergency words
+            // Search for emergency words. Alert the user if found
             this.emergencyAlert();
+            
+            if(this.extremeWordAlert){
+                await dialogs.alert({
+                    title: "HELP IS AVAILABLE: Check the Emergency page",
+                    message: "We noticed you mentioned concerning language in your entries related to depression. Please know that while life isn’t easy, you are valued and loved, and now is not the time to give up! It may not seem like it, but there’s a network of people all around you who care for you and want to see you succeed in this journey, you are not alone.  We encourage you to utilize the hotlines in the Emergency page, talking is one of the best ways to work through the problems you are facing.",
+                    okButtonText: "Ok"
+                })
+            }
+            if(this.drugWordAlert){
+                await dialogs.alert({
+                    title: "HELP IS AVAILABLE: Check the Emergency page",
+                    message: "We noticed you mentioned concerning language in your entries related to drugs. When responsibilities pile up there seems to be no escape, it’s tough to find motivation to keep going. It’s why some people are attracted to drugs or other illicit substances, which can provide temporary relief of symptoms. However, drugs are highly dangerous and can intensify your existing mental health problems. Using them could get you arrested and even lead to diseases and death. There are sustainable ways to lower your symptoms, you only need to ask! Utilize the Emergency page to talk to a medical professional. We’re here for you!",
+                    okButtonText: "Ok"
+                })
+            }
 
         } catch(error) {
             console.log('ERROR WITH FEEDBACK() -> OBTAINING RECENT JOURNAL: ', error)
