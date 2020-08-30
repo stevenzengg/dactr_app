@@ -38,32 +38,32 @@
 
 <!-- Activities -->
     <TabContentItem>
-      <StackLayout orientation = "vertical">
-        <Label fontSize = "30" textAlignment = "center" text = "What would you like to">
-          </Label>
-          <Label fontSize = "30" text="do today?" textAlignment = "center" marginBottom = "15"></Label>
-        <GridLayout rows = "*, *" columns = "*, *" height = "600" width = "95%">
-            <StackLayout borderColor = "black" borderWidth = "1" borderRadius = "20"
-            row = "0" col = "0" class="btn-img"  orientation="vertical" padding="5" (tap)="showArtDialog()" >
-                <Image margin = "-10%" stretch='aspectFit' backgroundColor = "transparent" src="~/patient-landing/activities_pics/artlogo.png"  width="100%" height="90%"></Image>
-             </StackLayout>
-             <StackLayout borderColor = "black" borderWidth = "1" borderRadius = "20"
-            row = "0" col = "1" class="btn-img"  orientation="vertical" padding="5" (tap)="showExerciseDialog()" >
-                <Image margin = "-10%" stretch='aspectFit' backgroundColor = "transparent" src="~/patient-landing/activities_pics/exerciselogo.png"  width="110%" height="90%"></Image>
-             </StackLayout>
-             <StackLayout borderColor = "black" borderWidth = "1" borderRadius = "20"
-            row = "1" col = "0" class="btn-img"  orientation="vertical" padding="5" (tap)="showEntertainmentDialog()" >
-                <Image margin = "-10%" stretch='aspectFit' backgroundColor = "transparent" src="~/patient-landing/activities_pics/entertainmentlogo.png"  width="110%" height="90%"></Image>
-             </StackLayout>
-             <StackLayout borderColor = "black" borderWidth = "1" borderRadius = "20"
-            row = "1" col = "1" class="btn-img"  orientation="vertical" padding="5" (tap)="showOtherDialog()" >
-                <Image margin = "-10%" stretch='aspectFit' backgroundColor = "transparent" src="~/patient-landing/activities_pics/otherlogo.png"  width="100%" height="90%"></Image>
-             </StackLayout>
-          <Button text = "Art" row = "0" col = "0" marginTop = "40%" backgroundColor = "transparent" (tap)="showArtDialog()"></Button>
-          <Button text = "Exercise" row = "0" col = "1" marginTop = "40%" backgroundColor = "transparent" (tap)="showExerciseDialog()"></Button>
-          <Button text = "Entertainment" row = "1" col = "0" marginTop = "40%" backgroundColor = "transparent" (tap)="showEntertainmentDialog()"></Button>
-          <Button text = "Other" row = "1" col = "1" marginTop = "40%" backgroundColor = "transparent" (tap)="showOtherDialog()"></Button>
-        </GridLayout>
+      <StackLayout backgroundImage = "~/patient-landing/mountainsbackground.jpg" 
+      style = "background-position: center; background-repeat: no-repeat; background-size: cover" orientation = "vertical">
+            <Label fontSize = "30" textAlignment = "center" text = "What would you like to"></Label>
+            <Label fontSize = "30" text="do today?" textAlignment = "center" marginBottom = "15"></Label>
+            <GridLayout rows = "*, *" columns = "*, *" height = "600" width = "95%">
+                <StackLayout backgroundColor='white' borderColor = "black" borderWidth = "1" borderRadius = "20"
+                row = "0" col = "0" class="btn-img"  orientation="vertical" padding="5" (tap)="showArtDialog()" >
+                    <Image margin = "-10%" stretch='aspectFit' backgroundColor = "transparent" src="~/patient-landing/activities_pics/artlogo.png"  width="100%" height="100%"></Image>
+                </StackLayout>
+                <StackLayout backgroundColor='white' borderColor = "black" borderWidth = "1" borderRadius = "20"
+                row = "0" col = "1" class="btn-img"  orientation="vertical" padding="5" (tap)="showExerciseDialog()" >
+                    <Image margin = "-10%" stretch='aspectFit' backgroundColor = "transparent" src="~/patient-landing/activities_pics/exerciselogo.png"  width="120%" height="100%"></Image>
+                </StackLayout>
+                <StackLayout backgroundColor='white' borderColor = "black" borderWidth = "1" borderRadius = "20"
+                row = "1" col = "0" class="btn-img"  orientation="vertical" padding="5" (tap)="showEntertainmentDialog()" >
+                    <Image margin = "-10%" stretch='aspectFit' backgroundColor = "transparent" src="~/patient-landing/activities_pics/entertainmentlogo.png"  width="100%" height="100%"></Image>
+                </StackLayout>
+                <StackLayout backgroundColor='white' borderColor = "black" borderWidth = "1" borderRadius = "20"
+                row = "1" col = "1" class="btn-img"  orientation="vertical" padding="5" (tap)="showOtherDialog()" >
+                    <Image margin = "-10%" stretch='aspectFit' backgroundColor = "transparent" src="~/patient-landing/activities_pics/recommendlogo.png"  width="90%" height="80%"></Image>
+                </StackLayout>
+                <Button text = "Art" row = "0" col = "0" marginTop = "40%" backgroundColor = "white" (tap)="showArtDialog()"></Button>
+                <Button text = "Exercise" row = "0" col = "1" marginTop = "40%" backgroundColor = "white" (tap)="showExerciseDialog()"></Button>
+                <Button text = "Entertainment" row = "1" col = "0" marginTop = "40%" backgroundColor = "white" (tap)="showEntertainmentDialog()"></Button>
+                <Button text = "Recommended Activities" row = "1" col = "1" marginTop = "40%" backgroundColor = "white" (tap)="showOtherDialog()"></Button>
+            </GridLayout>
         </StackLayout>
     </TabContentItem>
 
@@ -71,32 +71,32 @@
 
 <!-- Emergency-->
 <TabContentItem>
-    <StackLayout orientation = "vertical">
-      <Label fontSize = "30" textAlignment = "center" text = "How can we help you with">
-        </Label>
+    <StackLayout backgroundImage = "~/patient-landing/mountainsbackground.jpg" 
+    style = "background-position: center; background-repeat: no-repeat; background-size: cover" orientation = "vertical">
+        <Label fontSize = "30" textAlignment = "center" text = "How can we help you with"></Label>
         <Label fontSize = "30" text="your emergency?" textAlignment = "center" marginBottom = "15"></Label>
-      <GridLayout rows = "*, *" columns = "*, *" height = "600" width = "95%">
-          <StackLayout borderColor = "black" borderWidth = "1" borderRadius = "20"
-          row = "0" col = "0"   orientation="vertical" padding="5">
-              <Image marginTop = "-20%" backgroundColor = "transparent" src="~/patient-landing/emergency_pics/anxiety.png"  width="100%" height="80%"></Image>
-           </StackLayout>
-           <StackLayout borderColor = "black" borderWidth = "1" borderRadius = "20"
-          row = "0" col = "1"  orientation="vertical" padding="5">
-              <Image marginTop = "-20%" backgroundColor = "transparent" src="~/patient-landing/emergency_pics/SuicideTxt.png"  width="100%" height="80%"></Image>
-           </StackLayout>
-           <StackLayout borderColor = "black" borderWidth = "1" borderRadius = "20"
-          row = "1" col = "0"  orientation="vertical" padding="5">
-              <Image marginTop = "-20%" backgroundColor = "transparent" src="~/patient-landing/emergency_pics/Suicide.png"  width="110%" height="90%"></Image>
-           </StackLayout>
-           <StackLayout borderColor = "black" borderWidth = "1" borderRadius = "20"
-          row = "1" col = "1" orientation="vertical" padding="5">
-              <Image marginTop = "-20%" backgroundColor = "transparent" src="~/patient-landing/emergency_pics/police.png"  width="80%" height="80%"></Image>
-           </StackLayout>
-        <Button text = "How to remain calm during an anxiety attack" row = "0" col = "0" marginTop = "40%" backgroundColor = "transparent" (tap)="pAttackLink()"></Button>
-        <Button text = "Text suicide hotline" row = "0" col = "1" marginTop = "40%" backgroundColor = "transparent" (tap)="suicideTxt()"></Button>
-        <Button text = "Call suicide hotline" row = "1" col = "0" marginTop = "40%" backgroundColor = "transparent" (tap)="callHotline()"></Button>
-        <Button text = "Call police services" row = "1" col = "1" marginTop = "40%" backgroundColor = "transparent" (tap)="callPolice()"></Button>
-      </GridLayout>
+        <GridLayout rows = "*, *" columns = "*, *" height = "600" width = "95%">
+            <StackLayout backgroundColor='white' borderColor = "black" borderWidth = "1" borderRadius = "20"
+            row = "0" col = "0"   orientation="vertical" padding="5">
+                <Image marginTop = "-20%" backgroundColor = "transparent" src="~/patient-landing/emergency_pics/anxiety.png"  width="100%" height="80%"></Image>
+            </StackLayout>
+            <StackLayout backgroundColor='white' borderColor = "black" borderWidth = "1" borderRadius = "20"
+            row = "0" col = "1"  orientation="vertical" padding="5">
+                <Image marginTop = "-20%" backgroundColor = "transparent" src="~/patient-landing/emergency_pics/SuicideTxt.png"  width="100%" height="80%"></Image>
+            </StackLayout>
+            <StackLayout backgroundColor='white' borderColor = "black" borderWidth = "1" borderRadius = "20"
+            row = "1" col = "0"  orientation="vertical" padding="5">
+                <Image marginTop = "-20%" backgroundColor = "transparent" src="~/patient-landing/emergency_pics/Suicide.png"  width="110%" height="90%"></Image>
+            </StackLayout>
+            <StackLayout backgroundColor='white' borderColor = "black" borderWidth = "1" borderRadius = "20"
+            row = "1" col = "1" orientation="vertical" padding="5">
+                <Image marginTop = "-20%" backgroundColor = "transparent" src="~/patient-landing/emergency_pics/police.png"  width="80%" height="80%"></Image>
+            </StackLayout>
+            <Button text = "How to remain calm during an anxiety attack" row = "0" col = "0" marginTop = "40%" backgroundColor = "white" (tap)="pAttackLink()"></Button>
+            <Button text = "Text suicide hotline" row = "0" col = "1" marginTop = "40%" backgroundColor = "white" (tap)="suicideTxt()"></Button>
+            <Button text = "Call suicide hotline" row = "1" col = "0" marginTop = "40%" backgroundColor = "white" (tap)="callHotline()"></Button>
+            <Button text = "Call police services" row = "1" col = "1" marginTop = "40%" backgroundColor = "white" (tap)="callPolice()"></Button>
+        </GridLayout>
       </StackLayout>
   </TabContentItem>
 
@@ -105,54 +105,40 @@
 <!-- Account -->
     <TabContentItem>
 
-        <Actionbar text="Profile" class="h2"
-        style="background-color: hsla(0, 0%, 0%, 0);"></Actionbar>
-
-        <GridLayout>
-            <!--ScrollView-->
-            <StackLayout marginTop="3%" width="100%" height="100%" horizontalAlignment="center">
-                <Image
-                    src= "~/patient-landing/freebeach.jpeg"
-                    width="150" height="150" borderRadius="100"></Image>
-
-                <!--Button text="Change Profile Picture" fontSize="20"></Button-->
-                <!--(tap)=changeProfilePic()-->
-			
-                <Label horizontalAlignment="center" marginLeft="3%">
-                    <FormattedString fontSize="25">
-                        <Span text="Name " fontWeight="Bold"></Span>
-                        <Span [text]="firstName"></Span>
-                        <Span text=" "></Span>
-                        <Span [text]="lastName"></Span>
-
-                    </FormattedString>
-                </Label>
-
-                <Label horizontalAlignment="center" marginLeft="3%">
-                    <FormattedString fontSize="25">
-                        <Span text="Email " fontWeight="Bold">
-                        </Span>
-                        <Span [text]= "email">
-                            <!--getEmail()-->
-                        </Span>
-                    </FormattedString>
-                </Label>
-
-
-
-
-            </StackLayout>
-        <!--/ScrollView-->
-
         
-        <StackLayout orientation="horizontal" verticalAlignment="bottom"
-            horizontalAlignment="center" class="h1 text-center">
-            <Button text="Logout" fontSize="25" (tap)="logout()"></Button>
+        <StackLayout backgroundImage = "~/patient-landing/mountainsbackground.jpg" 
+        style = "background-position: center; background-repeat: no-repeat; background-size: cover" orientation='vertical'>
+            <GridLayout>
+                <StackLayout marginTop="3%" width="100%" height="100%" horizontalAlignment="center">
+                    <Image
+                        src= "~/patient-landing/icon_pics/accounticon.png"
+                        width="150" height="150" borderRadius="100" padding='10'></Image>
+                
+                    <Label horizontalAlignment="center" marginLeft="3%">
+                        <FormattedString fontSize="25">
+                            <Span text="Name " fontWeight="Bold"></Span>
+                            <Span [text]="firstName"></Span>
+                            <Span text=" "></Span>
+                            <Span [text]="lastName"></Span>
+
+                        </FormattedString>
+                    </Label>
+
+                    <Label horizontalAlignment="center" marginLeft="3%">
+                        <FormattedString fontSize="25">
+                            <Span text="Email " fontWeight="Bold"></Span>
+                            <Span [text]= "email"></Span>
+                        </FormattedString>
+                    </Label>
+
+                </StackLayout>       
+            
+                <StackLayout verticalAlignment="bottom" horizontalAlignment="center" class="h1 text-center">
+                    <Button text="Logout" backgroundColor='white' fontSize="25" (tap)="logout()"></Button>
+                </StackLayout>
+            </GridLayout>
+
         </StackLayout>
-
-          <!--Button text="Logout" (tap)="logout()"></Button-->
-
-        </GridLayout>
     </TabContentItem>
 
 </BottomNavigation>
