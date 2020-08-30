@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import{ getPlacesService } from "../../../services/getPlacesAPI.service"
 import{ getLocationService } from "../../../services/getLocation.service"
 import {Position, Marker, MapView} from "nativescript-google-maps-sdk";
+import * as utils from "tns-core-modules/utils/utils";
 
 const mapsModule = require("nativescript-google-maps-sdk");
 
@@ -81,4 +82,10 @@ export class OtherComponent implements OnInit {
 
 
     ngOnInit() { }
+    findRecipes(){
+        utils.openUrl("https://www.tasteofhome.com/collection/easy-recipes-to-know-by-heart/")
+    }
+    readEating(){
+        utils.openUrl("https://www.medicalnewstoday.com/articles/322268")
+    }
 }

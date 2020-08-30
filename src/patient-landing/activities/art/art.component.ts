@@ -3,6 +3,7 @@ import{ getPlacesService } from "../../../services/getPlacesAPI.service"
 import{ getLocationService } from "../../../services/getLocation.service"
 import {Position, Marker, MapView} from "nativescript-google-maps-sdk";
 import {RouterExtensions} from '@nativescript/angular/router';
+import * as utils from "tns-core-modules/utils/utils";
 
 const mapsModule = require("nativescript-google-maps-sdk");
 
@@ -82,4 +83,28 @@ export class ArtComponent implements OnInit {
 
 
     ngOnInit() { }
+    sketchTutorials(){
+        utils.openUrl("https://www.youtube.com/watch?v=ewMksAbgdBI")
+    }
+    sketchIdeas(){
+        utils.openUrl("https://www.youtube.com/watch?v=sbdCXQEV9UA")
+    }
+    canvasTutorials(){
+        utils.openUrl("https://www.youtube.com/watch?v=rpnHic9NfXA")
+    }
+    canvasIdeas(){
+        utils.openUrl("https://www.youtube.com/watch?v=M6ZlcscNVhY")
+    }
+    acrylicTutorials(){
+        utils.openUrl("https://www.youtube.com/watch?v=rpnHic9NfXA")
+    }
+    acrylicIdeas(){
+        utils.openUrl("https://www.youtube.com/watch?v=M6ZlcscNVhY")
+    }
+    waterTutorials(){
+        utils.openUrl("https://www.youtube.com/watch?v=1Fgkwcym4j4")
+    }
+    waterIdeas(){
+        utils.openUrl("https://www.youtube.com/watch?v=3kojEoKgrTY")
+    }
 }

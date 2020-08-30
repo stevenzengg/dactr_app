@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import{ getPlacesService } from "../../../services/getPlacesAPI.service"
 import{ getLocationService } from "../../../services/getLocation.service"
 import {Position, Marker, MapView} from "nativescript-google-maps-sdk";
+import * as utils from "tns-core-modules/utils/utils";
 
 const mapsModule = require("nativescript-google-maps-sdk");
 
@@ -81,4 +82,8 @@ export class EntertainmentComponent implements OnInit {
 
 
     ngOnInit() { }
+    recentMovies(){
+        utils.openUrl("https://www.google.com/search?q=popular+movies&oq=popular+movies&aqs=chrome..69i57j0l6.4983j0j7&sourceid=chrome&ie=UTF-8")
+
+    }
 }

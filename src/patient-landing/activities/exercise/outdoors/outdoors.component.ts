@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import{ getPlacesService } from "../../../../services/getPlacesAPI.service"
 import{ getLocationService } from "../../../../services/getLocation.service"
 import {Position, Marker, MapView} from "nativescript-google-maps-sdk";
+import * as utils from "tns-core-modules/utils/utils";
 
 const mapsModule = require("nativescript-google-maps-sdk");
 
@@ -81,4 +82,19 @@ export class OutdoorsComponent implements OnInit {
 
 
     ngOnInit() { }
+    readCycling(){
+        utils.openUrl("https://www.healthline.com/health/fitness-exercise/cycling-benefits")
+    }
+    readRunning(){
+        utils.openUrl("https://www.healthline.com/health/fitness-exercise/running-everyday")
+
+    }
+    readHiking(){
+        utils.openUrl("https://www.healthline.com/nutrition/hiking-calories-burned")
+
+    }
+    readSwimming(){
+        utils.openUrl("https://www.healthline.com/health/benefits-of-swimming")
+
+    }
 }

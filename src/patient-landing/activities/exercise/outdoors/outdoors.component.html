@@ -14,7 +14,7 @@
           </Label> --></Label>
           <Button text = "Find me gyms with cycling rooms"></Button>
           <Button text = "Find bike paths near me"></Button>
-          <Button text = "Read more about Cycling benefits"></Button>
+          <Button text = "Read more about Cycling benefits" (tap) = readCycling()></Button>
         </StackLayout>
         <Image src="~/outdoors/bikelogo.png" class="fas t-36"></Image>
     </StackLayout>
@@ -24,7 +24,7 @@
           <Label text = "Running" fontSize = "25" fontAttributes= "Bold"></Label>
             <Button text = "Find me gyms" (tap) = "getSearch('gyms')"></Button>
             <Button text = "Find running paths near me" (tap) = "getSearch('running paths')"></Button>
-            <Button text = "Read more about running benefits" ></Button>
+            <Button text = "Read more about running benefits" (tap) = readRunning()></Button>
         </StackLayout>
         <Image src="~/outdoors/runicon.png" class="fas t-36"></Image>
 
@@ -35,7 +35,7 @@
         <Label text = "Hiking" fontSize = "25" fontAttributes= "Bold"></Label>
             <Button text = "Find me gyms" (tap) = "getSearch('gyms')"></Button>
             <Button text = "Find hiking paths near me" (tap) = "getSearch('hiking')"></Button> 
-            <Button text = "Read more about hiking benefits" ></Button>
+            <Button text = "Read more about hiking benefits" (tap) = readHiking()></Button>
         </StackLayout>
         <Image src="~/outdoors/hikelogo.png" class="fas t-36"></Image>
 
@@ -48,7 +48,7 @@
         <Label text = "Swimming" fontSize = "25" fontAttributes= "Bold"></Label>
             <Button text = "Find me nearby pools"(tap) = "getSearch('pools')"></Button>
             <Button text = "Find swim stores near me" (tap) = "getSearch('swim gear')"></Button> 
-            <Button text = "Read more about swimming benefits"></Button>
+            <Button text = "Read more about swimming benefits" (tap) = readSwimming()></Button>
         </StackLayout>
         <Image src="~/outdoors/swimlogo.png" class="fas t-36"></Image>
 
