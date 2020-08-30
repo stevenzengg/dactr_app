@@ -1,19 +1,65 @@
 <!--Map View XML Template-->
-<GridLayout height="150">
-    <MapView
-        [latitude]="userLat"
-        [longitude]="userLng"
-        [zoom] = "zoom"
-        (mapReady)="onMapReady($event)"
-    ></MapView>
-</GridLayout>
 
-<StackLayout>
-    <ListView [items]="activitiesList" height="300">
-        <ng-template let-item = "item" let-i ="index">
-            <GridLayout height = "40">
-                <Label [text] = "item"></Label>
-            </GridLayout>
-        </ng-template>
-    </ListView>
+<StackLayout class='component'>
+    
+    <Label horizontalAlignment='center' class='h2' text = "Activity Locator:"></Label>
+
+    <GridLayout height = "250">
+        <MapView
+            [latitude]="userLat"
+            [longitude]="userLng"
+            [zoom]="zoom"
+            (mapReady)="onMapReady($event)"
+        ></MapView>
+    </GridLayout>    
+    
+    <Label horizontalAlignment='center' class='h2' text = "Activities:"></Label> 
+    
+    
+    <!-- Outputted Activities -->
+    <ScrollView orientation='vertical' height='300'>        
+        <GridLayout columns='*,*' rows='*,*' class='component grid' horizontalAlignment='center' [visibility]="activityLoaded ? 'visible' : 'collapsed'">
+
+            <StackLayout col='0' row='0'>
+                <Label class='component descriptor' text='Recently Found Activity Recommendation' textWrap=true></Label>
+                <Label class='component activity' color='red' [text]='activityList[0]' textWrap=true></Label>
+                <Label class='component feedback' [text]='feedbackList[0]' textWrap=true></Label>
+            </StackLayout>
+
+            <StackLayout col='1' row='0'>
+                <Label class='component descriptor' text='Recently Found Activity Recommendation' textWrap=true></Label>
+                <Label class='component activity' color='blue' [text]='activityList[1]' textWrap=true></Label>
+                <Label class='component feedback' [text]='feedbackList[1]' textWrap=true></Label>
+            </StackLayout>
+
+            <StackLayout col='0' row='1'>
+                <Label class='component descriptor' text='High Interest Activity Recommendation' textWrap=true></Label>
+                <Label class='component activity' color='green' [text]='activityList[2]' textWrap=true></Label>
+                <Label class='component feedback' [text]='feedbackList[2]' textWrap=true></Label>
+            </StackLayout>
+
+            <StackLayout col='1' row='1'>
+                <Label class='component descriptor' text='High Interest Activity Recommendation' textWrap=true></Label>
+                <Label class='component activity' color='orange' [text]='activityList[3]' textWrap=true></Label>
+                <Label class='component feedback' [text]='feedbackList[3]' textWrap=true></Label>
+            </StackLayout>      
+            
+        </GridLayout>            
+    </ScrollView>
+
+    
+    
 </StackLayout>
+
+
+<!--
+    <StackLayout [visibility]="activityLoaded ? 'visible' : 'collapsed'">
+        <ListView [items]="activityList" height="200">
+            <ng-template let-item = "item" backgroundColor = "green" let-i ="index">
+                <GridLayout columns = "auto, 5, auto">
+                    <Label col = "0" [text] = "item"></Label>
+                </GridLayout>
+            </ng-template>
+        </ListView>
+    </StackLayout> 
+-->

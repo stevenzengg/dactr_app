@@ -21,6 +21,10 @@ The imported CSS rules must precede all other types of rules.
       color: green;
   }
 
+  .activityText1 {
+    color:red;
+  }
+
 
 /* Place any CSS rules you want to apply on both iOS and Android here.
 This is where the vast majority of your CSS code goes. */

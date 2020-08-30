@@ -18,7 +18,7 @@ export class getPlacesService {
         while(true){
             // Make places get request
             console.log('getPlaces says hi')
-            let call = this.http.get(this.url + "location="+ lat + "," + lon + "&radius=50000&keyword=" + keyword + "&key=AIzaSyCdu52mSKeOKY9AYWyak1yLjhge2zfNAvI");
+            let call = this.http.get(`${this.url}location=${lat},${lon}&radius=25000&keyword=${keyword}&key=AIzaSyCdu52mSKeOKY9AYWyak1yLjhge2zfNAvI`);
 
             // Call request
             let result = await call.toPromise();

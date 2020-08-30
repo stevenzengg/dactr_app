@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
+import {RouterExtensions} from '@nativescript/angular/router';
 
 const firebase = require("nativescript-plugin-firebase/app");
 
@@ -9,29 +10,22 @@ const userCollection = firebase.firestore().collection("user_database");
 
 @Component({
     selector: 'clinician-landing',
-    templateUrl: 'clinician-landing.component.html'
+    templateUrl: 'clinician-landing.component.html',
+    styleUrls: ['clinician-landing.component.css']
 })
 
 export class ClinicianLandingComponent implements OnInit {
-    constructor() { }
+    constructor(private routerExtensions:RouterExtensions) { }
 
     private patientList = new Array<String>();
 
     ngOnInit() { }
 
-    setPatientList()
+    goToPatient()
     {
-        userCollection.get({source: "server"}).then(querySnapshot => {
-            querySnapshot.forEach(doc => {
-                console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
-
-
-                /*this.journal = doc.data().journal;
-                this.journalEntry.journal = this.journal;
-                */
-                //This pushes journal entry into journal log array
-                this.patientList.push(doc.data().firstName);
-            });
-        });
+        console.log("Routing to clinician profile");
+        this.routerExtensions.navigate(['/clinician-profile']);
     }
+
+    
 }

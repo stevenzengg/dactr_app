@@ -1,14 +1,14 @@
 <StackLayout>
-    <Label text = "Welcome!" class = "text" textAlignment = "center"></Label>
-    <Label text = "Here are your patients:" class = "text" textAlignment = "center"></Label>
-    <ScrollView marginTop = "10%">
-        <ListView [items]="patientList" height="300">
-            <ng-template let-item = "item" let-i ="index">
-                <GridLayout height = "40">
-                    <Label [text] = "Hello"></Label>
-                </GridLayout>
-            </ng-template>
-        </ListView>
+    <Label text = "Welcome!" class = "h2" textAlignment = "center"></Label>
+    <Label text = "Here are your patients:" class = "h2" textAlignment = "center"></Label>
+   
+    <GridLayout rows="*,*,*,*,*">
+        <Button text = "Michael Schaeffer" fontSize='20' class='h2' row="0" (tap)="goToPatient()"></Button>
+        <Button text = "Sean Mi" fontSize='20' class='h2' row="1" (tap)="goToPatient()"></Button>
+        <Button text = "Yajur Garikipati" fontSize='20' class='h2' row="2" (tap)="goToPatient()"></Button>
+        <Button text = "Haskel Patel" fontSize='20' class='h2' row="3" (tap)="goToPatient()"></Button>
+        <Button text = "Steven Johri" fontSize='20' class='h2' row="4" (tap)="goToPatient()"></Button>
 
-    </ScrollView>
+    </GridLayout>
+   
 </StackLayout>

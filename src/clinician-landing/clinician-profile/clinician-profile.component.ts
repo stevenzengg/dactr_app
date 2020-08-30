@@ -9,7 +9,8 @@ const userCollection = firebase.firestore().collection("user_database");
 
 @Component({
     selector: 'clinician-profile',
-    templateUrl: 'clinician-profile.component.html'
+    templateUrl: 'clinician-profile.component.html',
+    styleUrls: ['../clinician-landing.component.css']
 })
 
 export class ClinicianProfileComponent implements OnInit {

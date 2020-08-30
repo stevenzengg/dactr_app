@@ -1,12 +1,15 @@
-import { Component, OnInit, ViewContainerRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
 import { getSentimentService } from "../../../services/get-sentiment.service";
 import { getNounsVerbsService } from "../../../services/get-nouns-verbs.service";
-import { getString, setString, } from "tns-core-modules/application-settings";
-
 import{ getPlacesService } from "../../../services/getPlacesAPI.service"
 import{ getLocationService } from "../../../services/getLocation.service"
 
-const mapsModule = require("nativescript-google-maps-sdk");
+import { getString } from "tns-core-modules/application-settings";
+import * as dialogs from "tns-core-modules/ui/dialogs";
+
+import { Position, Marker, MapView } from "nativescript-google-maps-sdk";
+
 const firebase = require("nativescript-plugin-firebase/app");
 
 //These two lines initialize Google Maps Map View
@@ -22,92 +25,132 @@ const user = userCollection.doc(getString("email"));
 @Component({
     selector: 'feedback',
     providers: [getSentimentService, getNounsVerbsService, getPlacesService, getLocationService],
-    templateUrl: 'feedback.component.html'
+    templateUrl: 'feedback.component.html',
+    styleUrls: ['feedback.component.css']
 })
 
 export class FeedbackComponent implements OnInit {
     
-    public htmlString: string
-    
+    public icons: any[]
     public journal  = "";
     public mapsResult: any;
-    public placeName = [];
 
     //Google Map Variable Initialization
     public markerList =[];
-    public marker;
     public userLat="40.798214";
     public userLng=" -77.859909";
-    public zoom = 8;
+    public zoom = 10;
+    public colorList = ["red", "blue", "green", "orange"];
 
     //Activity List Initialization
     public activityList=[];
+    public feedbackList = [];
+    public activityLoaded = false;
+
+    //Warning detector
+    public extremeWordAlert = false;
+    public drugWordAlert = false;
 
     private pos_sentences: string[];
     private nouns: string[];
     private verbs: string[];
     private mapsInputs: {};
-
-    @ViewChild("MapView") mapView: ElementRef;
     
     constructor(private sentiment: getSentimentService, 
         private syntax: getNounsVerbsService, 
         private search: getPlacesService,
         private loc: getLocationService) {
-
-            this.htmlString = `<span>
-                                <h1>HtmlView demo in <font color="blue">NativeScript</font> App</h1>
-                            </span>`;
-
             this.pos_sentences = []
             this.nouns = []
             this.verbs = []      
             this.mapsInputs = {}
         }
 
-    ngOnInit() {
-        //this.feedback();
+    ngOnInit() {}    
+    
+    // Maps and marker functions
+    private mapView: MapView;
+
+    private onMapReady(args): void {
+        this.mapView = args.object;
+
+        this.addMarker();
     }
 
-    //Once Map Loads on HTML this function gets called
-    onMapReady = (event) => {
-        //This function needs to wait for the function to end before continuing
-        this.feedback();
+    private addMarker(): void {
 
-        //Grabs the HTML's google map view
-        let mapView = event.object;
+        // Go through each recommended activity and provide its places markers
+        let iconCounter = 0;
+
+        this.feedback().then(() => {
+
+            this.mapsResult.forEach(activity =>{
+                let places = []
+
+                console.log("ACTIVITY: ", activity.activity)
+                console.log("# OF PLACES: ", activity.json.results.length)
+                
+                for(var i = 0; i < activity.json.results.length; i++)
+                {
+                    places.push(activity.json.results[i]);
+                    //To access activities this.mapsResult.json_0.results[i].name
+                }
+
+                console.log('PLACES ARRAY: ', places.length,' PLACES / 2: ', Math.floor(places.length/2))
         
-        //Loops through all the places and creates a marker for them
-        for(var i = 0; i < this.placeName.length; i++)
-        {
-            this.marker = mapsModule.Marker();
-            this.marker.position = mapsModule.Position.positionFromLatLng(this.placeName[i].geometry.location.lat, this.placeName[i].geometry.location.lng);
-            this.marker.title = this.placeName[i].name;
+                //Loops through all the places and creates a marker for them
+                for(var i = 0; i < Math.floor(places.length/2) ; i++)
+                {
+                    var marker = new Marker();
 
-            mapView.addMarker(this.marker);
-        }
-
-        //Loops through all the activities
-        //this.activityList.push(this.mapsResult.activity_0);
+                    marker.position = Position.positionFromLatLng(places[i].geometry.location.lat, places[i].geometry.location.lng);
+                    marker.color = this.colorList[iconCounter];
+                    marker.title = places[i].name;
+                    marker.snippet = activity.activity
+                    marker.userData = {index: 1};
         
+                    console.log('Marker Title: ', marker.title);
+        
+                    this.mapView.addMarker(marker);
+                }
 
+                iconCounter++;
+        
+                console.log("Feedback Component: markerAdder(): Markers are all added");
+        
+                // Push activities to ListView
+                if( places.length == 0 ){
+                    this.activityList.push(activity.activity + ' (no locations nearby)' )                    
+                } else {
+                    this.activityList.push(activity.activity)
+                }
+                this.feedbackList.push(activity.feedback)
+                
+            });
 
-        console.log("Feedback Component: onMapReady: Marker Created");
+            this.activityLoaded = true;            
+        
+        })
+        .catch(error => {
+            console.log('ERROR WITH MARKER ADDER: ', error)
+        });
 
-    }
+    }  
+    
 
     // Master function for all processes
-    feedback(){
+    async feedback(){
+        try{
+            // Obtain most recent journal
+            let recentJournalQuery = user.collection('journal_entry').orderBy('timestamp', 'desc').limit(1);
 
-        // Obtain most recent journal
-        let recentJournalQuery = user.collection('journal_entry').orderBy('timestamp', 'desc').limit(1);
-
-        recentJournalQuery.get()
-        .then( journalSnapshots => {
-            
+            let journalSnapshots = await recentJournalQuery.get()
+                
             journalSnapshots.forEach(doc => {
-                this.journal = doc.data().journal;
                 console.log('DATTTAAAA: ', doc.data())
+                let entry = doc.data()
+
+                this.journal = entry.answers[0] + ' ' + entry.answers[1] + ' ' + entry.answers[2]
             })
 
             if (this.journal === undefined || this.journal === null){
@@ -115,128 +158,113 @@ export class FeedbackComponent implements OnInit {
             }
 
             console.log('JOURNAL: ', this.journal);
-              
-            // Start activity search
-            this.activity().then(() => {
-                console.log("LETS GOOOOOOOOOOOOO")
-                
-                // Clear these class variables
-                this.pos_sentences = []
-                this.nouns = []
-                this.verbs = []
-                if(!this.mapsResult === undefined){
-                    this.mapsResult = undefined;
-                }
 
-
-                this.getPlaces().then(result => {
-                    console.log("LETS GOOOOOOOOO")
-
-                    //Clear class variable
-                    this.mapsInputs = []
-                    
-                    this.mapsResult = result;
-                    
-                    for(var i = 0; i < this.mapsResult.json_0.results.length; i++)
-                    {
-                        this.placeName.push(this.mapsResult.json_0.results[i]);
-                        //To access activities this.mapsResult.json_0.results[i].name
-                    }
-
-                    /*
-                    console.log("Checking place name");
-                    console.log(this.placeName[0].name);
-
-                    this.marker = mapsModule.Marker();
-                    this.marker.position = mapsModule.Position.positionFromLatLng(this.placeName[0].geometry.location.lat, this.placeName[0].geometry.location.lng);
-                    this.marker.title = this.placeName[0].name;
-
-
-                    console.log("Feedback Component: feedback(): Marker created");
-                   // this.placeName[0].geometery.location.lat; --Latiude
-                   // this.placeName[0].geometery.location.lng; --Longitude
-                    */
-                    
-        
-                }).catch(error => console.log('PLACES METHOD ERROR: ', error));
+            // Search for emergency words. Alert the user if found
+            this.emergencyAlert();
             
-            }).catch(error => {
-                console.log('ACTIVITY METHOD ERROR: ', error)
-            });
-            
-        }).catch(error => {
-            console.log('SOMETHING WENT WRONG COLLECTING MOST RECENT JOURNAL: ', error)
-        })
+            if(this.extremeWordAlert){
+                await dialogs.alert({
+                    title: "HELP IS AVAILABLE: Check the Emergency page",
+                    message: "We noticed you mentioned concerning language in your entries related to depression. Please know that while life isn’t easy, you are valued and loved, and now is not the time to give up! It may not seem like it, but there’s a network of people all around you who care for you and want to see you succeed in this journey, you are not alone.  We encourage you to utilize the hotlines in the Emergency page, talking is one of the best ways to work through the problems you are facing.",
+                    okButtonText: "Ok"
+                })
+            }
+            if(this.drugWordAlert){
+                await dialogs.alert({
+                    title: "HELP IS AVAILABLE: Check the Emergency page",
+                    message: "We noticed you mentioned concerning language in your entries related to drugs. When responsibilities pile up there seems to be no escape, it’s tough to find motivation to keep going. It’s why some people are attracted to drugs or other illicit substances, which can provide temporary relief of symptoms. However, drugs are highly dangerous and can intensify your existing mental health problems. Using them could get you arrested and even lead to diseases and death. There are sustainable ways to lower your symptoms, you only need to ask! Utilize the Emergency page to talk to a medical professional. We’re here for you!",
+                    okButtonText: "Ok"
+                })
+            }
 
+        } catch(error) {
+            console.log('ERROR WITH FEEDBACK() -> OBTAINING RECENT JOURNAL: ', error)
+        }
         
+        try{
+            // Await activity search with user journal
+            await this.activity();
+            
+            console.log("FeedbackComponent: feedback(): this.activity returned")        
+            
+            // Clear these class variables
+            this.pos_sentences = []
+            this.nouns = []
+            this.verbs = []
 
-         
+        } catch(error) {
+            console.log('ERROR WITH FEEDBACK() -> ACTIVITY SEARCH: ', error)
+        }
+
+        try{
+            // Await getPlaces function with 2 most recent and 2 most frequent activities
+            let result = await this.getPlaces()
+            console.log("FeedbackComponent: feedback(): this.getPlaces returned");
+
+            //Clear class variable
+            this.mapsInputs = []
+
+            this.mapsResult = result;
+
+            console.log('LENGTH OF mapsResult: ', this.mapsResult.length)
+            console.log('ACTIVITIES IN mapsResult: ', this.mapsResult[0].activity, ' :: ', this.mapsResult[0].feedback)
+            console.log('ACTIVITIES IN mapsResult: ', this.mapsResult[1].activity, ' :: ', this.mapsResult[1].feedback)
+            console.log('ACTIVITIES IN mapsResult: ', this.mapsResult[2].activity, ' :: ', this.mapsResult[2].feedback)
+            console.log('ACTIVITIES IN mapsResult: ', this.mapsResult[3].activity, ' :: ', this.mapsResult[3].feedback)
+
+            return Promise.resolve();                      
+
+        } catch(error) {
+            console.log('ERROR WITH FEEDBACK() -> GETTING PLACES: ', error)
+        }
+
     }
 
-    // Will query Places http request
-    async getPlaces(){
-        const actFeedCollection = user.collection("activity_feedback");
-        let recent = []
-        let mostFreq = []
-        let result = {}
+    // Emergency alerter
+    private emergencyAlert(){
+        // Turn journals into lowercase words without punctuation
+        let journal = this.journal
+        .replace(/[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~]/g, '')
+        .replace(/\s+/g, ' ');
 
-        // Query to find two most recent activites
-        const query = actFeedCollection.orderBy("timestamp", "desc").limit(2);
-        
-        let querySnapshot = await query.get()
+        let words = journal.toLowerCase().split(' ');
 
-        querySnapshot.forEach(doc => {
-            recent.push(doc.data())
+
+        // List of dangerous words
+        let extreme = ['suicide', 'depression', 'depressed', 'kill', 'killed', 'killing', 'die', 'died', 'death', 'strangle', 'strangling', 'strangled', 'hang', 
+         'hanging', 'hung', 'drown', 'drowning', 'drowned', 'suffer', 'suffering', 'suffered']
+        let drugs = ['drug', 'drugs', 'dui',  'vape', 'vaping', 'juul', 'juuling', 'marijuana', 'meth', 'nicotine', 'heroine', 'morphine', 'cocaine', 'lsd', 'acid',
+         'weed', 'bud', 'smoke', 'smoked']
+
+        let extremeWords = []
+        let drugsWords = []
+
+        // See if journal contains a dangerous word
+        words.forEach(word =>{
+            
+            extreme.forEach(badWord => {
+                if(badWord === word){
+                    extremeWords.push(badWord)
+                }                
+            });
+
+            drugs.forEach(badWord => {
+                if(badWord === word){
+                    drugsWords.push(badWord)
+                }                
+            });
         });
 
-        console.log('RECENT QUERY LIST: ', recent)
-    
-        // Query to find two most popular activities
-        const query2 = actFeedCollection.orderBy("frequency", "desc").limit(2);
-
-        querySnapshot = await query2.get()
-        
-        querySnapshot.forEach(doc => {
-            mostFreq.push(doc.data())
-        }); 
-        
-        console.log('MOST FREQ QUERY LIST: ', mostFreq)
-        
-        // Obtain user location
-        let location: any
-        try{
-            location = await this.loc.getLocation()
-        }catch(error){
-            console.log("THERE WAS AN ERROR WITH LOCATION SERVICE: ", error)
-            location = [40.798214, -77.859909] // Penn State
+        // If journal has a dangerous word, let the user know
+        if(extremeWords.length > 0){
+            this.extremeWordAlert = true;
+            console.log('BAD WORDS: ', extremeWords)          
         }
-        console.log('LOCATION: ', location)
-
-        try{
-            // For loop to call getPlacesFunction
-            for(let x = 0; x < recent.length; x++)
-            {
-                result['type_' + x] = 'Recent Addition';
-                result['activity_' + x] = recent[x].activity;
-                result['json_' + x] = await this.placesQuery(location[0], location[1], recent[x].searchTerm)
-            }
-            console.log('RESULT LIST AFTER RECENT: ', result)
-
-            for(let x = 2; x < (mostFreq.length + 2); x++)
-            { 
-                result['type_' + x] = 'Most Frequent';
-                result['activity_' + x] = mostFreq[x - 2].activity;
-                result['json_' + x] = await this.placesQuery(location[0], location[1], mostFreq[x - 2].searchTerm)                        
-            }
-            console.log('RESULT LIST AFTER MOSTFREQ: ', result)
-        }
-        catch(error){
-            console.log('ERROR WITH GET REQUEST: ', error)
-        }
-        
-
-        return result;
-    } 
+        if(drugsWords.length > 0){
+            this.drugWordAlert = true;
+            console.log('BAD WORDS: ', drugsWords)               
+        }  
+    }
 
     // ACTIVITY RECOMMENDER
     private async activity(){
@@ -265,6 +293,75 @@ export class FeedbackComponent implements OnInit {
         await this.pushActivities()
     }
 
+    // Will query Places http request
+    async getPlaces(){
+        const actFeedCollection = user.collection("activity_feedback");
+        let recent = []
+        let mostFreq = []
+        let result = [{}, {}, {}, {}]  // Add another json for more results
+
+        // Query to find two most recent activites
+        const query = actFeedCollection.orderBy("timestamp", "desc").limit(2);
+        
+        let querySnapshot = await query.get()
+
+        querySnapshot.forEach(doc => {
+            recent.push(doc.data())
+        });
+
+        console.log('RECENT QUERY LIST: ', recent[0].activity, recent[1].activity)
+    
+        // Query to find two most popular activities
+        const query2 = actFeedCollection.orderBy("frequency", "desc").limit(2);
+
+        querySnapshot = await query2.get()
+        
+        querySnapshot.forEach(doc => {
+            mostFreq.push(doc.data())
+        }); 
+        
+        console.log('MOST FREQ QUERY LIST: ', mostFreq[0].activity, mostFreq[1].activity)
+        
+        // Obtain user location
+        let location: any
+        try{
+            location = await this.loc.getLocation()
+        }catch(error){
+            console.log("THERE WAS AN ERROR WITH LOCATION SERVICE: ", error)
+            location = [40.798214, -77.859909] // Penn State
+        }
+        console.log('LOCATION: ', location);
+        //Updates the latitude and longitude values in the map view for HTML
+        this.userLat = location[0];
+        this.userLng = location[1];
+
+        try{
+            // For loop to call getPlacesFunction
+            for(let x = 0; x < recent.length; x++)
+            {
+                result[x]['type'] = 'Recent Addition';
+                result[x]['activity'] = recent[x].activity;
+                result[x]['feedback'] = recent[x].feedback;
+                result[x]['json'] = await this.placesQuery(location[0], location[1], recent[x].searchTerm)
+            }
+            console.log('RESULT LIST AFTER RECENT: ', result)
+
+            for(let x = 2; x < (mostFreq.length + 2); x++)
+            { 
+                result[x]['type'] = 'Most Frequent';
+                result[x]['activity'] = mostFreq[x-2].activity;
+                result[x]['feedback'] = mostFreq[x-2].feedback;
+                result[x]['json'] = await this.placesQuery(location[0], location[1], mostFreq[x - 2].searchTerm)                        
+            }
+            console.log('RESULT LIST AFTER MOSTFREQ: ', result)
+        }
+        catch(error){
+            console.log('ERROR WITH GET REQUEST: ', error)
+        }
+        
+
+        return result;
+    }
         
     // Will query sentiment http request    
     private async sentimentQuery(sentence){
@@ -316,7 +413,7 @@ export class FeedbackComponent implements OnInit {
             query.forEach(doc => {
                 if(doc.exists){
                     let data = doc.data()     
-                    this.mapsInputs[doc.id] = data.search_term;
+                    this.mapsInputs[doc.id] = [data.search_term, data.feedback];
                     console.log('ACTIVITY EXISTS: ', doc.id, ' ', data.search_term);
                 }
             });
@@ -362,7 +459,8 @@ export class FeedbackComponent implements OnInit {
 
                 userActivities.add({
                     activity: activity,
-                    searchTerm: this.mapsInputs[activity],
+                    searchTerm: this.mapsInputs[activity][0],
+                    feedback: this.mapsInputs[activity][1],
                     frequency: 1,
                     timestamp: firebase.firestore().FieldValue().serverTimestamp()
                 })

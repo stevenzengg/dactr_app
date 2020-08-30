@@ -1,48 +1,36 @@
-<ScrollView>
-    <StackLayout orientation = "vertical" backgroundImage = "~/patient-landing/journal/leafbackground.jpg" style = "background-position: center; background-repeat: repeat; background-size: cover">
-    <Label color = "black" text = "What's on your mind?" fontSize = "40" textAlignment = "center"></Label>
-    <WrapLayout height = "8%" orientation = "horizontal">
-        <Label color = "black" text = {{getDate()}} fontSize = "30" marginRight = "30%"></Label>
-        <Label color = "black" text = {{getTime()}} fontSize = "30"></Label>
-    </WrapLayout>
-    <StackLayout height = "500" borderWidth = "2" borderRadius = "20" width = "300" borderColor = "gray">
-        <Textfield width = "200" bottomBorderColor = "purple" minHeight  = "100" hint = "Title" textAlignment = "center" fontSize = "30"></Textfield>
-        <TextField width="200" minHeight="350" hint="Start Journaling here..."
-            fontSize="20" marginBottom = "-15%"  class = "input" [(ngModel)] = "journal"></TextField>
-    </StackLayout>
-    <Button text = "Enter Journal" (tap) = "submitJournal()" ></Button>
 
- 
+<StackLayout class='component' orientation = "vertical">        
 
-        <!--
-        <Label fontSize = "40" text = {{mapsResult.activity_0}} textAlignment = "center"></Label>  
-        <Label text = {{mapsResult.json_0.results[0].name}} textAlignment = "center"></Label>
-        <Label text = {{mapsResult.json_0.results[0].vicinity}} textAlignment = "center"></Label>
-        <Label text = {{mapsResult.json_0.results[1].name}} textAlignment = "center"></Label>
+    <Label class='h2' text={{getDate()}}></Label>  
 
+    <ScrollView orientation='vertical' height='500'>
 
-        <Label fontSize = "40" text = {{mapsResult.activity_1}} textAlignment = "center"></Label>
-        <Label text = {{mapsResult.json_1.results[0].name}} textAlignment = "center"></Label>
-        <Label text = {{mapsResult.json_1.results[0].vicinity}} textAlignment = "center"></Label>
-        <Label text = {{mapsResult.json_1.results[1].name}} textAlignment = "center"></Label>
+        <StackLayout horizontalAlignment='center' minHeight = "500" borderWidth = "2" borderRadius = "20" width = "300" borderColor = "gray">
+            <Label color = "black" class='question' [text]='question1' textWrap='true'></Label>
+            <TextView minHeight="250" fontSize="14" hint="Answer here..." class="input" [(ngModel)]="journal1"></TextView>
 
+            <Label color = "black" class='question' [text]='question2' textWrap='true'></Label>
+            <TextView minHeight="250" fontSize="14" hint="Answer here..." class="input" [(ngModel)]="journal2"></TextView>
+
+            <Label color = "black" class='question' [text]='question3' textWrap='true'></Label>
+            <TextView minHeight="250" fontSize="14" hint="Answer here..." class="input" [(ngModel)]="journal3"></TextView>
+        </StackLayout>
+
+    </ScrollView>
     
-
-        <Label fontSize = "40" text = {{mapsResult.activity_2}} textAlignment = "center"></Label>
-        <Label text = {{mapsResult.json_2.results[0].name}} textAlignment = "center"></Label>
-        <Label text = {{mapsResult.json_2.results[0].vicinity}} textAlignment = "center"></Label>
-
-        <Label text = {{mapsResult.json_2.results[1].name}} textAlignment = "center"></Label> 
-
+    <Button text = "Enter Journal" (tap) = "submitJournal()" ></Button>     
     
+</StackLayout>
 
-        <Label fontSize = "40" text = {{mapsResult.activity_3}} textAlignment = "center"></Label>
-        <Label text = {{mapsResult.json_3.results[0].name}} textAlignment = "center"></Label>
-        <Label text = {{mapsResult.json_3.results[0].vicinity}} textAlignment = "center"></Label>
 
-        <Label text = {{mapsResult.json_3.results[1].name}} textAlignment = "center"></Label>
+<!-- 
+                <TextView width="250" minHeight="450" hint="Start Journaling here..."
+            fontSize="14" marginBottom = "-15%"  class = "input" [(ngModel)] = "journal"></TextView>
+            -->
+
+            <!--
+        <WrapLayout height = "8%" orientation = "horizontal">
+            <Label color = "black" text = {{getDate()}} fontSize = "30" marginRight = "30%"></Label>
+            <Label color = "black" text = {{getTime()}} fontSize = "30"></Label>
+        </WrapLayout>
         -->
-
-
-    </StackLayout> 
-</ScrollView>

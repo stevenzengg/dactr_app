@@ -6,7 +6,7 @@ import { ClinicianProfileComponent } from "./clinician-profile.component";
 import {AuthGuard} from "../../auth-guard.service";
 
 const routes: Routes = [
-    { path: "clinician-profile", component: ClinicianProfileComponent, canActivate: [AuthGuard]}
+    { path: "clinician-profile", component: ClinicianProfileComponent}
 ];
 
 @NgModule({
