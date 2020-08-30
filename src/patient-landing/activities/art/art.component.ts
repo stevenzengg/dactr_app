@@ -19,29 +19,49 @@ registerElement("MapView", () => require("nativescript-google-maps-sdk").MapView
 
 export class ArtComponent implements OnInit {
     public placeName = []
-    public valid : boolean
+    public searchTerm = "";
+    public valid = false;
+    private mapView: MapView;
+    private userLat = "40.798214"
+    private userLng = "-77.859909"
+    private zoom = 10;
+
     constructor(
         private places: getPlacesService, 
         private loc: getLocationService) { 
 
     }
 
-    private getSearch(keyword) {
-        this.loc.getLocation().then(location => {
-            this.places.getPlacesFunct(location[0], location[1], keyword).then(results => {
-            const temp = JSON.stringify(results);
-            const json = JSON.parse(temp);
-            for(var i = 0; i < json.length; i++) {
-            this.placeName.push(json.results[i])
-            }
-            this.valid = true
-            }).catch(e => console.log(e))
-        }).catch(e => console.log())
+    private async getSearch(keyword) {
+        this.searchTerm = keyword;
         
+        // obtain location
+        const location = await this.loc.getLocation()
 
-    }
+        if(location[0] == 0){
+            this.userLat = "40.798214"
+            this.userLng = "-77.859909"
+        } else {
+            this.userLat = location[0];
+            this.userLng = location[1];
+        }
+        console.log('LOCATION IN GETSEARCH: ', this.userLat, ' ', this.userLng);
 
-    private mapView: MapView;
+        let mapsResults: any;
+
+        // obtain places results
+        const results = await this.places.getPlacesFunct(this.userLat, this.userLng, keyword)
+
+        console.log('RESULTS: ', results)
+        mapsResults = results;
+
+        for(var i = 0; i < mapsResults.results.length; i++) {
+            this.placeName.push(mapsResults.results[i])
+        }
+        console.log('PLACES: ', this.placeName)
+
+        Promise.resolve();
+    }    
 
     private onMapReady(args): void {
         this.mapView = args.object;
@@ -58,26 +78,28 @@ export class ArtComponent implements OnInit {
          marker.userData = { index : 1};
          this.mapView.addMarker(marker);
          */
-        // If loop 
-        if(this.valid == true) {
-
-         //Loops through all the places and creates a marker for them
+        
+        this.getSearch('arts and crafts').then(() => {
+            this.valid = true;
+            //Loops through all the places and creates a marker for them
             for(var i = 0; i < this.placeName.length; i++)
             {
                 var marker = new Marker();
-                marker.position = Position.positionFromLatLng(this.placeName[i].geometry.location.lat, this.placeName[i].geometry.location.lng);
-                //marker.position = {lat: this.placeName[i].geometry.location.lat, lng: this.placeName[i].geometry.location.lng};
-                // mapsModule.Position.positionFromLatLng();
-    
+                marker.position = Position.positionFromLatLng(this.placeName[i].geometry.location.lat, this.placeName[i].geometry.location.lng);    
                 marker.title = this.placeName[i].name;
+                marker.snippet = this.searchTerm;
                 marker.userData = {index: 1};
+
+                console.log('MARKER: ', marker.title)
     
                 this.mapView.addMarker(marker);
             }
     
-            console.log("Feedback Component: markerAdder(): Markers are all added");
-    
-        }  
+            console.log("Feedback Component: markerAdder(): Markers are all added"); 
+        })
+        .catch(err => {
+            console.log('ERROR WITH getSearch: ', err);
+        })
     }
 
 

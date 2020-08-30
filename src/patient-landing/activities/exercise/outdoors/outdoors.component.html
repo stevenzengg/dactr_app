@@ -1,58 +1,55 @@
 <Scrollview>
-    <StackLayout width = "300">
-        <StackLayout orientaion = "horizontal">
-            <StackLayout>
-        <Label text = "Outdoor Activities" textAlignment = "center" fontSize = "40" bottomBorderColor = "black"></Label>
-        <Label text = "Cycling" fontSize = "25" fontAttributes= "Bold"><!-- <Label>
-            <Label.formattedText>
-              <FormattedString fontSize="18" foregroundColor="#FF0000">
-                <FormattedString.spans>
-                  <Span text="Cycling" fontAttributes="Bold" />
-                </FormattedString.spans>
-              </FormattedString>
-            </Label.formattedText>
-          </Label> --></Label>
-          <Button text = "Find me gyms with cycling rooms"></Button>
-          <Button text = "Find bike paths near me"></Button>
-          <Button text = "Read more about Cycling benefits" (tap) = readCycling()></Button>
-        </StackLayout>
-        <Image src="~/outdoors/bikelogo.png" class="fas t-36"></Image>
-    </StackLayout>
-          
-          <StackLayout orientaion = "horizontal">
-            <StackLayout>
-          <Label text = "Running" fontSize = "25" fontAttributes= "Bold"></Label>
-            <Button text = "Find me gyms" (tap) = "getSearch('gyms')"></Button>
-            <Button text = "Find running paths near me" (tap) = "getSearch('running paths')"></Button>
-            <Button text = "Read more about running benefits" (tap) = readRunning()></Button>
-        </StackLayout>
-        <Image src="~/outdoors/runicon.png" class="fas t-36"></Image>
+  <StackLayout width = "300">
+    <StackLayout orientaion = "vertical">
+      <Label text = "Outdoor Activities" textAlignment = "center" fontSize = "30" bottomBorderColor = "black"></Label>
+    
+      <GridLayout [visibility]="valid ? 'visible' : 'collapsed'" height = "250">
+        <MapView
+            [latitude]="userLat"
+            [longitude]="userLng"
+            [zoom]="zoom"
+            (mapReady)="onMapReady($event)"
+        ></MapView>
+      </GridLayout>
 
     </StackLayout>
-            
-            <StackLayout orientaion = "horizontal">
-                <StackLayout> 
-        <Label text = "Hiking" fontSize = "25" fontAttributes= "Bold"></Label>
-            <Button text = "Find me gyms" (tap) = "getSearch('gyms')"></Button>
-            <Button text = "Find hiking paths near me" (tap) = "getSearch('hiking')"></Button> 
-            <Button text = "Read more about hiking benefits" (tap) = readHiking()></Button>
-        </StackLayout>
-        <Image src="~/outdoors/hikelogo.png" class="fas t-36"></Image>
 
+    <StackLayout>
+      <Label text = "Cycling" horizontalAlignment='center' fontSize = "20" fontAttributes= "Bold"></Label>
+      <!-- <Button text = "Find me gyms with cycling rooms"></Button> -->
+      <!-- <Button text = "Find bike paths near me"></Button> -->
+      <Button text = "Read more about cycling benefits" (tap) = readCycling()></Button>
+      <!-- <Image src="~/outdoors/bikelogo.png" class="fas t-36"></Image> -->
     </StackLayout>
+      
+    <StackLayout orientaion = "vertical">
+      <Label text = "Running" horizontalAlignment='center' fontSize = "20" fontAttributes= "Bold"></Label>
+      <!-- <Button text = "Find me gyms" (tap) = "getSearch('gyms')"></Button> -->
+      <!-- <Button text = "Find running paths near me" (tap) = "getSearch('running paths')"></Button> -->
+      <Button text = "Read more about running benefits" (tap) = readRunning()></Button>
+    </StackLayout>
+    <!-- <Image src="~/outdoors/runicon.png" class="fas t-36"></Image> -->
+
+
         
-        
-        
-            <StackLayout orientaion = "horizontal">
-                <StackLayout>  
-        <Label text = "Swimming" fontSize = "25" fontAttributes= "Bold"></Label>
-            <Button text = "Find me nearby pools"(tap) = "getSearch('pools')"></Button>
-            <Button text = "Find swim stores near me" (tap) = "getSearch('swim gear')"></Button> 
-            <Button text = "Read more about swimming benefits" (tap) = readSwimming()></Button>
-        </StackLayout>
-        <Image src="~/outdoors/swimlogo.png" class="fas t-36"></Image>
-
+    <StackLayout orientaion = "vertical">                 
+      <Label text = "Hiking" horizontalAlignment='center' fontSize = "20" fontAttributes= "Bold"></Label>
+      <!-- <Button text = "Find me gyms" (tap) = "getSearch('gyms')"></Button> -->
+      <!-- <Button text = "Find hiking paths near me" (tap) = "getSearch('hiking')"></Button>  -->
+      <Button text = "Read more about hiking benefits" (tap) = readHiking()></Button>        
+      <!-- <Image src="~/outdoors/hikelogo.png" class="fas t-36"></Image> -->
     </StackLayout>
-
+    
+    
+    
+        <!-- <StackLayout orientaion = "vertical">
+            <StackLayout>  
+    <Label text = "Swimming" fontSize = "25" fontAttributes= "Bold"></Label>
+        <Button text = "Find me nearby pools"(tap) = "getSearch('pools')"></Button>
+        <Button text = "Find swim stores near me" (tap) = "getSearch('swim gear')"></Button> 
+        <Button text = "Read more about swimming benefits" (tap) = readSwimming()></Button>
     </StackLayout>
+    <Image src="~/outdoors/swimlogo.png" class="fas t-36"></Image> -->
+
+  </StackLayout>
 </Scrollview>
