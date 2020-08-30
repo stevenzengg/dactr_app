@@ -6,7 +6,7 @@ import { User } from '../models/user.model';
 import { ModalComponent } from "../modal/modal.component";
 import { ModalOtherComponent } from "../modal/modalother.component";
 import { ModalEntertainmentComponent } from "../modal/modalentertainment.component";
-import { ModalArtComponent } from "../modal/modalart.component";
+import { ModalArtComponent } from "../modal/art/modalart.component";
 import { getString } from "tns-core-modules/application-settings";
 
 
