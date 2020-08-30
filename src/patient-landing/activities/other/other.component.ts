@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as appSettings from "tns-core-modules/application-settings";
-
+import * as dialogs from "tns-core-modules/ui/dialogs";
 
 const firebase = require("nativescript-plugin-firebase/app");
 
@@ -43,6 +43,64 @@ export class OtherComponent implements OnInit {
             console.log('setJournal Error: ', e);
         });    
         
+    }
+
+    // Receives 0, 1, or 2 based on the activity
+    deleteActivityButton(index){
+        dialogs.confirm({
+            title: 'Activity Deletion',
+            message: 'Are you sure you wish to delete this activity from your recommended?',
+            okButtonText: 'Yes',
+            cancelButtonText: 'No'            
+        }).then(result => {
+            
+            if(this.showActivities[index] === '...'){
+                result = false;
+                dialogs.alert('There is no activity mentioned here').then(()=>{
+                    console.log('USER NOTIFIED OF FAULTY DELETION CALL')
+                });
+            }
+            
+            if(result){
+
+                user.collection("activity_feedback").where('activity', '==', this.showActivities[index]).get()
+                .then(querySnapShots => {
+
+                    let docID: any
+                    querySnapShots.forEach(doc => {
+                        docID = doc.id
+                    });
+
+                    user.collection("activity_feedback").doc(docID).delete()
+                    .then(() => {
+                        console.log('ACTIVITY DELETED')
+                        
+                        let deleteIndex = this.activities.indexOf(this.showActivities[index])
+
+                        let firstHalf = this.activities.slice(0, deleteIndex)
+                        let secondHalf = this.activities.slice(deleteIndex + 1, this.activities.length)
+                        this.activities = firstHalf.concat(secondHalf)
+
+                        firstHalf = this.feedback.slice(0, deleteIndex)
+                        secondHalf = this.feedback.slice(deleteIndex + 1, this.feedback.length)
+                        this.feedback = firstHalf.concat(secondHalf)
+
+                        firstHalf = this.frequency.slice(0, deleteIndex)
+                        secondHalf = this.frequency.slice(deleteIndex + 1, this.frequency.length)
+                        this.frequency = firstHalf.concat(secondHalf)
+
+                        this.clearShowElements();
+                        this.setShowElements();
+                    })
+                    .catch(err => console.log('Error with activity deletion: ', err))
+                })
+                .catch(err => console.log('Error with activity retrieval for delete request: ', err))
+
+            } else {
+                console.log('USER REFUSED ACTIVITY DELETION')
+            }
+        })
+            
     }
 
     nextButton(){

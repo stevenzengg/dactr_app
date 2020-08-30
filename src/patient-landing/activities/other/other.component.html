@@ -9,6 +9,7 @@
         <StackLayout horizontalAlignment='center' class='component recommendation'>
             <Label class='component activity' textWrap= 'true' [text] = "showActivities[0]"></Label>
             <Label class='component feedback' textWrap= 'true' [text] = "showFeedback[0]"></Label>
+            <Button text='Delete Activity' (tap)='deleteActivityButton(0)' fontSize='10'></Button>
             <Label class='component frequency' [text] = 'showFrequency[0]'></Label>
         </StackLayout>
           
@@ -16,6 +17,7 @@
         <StackLayout horizontalAlignment='center' class='component recommendation'>
             <Label class='component activity' textWrap= 'true' [text] = "showActivities[1]"></Label>
             <Label class='component feedback' textWrap= 'true' [text] = "showFeedback[1]"></Label>
+            <Button text='Delete Activity' (tap)='deleteActivityButton(1)' fontSize='10'></Button>
             <Label class='component frequency' [text] = 'showFrequency[1]'></Label>
         </StackLayout>
 
@@ -23,6 +25,7 @@
         <StackLayout horizontalAlignment='center'>
             <Label class='component activity' textWrap= 'true' [text] = "showActivities[2]"></Label>
             <Label class='component feedback' textWrap= 'true' [text] = "showFeedback[2]"></Label>
+            <Button text='Delete Activity' (tap)='deleteActivityButton(2)' fontSize='10'></Button>
             <Label class='component frequency' [text] = 'showFrequency[2]'></Label>
         </StackLayout>
 
