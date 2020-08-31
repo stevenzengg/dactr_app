@@ -1,19 +1,21 @@
 <Scrollview>
     <StackLayout width = "300">
-        <Label text = "Entertainment" textAlignment = "center" fontSize = "40" bottomBorderColor = "black"></Label>
-        <Label text = "Movies" fontSize = "25" fontAttributes= "Bold"><!-- <Label>
-            <Label.formattedText>
-              <FormattedString fontSize="18" foregroundColor="#FF0000">
-                <FormattedString.spans>
-                  <Span text="Cycling" fontAttributes="Bold" />
-                </FormattedString.spans>
-              </FormattedString>
-            </Label.formattedText>
-          </Label> --></Label>
-          <Button text = "Find me nearby movie theatres" (tap) = "getSearch('movie theatre')"></Button>
-          <Button text = "Find recent popular movies" (tap) = "recentMovies()"></Button>
-          <!--<Button text = "Select favorite movie genres"></Button> -->
-          
+      <Label text = "Entertainment" textAlignment = "center" fontSize = "30" bottomBorderColor = "black"></Label>
+
+      <GridLayout [visibility]="valid ? 'visible' : 'collapsed'" height = "250">
+        <MapView
+            [latitude]="userLat"
+            [longitude]="userLng"
+            [zoom]="zoom"
+            (mapReady)="onMapReady($event)"
+        ></MapView>
+      </GridLayout>
+
+      <Label text = "Movies" horizontalAlignment='center' fontSize = "20" fontAttributes= "Bold"></Label>
+      <!-- <Button text = "Find me nearby movie theatres" (tap) = "getSearch('movie theatre')"></Button> -->
+      <Button text = "Find recent popular movies" (tap) = "recentMovies()"></Button>
+      <!--<Button text = "Select favorite movie genres"></Button> -->
+        
         
 
     </StackLayout>

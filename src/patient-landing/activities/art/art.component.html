@@ -1,51 +1,49 @@
 <Scrollview>
-    <StackLayout width = "300">
-        <StackLayout orientation = "horizontal">
-            <StackLayout>
-        <Label text = "Art" textAlignment = "center" fontSize = "40" bottomBorderColor = "black"></Label>
-        <Label text = "Sketching" fontSize = "25" fontAttributes= "Bold"><!-- <Label>
-            <Label.formattedText>
-              <FormattedString fontSize="18" foregroundColor="#FF0000">
-                <FormattedString.spans>
-                  <Span text="Cycling" fontAttributes="Bold" />
-                </FormattedString.spans>
-              </FormattedString>
-            </Label.formattedText>
-          </Label> --></Label>
-          <Button text = "Find me shops with sketching materials" (tap) = "getSearch('sketching materials')"></Button>
-          <Button text = "Find sketching tutorials" (tap) = sketchTutorials()></Button>
-          <Button text = "Read more about sketching ideas" (tap) = sketchIdeas()></Button>
-        </StackLayout>
+  <StackLayout orientation='vertical' width = "300">
+    <StackLayout orientation = "vertical">
+    
+      <Label text = "Art" textAlignment = "center" fontSize='30' bottomBorderColor = "black"></Label>
+
+      <GridLayout [visibility]="valid ? 'visible' : 'collapsed'" height = "250">
+        <MapView
+            [latitude]="userLat"
+            [longitude]="userLng"
+            [zoom]="zoom"
+            (mapReady)="onMapReady($event)"
+        ></MapView>
+      </GridLayout>
+    
+    </StackLayout>
+
+    <StackLayout orientation='vertical'>
+      <Label text = "Sketching" horizontalAlignment='center' fontSize = "20" fontAttributes= "Bold"></Label>
+        <!-- <Button text = "Find me shops with sketching materials" (tap) = "getSearch('arts and crafts')"></Button> -->
+        <Button text = "Find sketching tutorials" (tap) = sketchTutorials()></Button>
+        <Button text = "Read more about sketching ideas" (tap) = sketchIdeas()></Button>
+    </StackLayout>
+        
+        
+    <StackLayout orientation = "vertical">
+      <Label text = "Canvas Painting" horizontalAlignment='center' fontSize = "20" fontAttributes= "Bold"></Label>
+      <!-- <Button text = "Find shops with canvas painting materials" (tap) = "getSearch('canvas painting materials')"></Button> -->
+      <Button text = "Find canvas painting tutorials" (tap) = canvasTutorials()></Button>
+      <Button text = "Read more about canvas painting ideas" (tap) = canvasIdeas()></Button>
     </StackLayout>
           
-          
-    <StackLayout orientation = "horizontal">
-        <StackLayout>
-          <Label text = "Canvas Painting" fontSize = "25" fontAttributes= "Bold"></Label>
-            <Button text = "Find shops with canvas painting materials" (tap) = "getSearch('canvas painting materials')"></Button>
-            <Button text = "Find canvas painting tutorials" (tap) = canvasTutorials()></Button>
-            <Button text = "Read more about canvas painting ideas" (tap) = canvasIdeas()></Button>
-        </StackLayout>
+    <StackLayout orientation = "vertical">
+        <Label text = "Acrylic Painting" horizontalAlignment='center' fontSize = "20" fontAttributes= "Bold"></Label>
+        <!-- <Button text = "Find shops with acrylic painting materials" (tap) = "getSearch('acrylic painting materials')"></Button> -->
+        <Button text = "Find acrylic painting tutorials" (tap) = acrylicTutorials()></Button>
+        <Button text = "Read more about acrylic painting ideas" (tap) = acrylicIdeas()></Button>
+    </StackLayout>     
+      
+      
+    <StackLayout orientation = "vertical">          
+      <Label text = "Water Painting" horizontalAlignment='center' fontSize = "20" fontAttributes= "Bold"></Label>
+      <!-- <Button text = "Find shops with water painting materials" (tap) = "getSearch('water painting materials')"></Button> -->
+      <Button text = "Find water painting tutorials" (tap) = waterTutorials()></Button>
+      <Button text = "Read more about water painting ideas" (tap) = waterIdeas()></Button>      
     </StackLayout>
-            
-            <StackLayout orientation = "horizontal">
-                <StackLayout>
-        <Label text = "Acrylic Painting" fontSize = "25" fontAttributes= "Bold"></Label>
-            <Button text = "Find shops with acrylic painting materials" (tap) = "getSearch('acrylic painting materials')"></Button>
-            <Button text = "Find acrylic painting tutorials" (tap) = acrylicTutorials()></Button>
-            <Button text = "Read more about acrylic painting ideas" (tap) = acrylicIdeas()></Button>
-        </StackLayout>
-    </StackLayout>
-        
-        
-        
-            <StackLayout orientation = "horizontal">
-                <StackLayout>
-        <Label text = "Water Painting" fontSize = "25" fontAttributes= "Bold"></Label>
-            <Button text = "Find shops with water painting materials" (tap) = "getSearch('water painting materials')"></Button>
-            <Button text = "Find water painting tutorials" (tap) = waterTutorials()></Button>
-            <Button text = "Read more about water painting ideas" (tap) = waterIdeas()></Button>
-        </StackLayout>
-    </StackLayout>
-    </StackLayout>
+
+  </StackLayout>
 </Scrollview>
