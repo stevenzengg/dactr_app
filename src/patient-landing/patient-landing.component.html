@@ -1,4 +1,12 @@
-<ActionBar style = "background-color: hsla(0, 0%, 0%, 0);">
+<ActionBar>
+
+    <ActionItem ios:position="right" android.position = "actionBar">
+        <Image src="~/patient-landing/icon_pics/dactrlogo.png"></Image>
+  </ActionItem>
+    <ActionItem (tap)="toInfo()"
+                ios.systemIcon="16" ios.position="right" android.position="popup">
+                <Image src="~/patient-landing/icon_pics/infoicon.png"></Image>
+    </ActionItem>
 </ActionBar>
 
 <BottomNavigation selectedIndex="0">

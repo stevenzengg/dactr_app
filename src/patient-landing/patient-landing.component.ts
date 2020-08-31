@@ -114,5 +114,8 @@ export class PatientLandingComponent implements OnInit {
     callPolice(){
       TNSPhone.dial("911", true);
     }
+    toInfo(){
+      this.routerExtensions.navigate(['/settings'])
+    }
 
 }

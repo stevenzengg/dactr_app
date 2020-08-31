@@ -11,6 +11,7 @@ import { ArtComponent } from "./activities/art/art.component";
 import { EntertainmentComponent } from "./activities/entertainment/entertainment.component";
 import { OtherComponent } from "./activities/other/other.component";
 import { OutdoorsComponent } from "./activities/exercise/outdoors/outdoors.component";
+import { SettingsComponent } from "./settings/settings.component"
 
 
 
@@ -22,7 +23,8 @@ const routes: Routes = [
     { path: "art", component: ArtComponent},
     { path: "entertainment", component: EntertainmentComponent},
     { path: "other", component: OtherComponent},
-    { path: "outdoors", component: OutdoorsComponent}
+    { path: "outdoors", component: OutdoorsComponent},
+    { path: "settings", component: SettingsComponent}
 ];
 
 @NgModule({
