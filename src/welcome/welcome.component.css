@@ -1,0 +1,25 @@
+.firstpage {
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+    padding: 1em;
+    background-image: url('~writingbackground.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    /*background-color: yellow;*/
+  }
+.button {
+    border-radius: 10;
+    font-size: 10;
+    padding: 10;
+    margin: 1;
+    border: 1;
+    vertical-align: middle;
+    line-height: 10%;
+    font-weight: 400;
+    color: wheat;
+    font-family: "Open Sans";
+    background-color: coral;
+    height: 60px
+}

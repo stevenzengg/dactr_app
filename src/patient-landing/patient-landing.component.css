@@ -1,0 +1,33 @@
+Image{
+  width: 100%;
+  height: 100%;
+
+}
+.fas {
+    font-family: "Font Awesome 5 Free", "fa-solid-900";
+    font-weight: 900;
+}
+
+.t-36 {
+    font-size: 36;
+}
+.littleImage{
+  border-radius: 50%;
+  height: 75px;
+  width: 75px;
+}
+.logoposition {
+  object-position: 0 0;
+  width: 50%
+}
+.page {
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
+  padding: 1em;
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: cover;
+  color: black;
+  /*background-color: yellow;*/
+}

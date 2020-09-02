@@ -1,22 +1,9 @@
-.page {
-    align-items: center;
-    align-content: center;
-    justify-content: space-evenly;
-    flex-direction: column;
-    /*background-color: yellow;*/
-  }
-  .form {
-    margin-left: 30;
-    margin-right: 30;
-    flex-grow: 2;
-    vertical-align: middle;
-    /*background-color: aqua;*/
-  }
 
-  .username {
-    background-color: red;
-  }
-
-  .password {
-    background-color: green;
+.form {
+margin-left: 30;
+margin-right: 30;
+flex-grow: 2;
+vertical-align: middle;
+padding: 1em;
+/*background-color: aqua;*/
 }

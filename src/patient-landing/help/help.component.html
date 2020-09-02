@@ -1,0 +1,47 @@
+<StackLayout orientation='vertical'>
+    <Label text='Help' class='h2'></Label>
+
+    <Label text='Welcome! Here, we will run you through the features of DACTR.' textWrap='true' class='h3'></Label>
+    <Label text='For more information on DACTR, click here:' class='h3'></Label>
+    <Button text='DACTR Website' horizontalAlignment='center' (tap)='openDactrWeb()'></Button>
+
+    <ScrollView orientation='vertical' height='500' width='350'>
+        <StackLayout orientation='vertical'>
+            <!-- Journaling -->
+            <StackLayout paddingTop='10'> 
+                <Label text='Journaling' fontWeight='bold' class='h3'></Label>
+                <Label [text]='journalingText1' textAlignment='center' class='component desc' textWrap='true'></Label>
+                <Label [text]="journalingText2" textAlignment='center' class='component desc' textWrap='true'></Label>
+                <Label [text]='journalingText3' textAlignment='center' class='component desc' textWrap='true'></Label>
+            </StackLayout>
+
+            <!-- Journal Log -->
+            <StackLayout>
+                <Label text='Journal Log' fontWeight='bold' paddingTop='10' class='h3'></Label>
+                <Label [text]='journalLogText1' textAlignment='center' class='component desc' textWrap='true'></Label>
+            </StackLayout>
+
+            <!-- Activities -->
+            <StackLayout>
+                <Label text='Activities' fontWeight='bold' paddingTop='10' class='h3'></Label>
+                <Label [text]='activitiesText1' textAlignment='center' class='component desc' textWrap='true'></Label>
+                <Label [text]='activitiesText2' textAlignment='center' class='component desc' textWrap='true'></Label>
+            </StackLayout>
+
+            <!-- Emergency -->
+            <StackLayout> 
+                <Label text='Emergency' fontWeight='bold' paddingTop='10' class='h3'></Label>
+                <Label [text]='emergencyText1' textAlignment='center' class='component desc' textWrap='true'></Label>
+                <Label [text]="emergencyText2" textAlignment='center' class='component desc' textWrap='true'></Label>
+            </StackLayout>
+
+            <!-- Account -->
+            <StackLayout paddingBottom='10'> 
+                <Label text='Account' fontWeight='bold' paddingTop='10' class='h3'></Label>
+                <Label [text]='accountText1' textAlignment='center' class='component desc' textWrap='true'></Label>
+            </StackLayout>
+
+        </StackLayout>
+    </ScrollView>
+
+</StackLayout>

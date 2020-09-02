@@ -1,0 +1,52 @@
+<ActionBar style = "background-color: hsla(0, 0%, 0%, 0);">
+</ActionBar>
+<FlexboxLayout  flexDirection = "column" justifyContent="space-between" iosOverflowSafeArea="true" backgroundImage = "~/login/landscapebackground.jpg" style = "background-position: right; background-size: cover;" >
+
+  <!--Logo Img-->
+    <Image src="~/login/dactrlogo.png" stretch = "aspectFill" width = "45%" height = "45%">
+  </Image>
+
+  <Label text = "Sign up" fontSize = "30" marginTop = "-30%" textAlignment = "center" color = "black" minHeight = "50" >
+    </Label>
+    <!--Username Input-->
+    <FlexboxLayout justifyContent= "center" width = "100%" marginBottom = "-5%">
+          <TextField width="120" minHeight="50" hint="First Name"
+              fontSize="20"
+              autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;"
+              [(ngModel)]="firstName">
+            </TextField>
+
+
+            <TextField width="120" minHeight="50" hint="Last Name"
+                fontSize="20"
+                autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;"
+                [(ngModel)]="lastName">
+              </TextField>
+
+    </FlexboxLayout>
+    <StackLayout width="200" marginBottom = "-4%">
+          <TextField width="200" minHeight="50" hint="E-mail"
+              fontSize="20" keyboardType = "email"
+              autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;"
+             [(ngModel)]="email" >
+            </TextField>
+      </StackLayout>
+
+      <!--Password Input-->
+      <StackLayout width="200" marginBottom = "-4%">
+          <TextField width="200" minHeight="50" hint="Password"
+              secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;"
+              [(ngModel)]="password">
+              </TextField>
+      </StackLayout>
+      <StackLayout width="200" marginBottom = "-4%">
+      <TextField width="200" minHeight="50" hint="Confirm Password"
+          secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;"
+          [(ngModel)]="confirmPassword">
+          </TextField>
+        </StackLayout>
+      <!--Login Button-->
+      <Button text='Sign Up'
+      width="150" (tap)="submit()">
+      </Button>
+</FlexboxLayout>

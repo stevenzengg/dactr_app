@@ -1,0 +1,41 @@
+.h2{
+    padding: 10;
+    text-align: center;
+    font-size: 30;
+}
+
+.component{
+    font-family: "Font Awesome 5 Free", "fa-solid-900";
+}
+
+.component .recommendation{
+    border-bottom-width: 2;
+    border-bottom-color: gray;
+    width: 350;
+}
+
+.component .activity{
+    font-size: 15;   
+    text-align: center;
+    font-weight: bold;
+    color: black;
+    padding: 5;
+    horizontal-align: center;
+}
+
+.component .feedback{
+    font-size: 12;
+    text-align: center;
+    color: black;
+    padding: 5;
+    horizontal-align: center;
+}
+
+.component .frequency{
+    font-size: 15;
+    text-align: center;
+    font-style: italic;
+    color: black;
+    padding-top: 15;
+    horizontal-align: center;
+}

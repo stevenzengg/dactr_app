@@ -1,0 +1,39 @@
+<ActionBar style = "background-color: hsla(0, 0%, 0%, 0);">
+</ActionBar>
+
+<FlexboxLayout  flexDirection = "column" justifyContent="space-between" iosOverflowSafeArea="true" backgroundImage = "~/login/landscapebackground.jpg" style = "background-position: right; background-size: cover;" >
+
+    <!--Logo Img-->
+    <Image src="~/login/dactrlogo.png">
+    </Image>
+
+    <!--Remove-->
+    <Button text="ToLanding" [nsRouterLink]="['/clinician-landing']"></Button>
+
+    <Label text = "Clinician Sign In" fontSize = "40" textAlignment = "center" color = "black" marginTop = "-10%">
+    </Label>
+    <!--Username Input-->
+    <StackLayout width="200">
+        <TextField width="200" minHeight="50" hint="E-mail"
+                   fontSize="20" keyboardType = "email"
+                   autocapitalize="none" autocorrect = "false" style = "placeholder-color: black; border-color: black;"
+                   [(ngModel)]="email"></TextField>
+    </StackLayout>
+
+    <!--Password Input-->
+    <StackLayout width="200">
+        <TextField width="200" minHeight="50" hint="Password"
+                   secure="true" fontSize="20" style = "placeholder-color: black; border-color: black;"
+                   [(ngModel)]="password"></TextField>
+    </StackLayout>
+
+    <!--Login Button-->
+    <Button text='Log In'
+            width="150" (tap)="toClinicianLanding()">
+    </Button>
+    <WrapLayout orientation = "horizontal" marginTop = "-50%" justifyContent = "center">
+        <Label text = "Forgot your password?" color = "gray" marginLeft = "20%"></Label>
+        <Button (tap) = "toRegister()" borderColor = "transparent" text="Click here" paddingTop = "-8%" height = "20" fontSize = "12" backgroundColor = "transparent" color = "black"></Button>
+    </WrapLayout>
+
+</FlexboxLayout>

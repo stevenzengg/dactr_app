@@ -1,0 +1,108 @@
+
+ <StackLayout class='component' [visibility]="journalsLoaded ? 'visible' : 'collapsed'">
+    <Label text = "Journal Log" class = "h2"></Label> 
+    
+    
+    <ScrollView orientation='vertical' height = "500" borderWidth = "2" borderRadius = "10" width = "350" borderColor = "gray">
+        <StackLayout horizontalAlignment='center'>
+
+            <!-- Journal 1 -->
+            <StackLayout horizontalAlignment='center' class='component journal'>
+                <Label class='component timestamp' [text] = 'showTimestamps[0]'></Label>
+                
+                <Label class='component question' textWrap= 'true' [text] = "showQuestions[0][0]"></Label>
+                <Label class='component answer' textWrap= 'true' [text] = "showJournals[0][0]"></Label>            
+
+                <Label class='component question' textWrap= 'true' [text] = "showQuestions[0][1]"></Label>
+                <Label class='component answer' textWrap= 'true' [text] = "showJournals[0][1]"></Label>
+
+                <Label class='component question' textWrap= 'true' [text] = "showQuestions[0][2]"></Label>
+                <Label class='component answer' textWrap= 'true' [text] = "showJournals[0][2]"></Label>
+            </StackLayout>
+            
+            <!-- Journal 2 -->
+            <StackLayout horizontalAlignment='center' class='component journal'>
+                <Label class='component timestamp' [text] = 'showTimestamps[1]'></Label>
+
+                <Label class='component question' textWrap= 'true' [text] = "showQuestions[1][0]"></Label>
+                <Label class='component answer' textWrap= 'true' [text] = "showJournals[1][0]"></Label>            
+
+                <Label class='component question' textWrap= 'true' [text] = "showQuestions[1][1]"></Label>
+                <Label class='component answer' textWrap= 'true' [text] = "showJournals[1][1]"></Label>
+
+                <Label class='component question' textWrap= 'true' [text] = "showQuestions[1][2]"></Label>
+                <Label class='component answer' textWrap= 'true' [text] = "showJournals[1][2]"></Label>
+            </StackLayout>
+
+            <!-- Journal 3 -->
+            <StackLayout horizontalAlignment='center'>
+                <Label class='component timestamp' [text] = 'showTimestamps[2]'></Label>
+
+                <Label class='component question' textWrap= 'true' [text] = "showQuestions[2][0]"></Label>
+                <Label class='component answer' textWrap= 'true' [text] = "showJournals[2][0]"></Label>            
+
+                <Label class='component question' textWrap= 'true' [text] = "showQuestions[2][1]"></Label>
+                <Label class='component answer' textWrap= 'true' [text] = "showJournals[2][1]"></Label>
+
+                <Label class='component question' textWrap= 'true' [text] = "showQuestions[2][2]"></Label>
+                <Label class='component answer' textWrap= 'true' [text] = "showJournals[2][2]"></Label>            
+            </StackLayout>
+        </StackLayout>        
+    </ScrollView>
+
+    <GridLayout columns='*, *' rows='2*'>
+        <Button col='0' row='0' text='Back' (tap)='backButton()'></Button>
+        <Button col='1' row='0' text='Next' (tap)='nextButton()'></Button> 
+    </GridLayout>
+    
+</StackLayout>
+
+
+
+<!-- <Label class='component answer' textWrap= 'true' [text] = "index"></Label> -->
+
+
+<!--<ScrollView marginTop = "10%">-->
+    <!--
+        <ListView [items]="journalLog" height="300">
+            <ng-template let-item = "item" let-i ="index">
+                <GridLayout>
+                    <Label [text] = "item"></Label>
+                </GridLayout>
+            </ng-template>
+        </ListView>
+    -->
+    <!--</ScrollView>-->
+    
+<!--
+
+    <ListView [items]="journalLog" class='list-group' height="700">
+        <ng-template let-item = "item" let-i ="index">
+             <StackLayout horizontalAlignment='center' minHeight = "500" borderWidth = "2" borderRadius = "10" width = "300" borderColor = "gray">
+                
+                <Label class='component question' textWrap= 'true' [text] = "questionsLog[index][0]"></Label>
+                <Label class='component answer' textWrap= 'true' [text] = "item[0]"></Label>
+                
+
+                <Label class='component question' textWrap= 'true' [text] = "questionsLog[index][1]"></Label>
+                <Label class='component answer' textWrap= 'true' [text] = "item[1]"></Label>
+
+                <Label class='component question' textWrap= 'true' [text] = "questionsLog[index][2]"></Label>
+                <Label class='component answer' textWrap= 'true' [text] = "item[2]"></Label>
+
+                <Label class='component timestamp' [text] = 'timestamps[index]'></Label>
+
+            </StackLayout>
+        </ng-template>
+    </ListView>
+    
+
+    <GridLayout columns = "auto, 5, auto">
+                <Label class='label1' col = "0" [text] = "item"></Label>
+    </GridLayout>
+    
+
+        <StackLayout *ngFor="let journal of journalLog" class="list-group-item">
+            <Label [text]="journal"></Label>
+        </StackLayout>
+-->

@@ -1,0 +1,61 @@
+<StackLayout class='component' [visibility]="activitiesLoaded ? 'visible' : 'collapsed'">
+  <Label text = "Recommended Activities" class='h2'></Label> 
+  
+  
+  <ScrollView orientation='vertical' height = "500" borderWidth = "2" borderRadius = "10" width = "350" borderColor = "gray">
+      <StackLayout horizontalAlignment='center'>
+
+        <!-- Activity 1 -->
+        <StackLayout horizontalAlignment='center' class='component recommendation'>
+            <Label class='component activity' textWrap= 'true' [text] = "showActivities[0]"></Label>
+            <Label class='component feedback' textWrap= 'true' [text] = "showFeedback[0]"></Label>
+            <Button text='Delete Activity' (tap)='deleteActivityButton(0)' fontSize='10'></Button>
+            <Label class='component frequency' [text] = 'showFrequency[0]'></Label>
+        </StackLayout>
+          
+        <!-- Activity 2 -->
+        <StackLayout horizontalAlignment='center' class='component recommendation'>
+            <Label class='component activity' textWrap= 'true' [text] = "showActivities[1]"></Label>
+            <Label class='component feedback' textWrap= 'true' [text] = "showFeedback[1]"></Label>
+            <Button text='Delete Activity' (tap)='deleteActivityButton(1)' fontSize='10'></Button>
+            <Label class='component frequency' [text] = 'showFrequency[1]'></Label>
+        </StackLayout>
+
+        <!-- Activity 3 -->
+        <StackLayout horizontalAlignment='center'>
+            <Label class='component activity' textWrap= 'true' [text] = "showActivities[2]"></Label>
+            <Label class='component feedback' textWrap= 'true' [text] = "showFeedback[2]"></Label>
+            <Button text='Delete Activity' (tap)='deleteActivityButton(2)' fontSize='10'></Button>
+            <Label class='component frequency' [text] = 'showFrequency[2]'></Label>
+        </StackLayout>
+
+      </StackLayout>        
+  </ScrollView>
+
+  <GridLayout columns='*, *' rows='2*'>
+      <Button col='0' row='0' text='Back' (tap)='backButton()'></Button>
+      <Button col='1' row='0' text='Next' (tap)='nextButton()'></Button> 
+  </GridLayout>
+  
+</StackLayout>
+
+
+
+
+
+<!-- <Scrollview>
+    
+  
+  
+  
+  
+  
+  
+  <StackLayout width = "300">
+        <Label text = "Recommended Activities" textAlignment = "center" fontSize = "40" bottomBorderColor = "black"></Label>
+        <Label text = "Dining" fontSize = "25" fontAttributes= "Bold"></Label>
+          <Button text = "Find me nearby open restaurants" (tap) = "getSearch('restaurants')"></Button>
+          <Button text = "Find recipes online" (tap) = "findRecipes()" ></Button>
+          <Button text = "Read more about eating healthy"(tap) = readEating()></Button>
+    </StackLayout>
+</Scrollview> -->
