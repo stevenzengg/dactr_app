@@ -1,5 +1,6 @@
-<Scrollview>
-  <StackLayout width = "300">
+
+<StackLayout width = "300">
+
     <StackLayout orientaion = "vertical">
       <Label text = "Outdoor Activities" textAlignment = "center" fontSize = "30" bottomBorderColor = "black"></Label>
     
@@ -14,33 +15,35 @@
 
     </StackLayout>
 
-    <StackLayout>
-      <Label text = "Cycling" horizontalAlignment='center' fontSize = "20" fontAttributes= "Bold"></Label>
-      <!-- <Button text = "Find me gyms with cycling rooms"></Button> -->
-      <!-- <Button text = "Find bike paths near me"></Button> -->
-      <Button text = "Read more about cycling benefits" (tap) = readCycling()></Button>
-      <!-- <Image src="~/outdoors/bikelogo.png" class="fas t-36"></Image> -->
-    </StackLayout>
-      
-    <StackLayout orientaion = "vertical">
-      <Label text = "Running" horizontalAlignment='center' fontSize = "20" fontAttributes= "Bold"></Label>
-      <!-- <Button text = "Find me gyms" (tap) = "getSearch('gyms')"></Button> -->
-      <!-- <Button text = "Find running paths near me" (tap) = "getSearch('running paths')"></Button> -->
-      <Button text = "Read more about running benefits" (tap) = readRunning()></Button>
-    </StackLayout>
-    <!-- <Image src="~/outdoors/runicon.png" class="fas t-36"></Image> -->
-
-
+  <Scrollview orientation='vertical' height='500'>
+    <StackLayout orientation='vertical'>
+      <StackLayout>
+        <Label text = "Cycling" horizontalAlignment='center' fontSize = "20" fontAttributes= "Bold"></Label>
+        <!-- <Button text = "Find me gyms with cycling rooms"></Button> -->
+        <!-- <Button text = "Find bike paths near me"></Button> -->
+        <Button text = "Read more about cycling benefits" (tap) = readCycling()></Button>
+        <!-- <Image src="~/outdoors/bikelogo.png" class="fas t-36"></Image> -->
+      </StackLayout>
         
-    <StackLayout orientaion = "vertical">                 
-      <Label text = "Hiking" horizontalAlignment='center' fontSize = "20" fontAttributes= "Bold"></Label>
-      <!-- <Button text = "Find me gyms" (tap) = "getSearch('gyms')"></Button> -->
-      <!-- <Button text = "Find hiking paths near me" (tap) = "getSearch('hiking')"></Button>  -->
-      <Button text = "Read more about hiking benefits" (tap) = readHiking()></Button>        
-      <!-- <Image src="~/outdoors/hikelogo.png" class="fas t-36"></Image> -->
-    </StackLayout>
-    
-    
+      <StackLayout orientaion = "vertical">
+        <Label text = "Running" horizontalAlignment='center' fontSize = "20" fontAttributes= "Bold"></Label>
+        <!-- <Button text = "Find me gyms" (tap) = "getSearch('gyms')"></Button> -->
+        <!-- <Button text = "Find running paths near me" (tap) = "getSearch('running paths')"></Button> -->
+        <Button text = "Read more about running benefits" (tap) = readRunning()></Button>
+      </StackLayout>
+      <!-- <Image src="~/outdoors/runicon.png" class="fas t-36"></Image> -->
+
+
+          
+      <StackLayout orientaion = "vertical">                 
+        <Label text = "Hiking" horizontalAlignment='center' fontSize = "20" fontAttributes= "Bold"></Label>
+        <!-- <Button text = "Find me gyms" (tap) = "getSearch('gyms')"></Button> -->
+        <!-- <Button text = "Find hiking paths near me" (tap) = "getSearch('hiking')"></Button>  -->
+        <Button text = "Read more about hiking benefits" (tap) = readHiking()></Button>        
+        <!-- <Image src="~/outdoors/hikelogo.png" class="fas t-36"></Image> -->
+      </StackLayout>
+    </StackLayout>    
+  </Scrollview>
     
         <!-- <StackLayout orientaion = "vertical">
             <StackLayout>  
@@ -51,5 +54,4 @@
     </StackLayout>
     <Image src="~/outdoors/swimlogo.png" class="fas t-36"></Image> -->
 
-  </StackLayout>
-</Scrollview>
+</StackLayout>
