@@ -90,7 +90,7 @@ export class JournalLogComponent implements OnInit {
             //This pushes journal questions and respective answers
             this.questionsLog.push(entry.questions)
             this.journalLog.push(entry.answers)
-            this.timestamps.push(entry.timestamp)            
+            this.timestamps.push(entry.timestamp)
         });
     }
 

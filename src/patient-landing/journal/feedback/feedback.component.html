@@ -13,11 +13,12 @@
         ></MapView>
     </GridLayout>    
     
-    <Label horizontalAlignment='center' class='h2' text = "Activities:"></Label> 
-    
+    <Label horizontalAlignment='center' class='h2' text = "Activities:"></Label>
+
+    <ActivityIndicator width='75' height='75' [busy]="isBusy" [visibility]="isBusy ? 'visible' : 'collapsed'"></ActivityIndicator>
     
     <!-- Outputted Activities -->
-    <ScrollView orientation='vertical' height='300'>        
+    <ScrollView orientation='vertical' height='300'>     
         <GridLayout columns='*,*' rows='*,*' class='component grid' horizontalAlignment='center' [visibility]="activityLoaded ? 'visible' : 'collapsed'">
 
             <StackLayout col='0' row='0'>

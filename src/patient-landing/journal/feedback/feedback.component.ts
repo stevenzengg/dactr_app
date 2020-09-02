@@ -34,6 +34,7 @@ export class FeedbackComponent implements OnInit {
     public icons: any[]
     public journal  = "";
     public mapsResult: any;
+    public isBusy: boolean = true;
 
     //Google Map Variable Initialization
     public markerList =[];
@@ -128,7 +129,8 @@ export class FeedbackComponent implements OnInit {
                 
             });
 
-            this.activityLoaded = true;            
+            this.isBusy = false;
+            this.activityLoaded = true;       
         
         })
         .catch(error => {
@@ -212,7 +214,7 @@ export class FeedbackComponent implements OnInit {
             console.log('ACTIVITIES IN mapsResult: ', this.mapsResult[2].activity, ' :: ', this.mapsResult[2].feedback)
             console.log('ACTIVITIES IN mapsResult: ', this.mapsResult[3].activity, ' :: ', this.mapsResult[3].feedback)
 
-            return Promise.resolve();                      
+            return Promise.resolve();
 
         } catch(error) {
             console.log('ERROR WITH FEEDBACK() -> GETTING PLACES: ', error)
