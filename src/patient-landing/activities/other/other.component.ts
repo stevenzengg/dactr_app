@@ -6,8 +6,8 @@ const firebase = require("nativescript-plugin-firebase/app");
 
 firebase.initializeApp({});
 
-const userCollection = firebase.firestore().collection("user_database");
-const user = userCollection.doc(appSettings.getString("email"));
+// const userCollection = firebase.firestore().collection("user_database");
+// const user = userCollection.doc(appSettings.getString("email"));
 
 @Component({
     selector: 'other',
@@ -17,6 +17,10 @@ const user = userCollection.doc(appSettings.getString("email"));
 })
 
 export class OtherComponent implements OnInit {
+
+    private userCollection = firebase.firestore().collection("user_database");
+    private user = this.userCollection.doc(appSettings.getString("email"));
+
     public activities = [];
     public feedback = [];
     public frequency = [];
@@ -63,7 +67,7 @@ export class OtherComponent implements OnInit {
             
             if(result){
 
-                user.collection("activity_feedback").where('activity', '==', this.showActivities[index]).get()
+                this.user.collection("activity_feedback").where('activity', '==', this.showActivities[index]).get()
                 .then(querySnapShots => {
 
                     let docID: any
@@ -71,7 +75,7 @@ export class OtherComponent implements OnInit {
                         docID = doc.id
                     });
 
-                    user.collection("activity_feedback").doc(docID).delete()
+                    this.user.collection("activity_feedback").doc(docID).delete()
                     .then(() => {
                         console.log('ACTIVITY DELETED')
                         
@@ -141,7 +145,7 @@ export class OtherComponent implements OnInit {
     {
         console.log(appSettings.getString("email"));
 
-        let querySnapshot = await user.collection("activity_feedback").orderBy("frequency", "desc").get({source: "server"})
+        let querySnapshot = await this.user.collection("activity_feedback").orderBy("frequency", "desc").get({source: "server"})
 
         querySnapshot.forEach(doc => {
             let entry = doc.data();

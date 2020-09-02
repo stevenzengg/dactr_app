@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import * as appSettings from "tns-core-modules/application-settings";
-
-
+// Don't do this below, since it won't refresh for a newly logged in user
+// const userCollection = firebase.firestore().collection("user_database");
+// const user = userCollection.doc(appSettings.getString("email"));
 const firebase = require("nativescript-plugin-firebase/app");
 
 firebase.initializeApp({});
-
-const userCollection = firebase.firestore().collection("user_database");
-const user = userCollection.doc(appSettings.getString("email"));
 
 @Component({
     selector: 'journal-log',
@@ -17,6 +15,9 @@ const user = userCollection.doc(appSettings.getString("email"));
 
 export class JournalLogComponent implements OnInit {
     
+    private userCollection = firebase.firestore().collection("user_database");
+    private user = this.userCollection.doc(appSettings.getString("email"));
+
     public journalLog = [];
     public questionsLog = [];
     public timestamps = [];
@@ -31,7 +32,7 @@ export class JournalLogComponent implements OnInit {
 
     constructor() {}
 
-    ngOnInit() {  
+    ngOnInit() {
 
         this.setJournalLog().then(()=>{
 
@@ -83,7 +84,7 @@ export class JournalLogComponent implements OnInit {
     {
         console.log(appSettings.getString("email"));
 
-        let querySnapshot = await user.collection("journal_entry").orderBy("timestamp", "desc").get({source: "server"})
+        let querySnapshot = await this.user.collection("journal_entry").orderBy("timestamp", "desc").get({source: "server"})
 
         querySnapshot.forEach(doc => {
             let entry = doc.data();

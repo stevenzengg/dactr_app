@@ -7,9 +7,6 @@ const firebase = require("nativescript-plugin-firebase/app");
 
 firebase.initializeApp({});
 
-const userCollection = firebase.firestore().collection("user_database");
-const user = userCollection.doc(appSettings.getString("email"));
-
 @Component({
     selector: 'journal',
     providers: [],
@@ -21,6 +18,9 @@ const user = userCollection.doc(appSettings.getString("email"));
 // We would import apis for Natural Language (Sentiment and Syntax) as well Places
 // We would need to access Firebase Fire DataStore as well
 export class JournalComponent implements OnInit {
+
+    private userCollection = firebase.firestore().collection("user_database");
+    private user = this.userCollection.doc(appSettings.getString("email"));
 
     public journal1 = "";
     public journal2 = '';
@@ -72,7 +72,7 @@ export class JournalComponent implements OnInit {
     submitJournal(){        
 
         //Comment code underneath to stop writing into database
-        user.collection("journal_entry").add({
+        this.user.collection("journal_entry").add({
             questions: [this.question1, this.question2, this.question3],
             answers: [this.journal1, this.journal2, this.journal3],
             timestamp: firebase.firestore().FieldValue().serverTimestamp()

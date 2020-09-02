@@ -5,7 +5,7 @@ import { getNounsVerbsService } from "../../../services/get-nouns-verbs.service"
 import{ getPlacesService } from "../../../services/getPlacesAPI.service"
 import{ getLocationService } from "../../../services/getLocation.service"
 
-import { getString } from "tns-core-modules/application-settings";
+import * as appSettings from "tns-core-modules/application-settings";
 import * as dialogs from "tns-core-modules/ui/dialogs";
 
 import { Position, Marker, MapView } from "nativescript-google-maps-sdk";
@@ -18,8 +18,6 @@ registerElement("MapView", () => require("nativescript-google-maps-sdk").MapView
 
 // Initializing the app and accessing user database
 firebase.initializeApp({});
-const userCollection = firebase.firestore().collection("user_database");
-const user = userCollection.doc(getString("email"));
 
 
 @Component({
@@ -30,6 +28,9 @@ const user = userCollection.doc(getString("email"));
 })
 
 export class FeedbackComponent implements OnInit {
+
+    private userCollection = firebase.firestore().collection("user_database");
+    private user = this.userCollection.doc(appSettings.getString("email"));
     
     public icons: any[]
     public journal  = "";
@@ -144,7 +145,7 @@ export class FeedbackComponent implements OnInit {
     async feedback(){
         try{
             // Obtain most recent journal
-            let recentJournalQuery = user.collection('journal_entry').orderBy('timestamp', 'desc').limit(1);
+            let recentJournalQuery = this.user.collection('journal_entry').orderBy('timestamp', 'desc').limit(1);
 
             let journalSnapshots = await recentJournalQuery.get()
                 
@@ -297,7 +298,7 @@ export class FeedbackComponent implements OnInit {
 
     // Will query Places http request
     async getPlaces(){
-        const actFeedCollection = user.collection("activity_feedback");
+        const actFeedCollection = this.user.collection("activity_feedback");
         let recent = []
         let mostFreq = []
         let result = [{}, {}, {}, {}]  // Add another json for more results
@@ -427,7 +428,7 @@ export class FeedbackComponent implements OnInit {
     private async pushActivities(){
 
         // Connect to user's activities feedback collection
-        const userActivities = user.collection("activity_feedback");
+        const userActivities = this.user.collection("activity_feedback");
 
         // Go through MapsInput and add to activities feedback collection
         for (let activity in this.mapsInputs) {       
