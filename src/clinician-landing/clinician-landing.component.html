@@ -1,11 +1,13 @@
-<StackLayout>
-    <Label text = "Welcome!" class = "h2" textAlignment = "center"></Label>
+<StackLayout backgroundImage = "~/patient-landing/lakebackground.jpg" style = "background-position: center; background-repeat: no-repeat; background-size: cover">
+    <Label text = "Welcome," class = "h1" fontSize='40' textAlignment = "center"></Label>
+    <Label text = "Dr. Jessica James" class = "h1" fontSize='40' textAlignment = "center"></Label>
     <Label text = "Here are your patients:" class = "h2" textAlignment = "center"></Label>
    
-    <GridLayout rows="*,*,*,*,*">
+    <GridLayout rows="*,*,*,*,*">        
         <Button text = "Michael Schaeffer" fontSize='20' class='h2' row="0" (tap)="goToPatient()"></Button>
         <Button text = "Sean Mi" fontSize='20' class='h2' row="1" (tap)="goToPatient()"></Button>
         <Button text = "Yajur Garikipati" fontSize='20' class='h2' row="2" (tap)="goToPatient()"></Button>
+        <!-- <Button text = "Madeline Miller" fontSize='20' class='h2' row="3" (tap)="goToPatient()"></Button> -->
         <Button text = "Haskel Patel" fontSize='20' class='h2' row="3" (tap)="goToPatient()"></Button>
         <Button text = "Steven Johri" fontSize='20' class='h2' row="4" (tap)="goToPatient()"></Button>
 
