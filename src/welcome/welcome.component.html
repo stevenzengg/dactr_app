@@ -1,21 +1,24 @@
 
 <FlexboxLayout flexDirection = "column" style="background-color: white;">
-    <Image src = "~/welcome/dactrlogo.png" backgroundImage = "~/welcome/writingbackground.jpg"  height = "65%" style = "background-position: center top; background-repeat: no-repeat; background-size: cover;" iosOverflowSafeArea="true">
+    <Image src = "~/welcome/dactrlogo.png" backgroundImage = "~/patient-landing/lakebackground.jpg"  height = "65%" style = "background-position: center top; background-repeat: no-repeat; background-size: cover;" iosOverflowSafeArea="true">
+    <!-- ~/welcome/writingbackground -->
     </Image>
     <Label text="Welcome!" textAlignment = "center" fontSize = "35" color = "black" backgroundColor = "white" marginTop = "5%"
            width="100"></Label>
-    <Label fontSize = "14" text = "Welcome to Dactr, an AI powered" textAlignment = "center" color = "gray"
+    <Label fontSize = "14" textWrap='true' text = "Welcome to Dactr, an AI powered application
+    that provides assistance for
+    healthier lifestyle choices!" textAlignment = "center" color = "gray"
     ></Label>
-    <Label fontSize = "14" text = "application that provides assistance for" color = "gray" textAlignment = "center"
+    <!-- <Label fontSize = "14" text = "application that provides assistance for" color = "gray" textAlignment = "center"
     ></Label>
     <Label fontSize = "14" text = "healthier lifestyle choices!" color = "gray" textAlignment = "center"
-    ></Label>
+    ></Label> -->
     <Button text="Sign in" (tap) = "toLogin()"></Button>
-    <WrapLayout orientation = "horizontal" justifyContent = "center" marginBottom = "-100%">
+    <!-- <WrapLayout orientation = "horizontal" justifyContent = "center" marginBottom = "-100%">
         <Label text = "Are you a practitioner?" color = "gray" marginLeft = "20%"></Label>
         <Button (tap) = "toClincianLogin()" text="Log in here" marginLeft = "-10%" height = "20"
                 fontSize = "12" backgroundColor = "white" paddingTop = "-8%" borderColor = "transparent" color = "black"></Button>
-    </WrapLayout>
+    </WrapLayout> -->
     <WrapLayout orientation = "horizontal" marginTop = "-50%">
         <Label text = "Don't have an account?" color = "gray" marginLeft = "20%"></Label>
         <Button (tap) = "toRegister()" borderColor = "transparent" text="Sign up here" paddingTop = "-8%" height = "20" fontSize = "12" backgroundColor = "white" color = "black"></Button>
