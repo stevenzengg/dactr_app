@@ -14,4 +14,10 @@ The app was made using [NativeScript](https://nativescript.org/), a mobile devel
 ### DACTR AI Demo
 [![DACTR Tech Demo](http://img.youtube.com/vi/Hqq4ZpJXFCw/0.jpg)](https://www.youtube.com/watch?v=Hqq4ZpJXFCw)
 
+### Dependencies
+
+1. Have Node.js installed
+2. Install Nativescript CLI '''$ npm install -g nativescript'''
+3. Once installed enter dactr_app directory and run command: ```$ npm install``` This will install all the dependencies in the package.json file
+
 For more information on the app, check the [documentation included in the repository](https://github.com/Divyesh-Johri/dactr_app/blob/0c0b743b7520e460deb157008cc41b9dd8eca259/documentation/DACTR%20Documentation%20Final.pdf).
