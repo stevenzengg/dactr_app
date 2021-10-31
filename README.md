@@ -26,4 +26,4 @@ The app was made using [NativeScript](https://nativescript.org/), a mobile devel
 ### Run App
 1. ```$ tns preview``` The command above will create a QR code that you can scan using the Nativescript Playground app. The app will then run within the NativeScript Playground interface.
 
-For more information on the app, check the [documentation included in the repository](https://github.com/Divyesh-Johri/dactr_app/blob/0c0b743b7520e460deb157008cc41b9dd8eca259/documentation/DACTR%20Documentation%20Final.pdf).
+For more information on the app, check the [documentation included in the repository](https://github.com/stevenzengg/dactr_app/blob/master/documentation/DACTR%20Documentation%20Final.pdf).
