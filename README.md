@@ -17,7 +17,13 @@ The app was made using [NativeScript](https://nativescript.org/), a mobile devel
 ### Dependencies
 
 1. Have Node.js installed
-2. Install Nativescript CLI '''$ npm install -g nativescript'''
-3. Once installed enter dactr_app directory and run command: ```$ npm install``` This will install all the dependencies in the package.json file
+2. Install Nativescript CLI ```$ npm install -g nativescript```
+3. Once installed enter dactr_app directory and run command: ```$ npm install```. This will install all the dependencies in the package.json file.
+4. Download the Nativescript Playground app on your phone via the app store: 
+  Apple Devices: https://apps.apple.com/us/app/nativescript-playground/id1263543946 
+  Android Devices: https://play.google.com/store/apps/details?id=org.nativescript.play&hl=en_US&gl=US
+
+### Run App
+1. ```$ tns preview``` The command above will create a QR code that you can scan using the Nativescript Playground app. The app will then run within the NativeScript Playground interface.
 
 For more information on the app, check the [documentation included in the repository](https://github.com/Divyesh-Johri/dactr_app/blob/0c0b743b7520e460deb157008cc41b9dd8eca259/documentation/DACTR%20Documentation%20Final.pdf).
