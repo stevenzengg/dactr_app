@@ -1,6 +1,6 @@
 # DACTR
 
-This is the repository for DACTR, a mental health journaling app that provides behavioral feedback to people of all ages, but particularly for college students who need help as they wait for an opportunity to talk with clinicians or therapists. This project was worked on by Penn State students Divyesh Johri, Yajur Tomar, Steven Zeng, TJ Schaeffer, Ankit Garikipati, Haskel Canagarajah, Neil Patel, Erica Mi, Sean Cullen, and Michael Mitole.
+This is the repository for DACTR (Depression Advisory Consulting Therapy Rehabilitation), a mental health journaling app that provides behavioral feedback to people of all ages, but particularly for college students who need help as they wait for an opportunity to talk with clinicians or therapists. This project was worked on by Penn State students Divyesh Johri, Yajur Tomar, Steven Zeng, TJ Schaeffer, Ankit Garikipati, Haskel Canagarajah, Neil Patel, Erica Mi, Sean Cullen, and Michael Mitole.
 
 The app was submitted to the Nittany AI Competition and pitched to others as a solution to ease the burden on therapists and clinicians amidst the growing college mental health crisis. The minimum viable product (MVP) pitch can be seen in the YouTube video below:
 ## Check out our features
